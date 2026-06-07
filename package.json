@@ -1,0 +1,9 @@
+{
+  "name": "magic-c1-autoevaluacion",
+  "version": "1.0.0",
+  "description": "MAGIC® — Autoevaluación Criterio 1 (Propósito, Visión y Estrategia). Frontend + Netlify Functions + Supabase.",
+  "private": true,
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  }
+}

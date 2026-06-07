@@ -1,0 +1,82 @@
+# ─── Configuración de despliegue para Netlify ───
+# Web estática del Modelo MAGIC · Instituto de Excelencia Europea
+
+[build]
+  # Sitio estático: no hay paso de build, se publica la raíz tal cual.
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["netlify/functions/c1-data.json"]
+
+# ─── Cabeceras de seguridad y rendimiento ───
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+# Caché larga para imágenes (logos): no cambian a menudo
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000, immutable"
+
+# El HTML siempre revalidado para que los cambios se vean al instante
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# ─── API → Netlify Functions (backend de la autoevaluación) ───
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# Atajo amigable hacia la autoevaluación
+[[redirects]]
+  from = "/evaluar"
+  to = "/evaluar.html"
+  status = 301
+
+# Página principal
+[[redirects]]
+  from = "/inicio"
+  to = "/index.html"
+  status = 301
+
+# Atajos amigables hacia el aviso legal
+[[redirects]]
+  from = "/aviso-legal"
+  to = "/aviso-legal.html"
+  status = 301
+
+[[redirects]]
+  from = "/legal"
+  to = "/aviso-legal.html"
+  status = 301
+
+[[redirects]]
+  from = "/cookies"
+  to = "/aviso-legal.html#cookies"
+  status = 301
+
+[[redirects]]
+  from = "/privacidad"
+  to = "/aviso-legal.html#privacidad"
+  status = 301
+
+[[redirects]]
+  from = "/certificar"
+  to = "/certificar.html"
+  status = 301
+
+[[redirects]]
+  from = "/certify"
+  to = "/certificar.html"
+  status = 301

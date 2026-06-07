@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sustituye este dominio por el definitivo cuando lo tengas
+Sitemap: https://magic.institutoexcelencia.com/sitemap.xml

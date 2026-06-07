@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificar — Modelo MAGIC®</title>
+<meta name="description" content="Proceso de certificación del Modelo MAGIC®: evaluación rápida basada en entrevistas, sesiones de consultoría, validación por certificadora y emisión del sello de reconocimiento.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230b0d12'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23d4b06a' stroke-width='1'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%23d4b06a' stroke-width='1' opacity='.6'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23d4b06a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Kufi+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0d12;--bg-2:#11141b;--bg-3:#161a23;
+    --line:rgba(255,255,255,.08);--line-strong:rgba(255,255,255,.18);
+    --ink:#e9ecf2;--ink-dim:#a8aebb;--ink-faint:#6c7280;
+    --accent:#d4b06a;--accent-warm:#c98a5e;
+    --serif:"Manrope",system-ui,sans-serif;
+    --sans:"Manrope",system-ui,sans-serif;
+    --mono:"Manrope",ui-monospace,monospace;
+    --arabic-serif:"Amiri",serif;--arabic-sans:"Noto Kufi Arabic",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  body{background:radial-gradient(1200px 600px at 80% -10%,rgba(212,176,106,.05),transparent 60%),var(--bg);overflow-x:hidden}
+
+  /* ─── Manrope display normalization ─── */
+  h1,h2,h3,h4,h5{font-weight:600;letter-spacing:-.02em;font-variation-settings:normal}
+  header.page-head h1,section.block h2{font-weight:500}
+  [class*="num"],em{font-style:normal!important}
+  .eyebrow,.back-link,.nav-link,.toc h2{font-variation-settings:normal}
+
+  html[dir="rtl"] body{font-family:var(--arabic-sans)}
+  a{color:var(--accent);text-decoration:none}
+  img{display:block;max-width:100%}
+  .container{max-width:1140px;margin:0 auto;padding:0 32px;position:relative}
+  @media (max-width:680px){.container{padding:0 20px}}
+
+  /* NAV */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(11,13,18,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px;max-width:1240px;margin:0 auto;padding-left:32px;padding-right:32px;gap:24px}
+  @media (max-width:680px){.nav-inner{padding-left:20px;padding-right:20px}}
+  .brand{display:flex;align-items:center;flex:none}
+  .brand-logo{height:28px;width:auto;display:block;filter:drop-shadow(0 1px 0 rgba(0,0,0,.4))}
+  @media (max-width:560px){.brand-logo{height:22px}}
+  .nav-links{display:flex;gap:30px;align-items:center}
+  .nav-link{color:var(--ink-dim);font-size:14px;transition:color .2s;position:relative;padding:6px 0}
+  .nav-link:hover{color:var(--ink)}
+  .nav-link.current{color:var(--accent)}
+  .nav-link.nav-portal{
+    color:var(--accent);border:1px solid rgba(212,176,106,.35);
+    padding:6px 14px;border-radius:999px;background:rgba(212,176,106,.05);
+    transition:background .25s, border-color .25s;
+  }
+  .nav-link.nav-portal:hover{background:rgba(212,176,106,.12);border-color:var(--accent)}
+  .nav-right{display:flex;align-items:center;gap:20px}
+  .lang-switch{display:flex;gap:2px;border:1px solid var(--line-strong);border-radius:999px;padding:3px;font-family:var(--mono);font-size:11px}
+  .lang-switch button{background:none;border:none;color:var(--ink-dim);padding:6px 12px;border-radius:999px;cursor:pointer;text-transform:uppercase;font-family:inherit;font-size:inherit;letter-spacing:.1em;transition:all .2s}
+  .lang-switch button.active{background:var(--accent);color:#000}
+  .lang-switch button:hover:not(.active){color:var(--ink)}
+  .menu-trigger{display:none;background:none;border:none;color:var(--ink);cursor:pointer;padding:8px}
+  @media (max-width:880px){
+    .menu-trigger{display:flex;order:3}
+    .nav-links{
+      position:fixed;top:64px;left:0;right:0;height:calc(100vh - 64px);
+      flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;
+      background:rgba(11,13,18,1);padding:24px;
+      transform:translateY(-110%);opacity:0;pointer-events:none;
+      transition:transform .35s cubic-bezier(.5,0,.2,1),opacity .25s;overflow-y:auto;z-index:55;
+    }
+    .nav-links.open{transform:translateY(0);opacity:1;pointer-events:auto}
+    .nav-link{font-family:var(--serif);font-size:20px;padding:16px 8px;border-bottom:1px solid var(--line);color:var(--ink)}
+    html[dir="rtl"] .nav-link{font-family:var(--arabic-serif)}
+  }
+
+  /* HEADER */
+  header.page-head{padding:148px 0 70px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+  .page-head .glow{position:absolute;top:-40%;right:-10%;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(212,176,106,.08),transparent 70%);pointer-events:none}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--accent);text-transform:uppercase;margin-bottom:26px;display:flex;align-items:center;gap:14px}
+  .eyebrow::before{content:"";width:34px;height:1px;background:var(--accent)}
+  html[dir="rtl"] .eyebrow::before{order:2}
+  header.page-head h1{font-family:var(--serif);font-weight:300;font-size:clamp(40px,6.5vw,72px);line-height:1.04;letter-spacing:-.02em;margin-bottom:26px;max-width:18ch}
+  html[dir="rtl"] header.page-head h1{font-family:var(--arabic-serif)}
+  header.page-head h1 em{font-style:italic;color:var(--accent)}
+  html[dir="rtl"] header.page-head h1 em{font-style:normal}
+  header.page-head .lead{color:var(--ink-dim);font-size:18px;line-height:1.7;max-width:620px}
+
+  /* PRODUCT STRIP */
+  .strip{border-bottom:1px solid var(--line);background:var(--bg-2)}
+  .strip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+  @media (max-width:760px){.strip-grid{grid-template-columns:1fr}}
+  .strip-item{padding:38px 32px;border-right:1px solid var(--line)}
+  .strip-item:last-child{border-right:none}
+  @media (max-width:760px){.strip-item{border-right:none;border-bottom:1px solid var(--line)}.strip-item:last-child{border-bottom:none}}
+  html[dir="rtl"] .strip-item{border-right:none;border-left:1px solid var(--line)}
+  html[dir="rtl"] .strip-item:last-child{border-left:none}
+  .strip-item .num{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.15em;margin-bottom:12px}
+  .strip-item h3{font-family:var(--serif);font-weight:500;font-size:21px;margin-bottom:8px}
+  html[dir="rtl"] .strip-item h3{font-family:var(--arabic-serif)}
+  .strip-item p{font-size:14px;color:var(--ink-dim);line-height:1.6}
+
+  /* SECTIONS */
+  section.block{padding:96px 0;border-bottom:1px solid var(--line)}
+  .sec-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--accent);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:14px}
+  .sec-eyebrow::before{content:"";width:30px;height:1px;background:var(--accent);opacity:.6}
+  html[dir="rtl"] .sec-eyebrow::before{order:2}
+  section.block h2{font-family:var(--serif);font-weight:400;font-size:clamp(30px,4.5vw,46px);line-height:1.1;letter-spacing:-.015em;margin-bottom:22px;max-width:20ch}
+  html[dir="rtl"] section.block h2{font-family:var(--arabic-serif)}
+  section.block .intro{color:var(--ink-dim);font-size:17px;line-height:1.7;max-width:620px;margin-bottom:56px}
+
+  /* TWO-COLUMN CARDS */
+  .cards-2{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  @media (max-width:760px){.cards-2{grid-template-columns:1fr;gap:20px}}
+  .card{background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:38px}
+  .card h3{font-family:var(--serif);font-weight:500;font-size:22px;margin-bottom:22px;display:flex;align-items:center;gap:12px}
+  html[dir="rtl"] .card h3{font-family:var(--arabic-serif)}
+  .card h3 .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none}
+  .card ul{list-style:none}
+  .card li{font-size:15px;color:var(--ink-dim);line-height:1.6;padding-left:22px;position:relative;margin-bottom:14px}
+  html[dir="rtl"] .card li{padding-left:0;padding-right:22px}
+  .card li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;border:1px solid var(--accent)}
+  html[dir="rtl"] .card li::before{left:auto;right:0}
+  .card li strong{color:var(--ink);font-weight:600}
+  .card.muted li::before{border-color:var(--ink-faint)}
+
+  /* PROCESS STEPS */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  @media (max-width:860px){.steps{grid-template-columns:1fr}}
+  .step{background:linear-gradient(180deg,rgba(255,255,255,.025),transparent);border:1px solid var(--line);border-radius:8px;padding:36px 32px;position:relative}
+  .step-n{font-family:var(--serif);font-style:italic;font-size:52px;color:var(--accent);opacity:.4;line-height:1;margin-bottom:18px}
+  html[dir="rtl"] .step-n{font-family:var(--arabic-serif);font-style:normal}
+  .step h3{font-family:var(--serif);font-weight:500;font-size:20px;margin-bottom:18px;line-height:1.25}
+  html[dir="rtl"] .step h3{font-family:var(--arabic-serif)}
+  .step ul{list-style:none}
+  .step li{font-size:14px;color:var(--ink-dim);line-height:1.55;padding-left:18px;position:relative;margin-bottom:11px}
+  html[dir="rtl"] .step li{padding-left:0;padding-right:18px}
+  .step li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.7}
+  html[dir="rtl"] .step li::before{left:auto;right:0}
+
+  /* GOVERNANCE */
+  .gov{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  @media (max-width:760px){.gov{grid-template-columns:1fr;gap:20px}}
+  .gov-card{border:1px solid var(--line);border-radius:8px;padding:38px;background:var(--bg-2)}
+  .gov-card .role{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .gov-card h3{font-family:var(--serif);font-weight:500;font-size:24px;margin-bottom:24px}
+  html[dir="rtl"] .gov-card h3{font-family:var(--arabic-serif)}
+  .gov-card ul{list-style:none}
+  .gov-card li{font-size:15px;color:var(--ink-dim);line-height:1.6;padding-left:22px;position:relative;margin-bottom:14px}
+  html[dir="rtl"] .gov-card li{padding-left:0;padding-right:22px}
+  .gov-card li::before{content:"→";position:absolute;left:0;top:0;color:var(--accent);font-size:13px}
+  html[dir="rtl"] .gov-card li::before{content:"←";left:auto;right:0}
+
+  /* TIMELINE TABLE */
+  .timeline-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:8px}
+  table.timeline{width:100%;border-collapse:collapse;font-size:14px;min-width:680px}
+  table.timeline th{background:var(--bg-3);color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:16px 20px;text-align:left;font-weight:500}
+  html[dir="rtl"] table.timeline th{text-align:right}
+  table.timeline td{padding:16px 20px;border-top:1px solid var(--line);color:var(--ink-dim);vertical-align:top}
+  table.timeline tr:hover td{background:rgba(255,255,255,.015)}
+  table.timeline td.phase{color:var(--ink);font-weight:500}
+  table.timeline td .who{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.05em;padding:4px 10px;border-radius:999px;border:1px solid var(--line-strong);color:var(--ink-dim)}
+  .tl-note{font-size:13px;color:var(--ink-faint);margin-top:18px;font-style:italic}
+  html[dir="rtl"] .tl-note{font-style:normal}
+
+  /* DELIVERABLES */
+  .deliver{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  @media (max-width:860px){.deliver{grid-template-columns:1fr 1fr}}
+  @media (max-width:520px){.deliver{grid-template-columns:1fr}}
+  .deliver-item{border:1px solid var(--line);border-radius:8px;padding:30px 26px;background:var(--bg-2);transition:border-color .25s,transform .25s}
+  .deliver-item:hover{border-color:var(--line-strong);transform:translateY(-3px)}
+  .deliver-item .ico{width:42px;height:42px;border-radius:50%;border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:20px;color:var(--accent)}
+  .deliver-item h3{font-family:var(--serif);font-weight:500;font-size:18px;margin-bottom:10px;line-height:1.25}
+  html[dir="rtl"] .deliver-item h3{font-family:var(--arabic-serif)}
+  .deliver-item p{font-size:14px;color:var(--ink-dim);line-height:1.55}
+
+  /* CTA */
+  section.cta{padding:110px 0;text-align:center;border-bottom:1px solid var(--line)}
+  section.cta h2{font-family:var(--serif);font-weight:300;font-size:clamp(32px,5vw,52px);line-height:1.1;margin-bottom:20px}
+  html[dir="rtl"] section.cta h2{font-family:var(--arabic-serif)}
+  section.cta h2 em{font-style:italic;color:var(--accent)}
+  html[dir="rtl"] section.cta h2 em{font-style:normal}
+  section.cta p{color:var(--ink-dim);font-size:17px;max-width:560px;margin:0 auto 40px;line-height:1.7}
+  .btn{display:inline-flex;align-items:center;gap:12px;padding:18px 36px;border:1px solid var(--accent);color:var(--accent);background:transparent;font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:all .3s;border-radius:999px}
+  .btn:hover{background:var(--accent);color:#000}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);padding:64px 0 36px;background:var(--bg-2);position:relative}
+  .footer-top{
+    display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;
+    padding-bottom:48px;border-bottom:1px solid var(--line);
+  }
+  @media (max-width:760px){.footer-top{grid-template-columns:1fr;gap:40px}}
+  .footer-brand img.footer-logo{height:36px;width:auto;margin-bottom:18px;filter:drop-shadow(0 1px 0 rgba(0,0,0,.3))}
+  .footer-brand p{
+    color:var(--ink-dim);font-size:14px;line-height:1.65;margin:0 0 22px;max-width:380px;
+  }
+  .footer-iee-link{display:inline-block;margin-top:6px;transition:opacity .25s, transform .3s}
+  .footer-iee-link:hover{opacity:.8;transform:translateY(-2px)}
+  .footer-iee-logo{
+    height:56px;width:auto;display:block;opacity:.85;
+    filter:drop-shadow(0 2px 8px rgba(0,0,0,.4));
+  }
+  @media (max-width:760px){.footer-iee-logo{height:48px}}
+  .footer-tagline{
+    font-family:var(--serif);font-size:14px;color:var(--ink-faint);
+    margin-top:8px;display:flex;align-items:center;gap:8px;
+  }
+  html[dir="rtl"] .footer-tagline{font-family:var(--arabic-serif)}
+  .footer-tagline::before{content:"";display:inline-block;width:18px;height:1px;background:var(--ink-faint)}
+  .footer-col h6{
+    font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--accent);
+    text-transform:uppercase;margin:0 0 18px;font-weight:500;
+  }
+  .footer-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+  .footer-col a{color:var(--ink-dim);font-size:14px;transition:color .2s}
+  .footer-col a:hover{color:var(--accent)}
+  .foot-grid{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding-top:32px}
+  .foot-grid small{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink-faint);text-transform:uppercase}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand" aria-label="MAGIC®">
+      <img src="assets/magic_logo.png" alt="MAGIC®" class="brand-logo">
+    </a>
+    <button class="menu-trigger" id="menuTrigger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
+      <svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M0 1h22M0 7h22M0 13h22" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html#about" class="nav-link" data-i18n="nav_about">El Modelo</a>
+      <a href="index.html#criteria" class="nav-link" data-i18n="nav_criteria">Criterios</a>
+      <a href="index.html#method" class="nav-link" data-i18n="nav_method">Metodología</a>
+      <a href="certificar.html" class="nav-link current" data-i18n="nav_certify">Certificar</a>
+      <a href="index.html#benefits" class="nav-link" data-i18n="nav_benefits">Beneficios</a>
+      <a href="index.html#contact" class="nav-link" data-i18n="nav_contact">Contacto</a>
+      <a href="soy-magic.html" class="nav-link nav-portal" data-i18n="nav_my_magic">Soy MAGIC®</a>
+      <div class="lang-switch" role="group" aria-label="Idioma">
+        <button data-lang="es" class="active" lang="es">ES</button>
+        <button data-lang="en" lang="en">EN</button>
+        <button data-lang="ar" lang="ar">AR</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<header class="page-head">
+  <span class="glow"></span>
+  <div class="container">
+    <div class="eyebrow" data-i18n="hero_eyebrow">Consultora + Certificadora</div>
+    <h1 data-i18n-html="hero_title">Certifica tu gestión con el <em>Sello MAGIC®</em>.</h1>
+    <p class="lead" data-i18n="hero_lead">Una evaluación rápida basada en entrevistas y evidencias clave que ofrece una foto externa creíble en días, no en meses. Informe ejecutivo, score y sello de reconocimiento.</p>
+  </div>
+</header>
+
+<section class="strip">
+  <div class="container" style="padding:0">
+    <div class="strip-grid">
+      <div class="strip-item">
+        <div class="num">01</div>
+        <h3 data-i18n="strip_1_t">2 días de entrevistas</h3>
+        <p data-i18n="strip_1_d">Evaluación basada en entrevistas a stakeholders clave y evidencias, con agenda pactada.</p>
+      </div>
+      <div class="strip-item">
+        <div class="num">02</div>
+        <h3 data-i18n="strip_2_t">Informe + sello</h3>
+        <p data-i18n="strip_2_d">Informe ejecutivo con score /100, fortalezas, mejoras priorizadas y sello de reconocimiento.</p>
+      </div>
+      <div class="strip-item">
+        <div class="num">03</div>
+        <h3 data-i18n="strip_3_t">Ciclo rápido</h3>
+        <p data-i18n="strip_3_d">Proceso completo en torno a una semana, sin "submission" extensa. Foco en claridad y velocidad.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCEPTO Y RESULTADO -->
+<section class="block">
+  <div class="container">
+    <div class="sec-eyebrow" data-i18n="s1_eyebrow">El concepto</div>
+    <h2 data-i18n="s1_title">Qué es la certificación MAGIC®</h2>
+    <p class="intro" data-i18n="s1_intro">Un modelo operativo que separa la consultora (know-how y evaluación) de la certificadora (validación y emisión), garantizando independencia y rigor.</p>
+    <div class="cards-2 reveal">
+      <div class="card">
+        <h3><span class="dot"></span><span data-i18n="s1_c1_t">Concepto</span></h3>
+        <ul>
+          <li data-i18n="s1_c1_1">Evaluación rápida basada en entrevistas y evidencias clave</li>
+          <li data-i18n-html="s1_c1_2">Matriz de madurez hasta <strong>1000 puntos</strong></li>
+          <li data-i18n="s1_c1_3">Sin "submission" extensa: foco en claridad y velocidad</li>
+          <li data-i18n="s1_c1_4">Salida: score /100 + fortalezas + mejoras priorizadas</li>
+          <li data-i18n="s1_c1_5">Listado de evidencias de referencia</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span><span data-i18n="s1_c2_t">Resultado</span></h3>
+        <ul>
+          <li data-i18n="s1_c2_1">Informe ejecutivo con hallazgos y recomendaciones</li>
+          <li data-i18n="s1_c2_2">Validación por la certificadora con evidencias de la organización</li>
+          <li data-i18n="s1_c2_3">Emisión del reconocimiento (sello) según el score obtenido</li>
+          <li data-i18n="s1_c2_4">Base objetiva para un roadmap de mejora posterior</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALCANCE -->
+<section class="block">
+  <div class="container">
+    <div class="sec-eyebrow" data-i18n="s2_eyebrow">Alcance</div>
+    <h2 data-i18n="s2_title">Qué incluye y qué no</h2>
+    <p class="intro" data-i18n="s2_intro">Un alcance claro y acotado para mantener el ciclo rápido. Los servicios adicionales se ofertan por separado.</p>
+    <div class="cards-2 reveal">
+      <div class="card">
+        <h3><span class="dot"></span><span data-i18n="s2_c1_t">Incluye</span></h3>
+        <ul>
+          <li data-i18n="s2_c1_1">2 días de entrevistas (agenda pactada)</li>
+          <li data-i18n="s2_c1_2">Matriz de evidencias (dossier estructurado)</li>
+          <li data-i18n="s2_c1_3">Informe ejecutivo + score /100</li>
+          <li data-i18n="s2_c1_4">Emisión del sello de reconocimiento</li>
+        </ul>
+      </div>
+      <div class="card muted">
+        <h3><span class="dot" style="background:var(--ink-faint)"></span><span data-i18n="s2_c2_t">No incluye (por defecto)</span></h3>
+        <ul>
+          <li data-i18n="s2_c2_1">Implantación o consultoría de mejora (se oferta aparte)</li>
+          <li data-i18n="s2_c2_2">Auditorías multisede complejas sin ajuste de alcance</li>
+          <li data-i18n="s2_c2_3">Recopilación extensa de evidencias fuera de agenda</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLUJO / SESIONES -->
+<section class="block">
+  <div class="container">
+    <div class="sec-eyebrow" data-i18n="s3_eyebrow">El proceso</div>
+    <h2 data-i18n="s3_title">Las sesiones de consultoría y certificación</h2>
+    <p class="intro" data-i18n="s3_intro">El flujo operativo se desarrolla en tres fases encadenadas, desde la preparación hasta la emisión del reconocimiento.</p>
+    <div class="steps reveal">
+      <div class="step">
+        <div class="step-n">01</div>
+        <h3 data-i18n="s3_st1_t">Preparación</h3>
+        <ul>
+          <li data-i18n="s3_st1_1">Certificadora: coordinación y agenda de la entrevista de devolución</li>
+          <li data-i18n="s3_st1_2">Consultora: guía de evidencias y preguntas</li>
+          <li data-i18n="s3_st1_3">Checklist de disponibilidad de información</li>
+        </ul>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <h3 data-i18n="s3_st2_t">Entrevistas y evaluación</h3>
+        <ul>
+          <li data-i18n="s3_st2_1">2 días con stakeholders clave</li>
+          <li data-i18n="s3_st2_2">Captura estructurada de evidencias</li>
+          <li data-i18n="s3_st2_3">Consolidación diaria de hallazgos</li>
+        </ul>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <h3 data-i18n="s3_st3_t">Validación, informe y sello</h3>
+        <ul>
+          <li data-i18n="s3_st3_1">La certificadora valida con evidencias</li>
+          <li data-i18n="s3_st3_2">Informe ejecutivo y score /100</li>
+          <li data-i18n="s3_st3_3">Emisión del reconocimiento</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GOBERNANZA -->
+<section class="block">
+  <div class="container">
+    <div class="sec-eyebrow" data-i18n="s4_eyebrow">Gobernanza</div>
+    <h2 data-i18n="s4_title">Consultora y certificadora: roles separados</h2>
+    <p class="intro" data-i18n="s4_intro">La separación de roles garantiza independencia: quien evalúa no es quien emite el reconocimiento.</p>
+    <div class="gov reveal">
+      <div class="gov-card">
+        <div class="role" data-i18n="s4_g1_role">Consultora</div>
+        <h3 data-i18n="s4_g1_t">Evaluador asesor</h3>
+        <ul>
+          <li data-i18n="s4_g1_1">Estructura la información y las evidencias</li>
+          <li data-i18n="s4_g1_2">Conduce las entrevistas y documenta hallazgos</li>
+          <li data-i18n="s4_g1_3">Entrega el dossier "audit-ready" a la certificadora</li>
+          <li data-i18n="s4_g1_4">No emite el reconocimiento (separación de roles)</li>
+        </ul>
+      </div>
+      <div class="gov-card">
+        <div class="role" data-i18n="s4_g2_role">Certificadora</div>
+        <h3 data-i18n="s4_g2_t">Validador y emisor</h3>
+        <ul>
+          <li data-i18n="s4_g2_1">Planifica y coordina el proceso</li>
+          <li data-i18n="s4_g2_2">Valida el informe frente a las evidencias aportadas</li>
+          <li data-i18n="s4_g2_3">Emite el informe final y el sello</li>
+          <li data-i18n="s4_g2_4">Control de calidad y trazabilidad</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CRONOGRAMA -->
+<section class="block">
+  <div class="container">
+    <div class="sec-eyebrow" data-i18n="s5_eyebrow">Plan de trabajo</div>
+    <h2 data-i18n="s5_title">Cronograma típico: una semana</h2>
+    <p class="intro" data-i18n="s5_intro">Un proceso ágil y predecible. Los plazos son orientativos y ajustables según la disponibilidad del cliente y la modalidad (presencial o híbrida).</p>
+    <div class="timeline-wrap reveal">
+      <table class="timeline">
+        <thead>
+          <tr>
+            <th data-i18n="s5_h1">Fase</th>
+            <th data-i18n="s5_h2">Responsable</th>
+            <th data-i18n="s5_h3">Duración</th>
+            <th data-i18n="s5_h4">Salida</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="phase" data-i18n="s5_r1_p">Coordinación y agenda</td>
+            <td><span class="who" data-i18n="role_cert">Certificadora</span></td>
+            <td data-i18n="s5_r1_d">1–2 días</td>
+            <td data-i18n="s5_r1_o">Agenda cerrada de la entrevista de devolución</td>
+          </tr>
+          <tr>
+            <td class="phase" data-i18n="s5_r2_p">Preparación de evidencias</td>
+            <td><span class="who" data-i18n="role_cons">Consultora</span></td>
+            <td data-i18n="s5_r2_d">1 día</td>
+            <td data-i18n="s5_r2_o">Checklist + dossier base</td>
+          </tr>
+          <tr>
+            <td class="phase" data-i18n="s5_r3_p">Entrevistas</td>
+            <td><span class="who" data-i18n="role_cons">Consultora</span></td>
+            <td data-i18n="s5_r3_d">2 días</td>
+            <td data-i18n="s5_r3_o">Notas estructuradas + evidencias</td>
+          </tr>
+          <tr>
+            <td class="phase" data-i18n="s5_r4_p">Validación + informe</td>
+            <td><span class="who" data-i18n="role_cert">Certificadora</span></td>
+            <td data-i18n="s5_r4_d">2–3 días</td>
+            <td data-i18n="s5_r4_o">Informe final + score</td>
+          </tr>
+          <tr>
+            <td class="phase" data-i18n="s5_r5_p">Emisión del reconocimiento</td>
+            <td><span class="who" data-i18n="role_cert">Certificadora</span></td>
+            <td data-i18n="s5_r5_d">0,5 día</td>
+            <td data-i18n="s5_r5_o">Sello</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tl-note" data-i18n="s5_note">Nota: plazos orientativos, ajustables por disponibilidad del cliente y modalidad (presencial / híbrida).</p>
+  </div>
+</section>
+
+<!-- ENTREGABLES -->
+<section class="block">
+  <div class="container">
+    <div class="sec-eyebrow" data-i18n="s6_eyebrow">Entregables</div>
+    <h2 data-i18n="s6_title">Qué recibe la organización</h2>
+    <p class="intro" data-i18n="s6_intro">Un conjunto de entregables tangibles que dan valor inmediato y sirven de base para la mejora continua.</p>
+    <div class="deliver reveal">
+      <div class="deliver-item">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 3h12l4 4v14H4z" stroke="currentColor" stroke-width="1.5"/><path d="M9 12h6M9 16h6" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <h3 data-i18n="s6_d1_t">Informe ejecutivo</h3>
+        <p data-i18n="s6_d1_d">Hallazgos, recomendaciones y mejoras priorizadas.</p>
+      </div>
+      <div class="deliver-item">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M8 12l3 3 5-6" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <h3 data-i18n="s6_d2_t">Score /100</h3>
+        <p data-i18n="s6_d2_d">Puntuación objetiva sobre la matriz de madurez.</p>
+      </div>
+      <div class="deliver-item">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 4h14v12H5z" stroke="currentColor" stroke-width="1.5"/><path d="M9 20h6M12 16v4" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <h3 data-i18n="s6_d3_t">Matriz de evidencias</h3>
+        <p data-i18n="s6_d3_d">Dossier estructurado de evidencias de referencia.</p>
+      </div>
+      <div class="deliver-item">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="9" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M8 13l-2 8 6-3 6 3-2-8" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <h3 data-i18n="s6_d4_t">Sello de reconocimiento</h3>
+        <p data-i18n="s6_d4_d">Sello según el score, para comunicación y confianza.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="container">
+    <h2 data-i18n-html="cta_title">¿Listo para obtener tu <em>Sello MAGIC®</em>?</h2>
+    <p data-i18n="cta_lead">Hablemos de cómo aplicar la certificación en tu organización. El primer paso es una conversación.</p>
+    <a href="index.html#contact" class="btn">
+      <span data-i18n="cta_btn">Solicitar información</span>
+      <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M11 1l4 4-4 4M0 5h15" stroke="currentColor" stroke-width="1.5"/></svg>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html"><img src="assets/magic_logo.png" alt="MAGIC®" class="footer-logo"></a>
+        <p data-i18n="footer_about">MAGIC® — Modelo Avanzado de Gestión, Innovación y Cambio. Una metodología para acompañar a las organizaciones en su camino hacia la excelencia.</p>
+        <a href="https://www.institutoexcelencia.com" target="_blank" rel="noopener" class="footer-iee-link" aria-label="Instituto de Excelencia Europea">
+          <img src="assets/iee_logo_full.png" alt="Instituto de Excelencia Europea" class="footer-iee-logo">
+        </a>
+      </div>
+      <div class="footer-col">
+        <h6 data-i18n="footer_nav_title">Navegación</h6>
+        <ul>
+          <li><a href="index.html#about" data-i18n="nav_about">El Modelo</a></li>
+          <li><a href="index.html#criteria" data-i18n="nav_criteria">Criterios</a></li>
+          <li><a href="index.html#method" data-i18n="nav_method">Metodología</a></li>
+          <li><a href="certificar.html" data-i18n="nav_certify">Certificar</a></li>
+          <li><a href="index.html#benefits" data-i18n="nav_benefits">Beneficios</a></li>
+          <li><a href="index.html#contact" data-i18n="nav_contact">Contacto</a></li>
+          <li><a href="soy-magic.html" data-i18n="nav_my_magic">Soy MAGIC®</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h6 data-i18n="footer_legal_title">Legal</h6>
+        <ul>
+          <li><a href="aviso-legal.html" data-i18n="footer_legal_notice">Aviso legal</a></li>
+          <li><a href="aviso-legal.html#privacidad" data-i18n="footer_privacy">Política de privacidad</a></li>
+          <li><a href="aviso-legal.html#cookies" data-i18n="footer_cookies">Política de cookies</a></li>
+        </ul>
+        <div class="footer-tagline" data-i18n="footer_made">Desde España con amor · 2014</div>
+      </div>
+    </div>
+    <div class="foot-grid">
+      <small>© 2026 Instituto de Excelencia Europea · <span data-i18n="footer_rights">Todos los derechos reservados</span></small>
+      <small data-i18n="footer_tag">MAGIC® — Modelo Avanzado de Gestión, Innovación y Cambio — Desde España con amor ❤️</small>
+    </div>
+  </div>
+</footer>
+
+<script>
+const i18n = {
+  es: {
+    nav_about:"El Modelo", nav_criteria:"Criterios", nav_method:"Metodología",
+    nav_certify:"Certificar", nav_benefits:"Beneficios", nav_contact:"Contacto", nav_my_magic:"Soy MAGIC®",
+    hero_eyebrow:"Consultora + Certificadora",
+    hero_title:'Certifica tu gestión con el <em>Sello MAGIC®</em>.',
+    hero_lead:"Una evaluación rápida basada en entrevistas y evidencias clave que ofrece una foto externa creíble en días, no en meses. Informe ejecutivo, score y sello de reconocimiento.",
+    strip_1_t:"2 días de entrevistas", strip_1_d:"Evaluación basada en entrevistas a stakeholders clave y evidencias, con agenda pactada.",
+    strip_2_t:"Informe + sello", strip_2_d:"Informe ejecutivo con score /100, fortalezas, mejoras priorizadas y sello de reconocimiento.",
+    strip_3_t:"Ciclo rápido", strip_3_d:'Proceso completo en torno a una semana, sin "submission" extensa. Foco en claridad y velocidad.',
+    s1_eyebrow:"El concepto", s1_title:"Qué es la certificación MAGIC®",
+    s1_intro:"Un modelo operativo que separa la consultora (know-how y evaluación) de la certificadora (validación y emisión), garantizando independencia y rigor.",
+    s1_c1_t:"Concepto",
+    s1_c1_1:"Evaluación rápida basada en entrevistas y evidencias clave",
+    s1_c1_2:'Matriz de madurez hasta <strong>1000 puntos</strong>',
+    s1_c1_3:'Sin "submission" extensa: foco en claridad y velocidad',
+    s1_c1_4:"Salida: score /100 + fortalezas + mejoras priorizadas",
+    s1_c1_5:"Listado de evidencias de referencia",
+    s1_c2_t:"Resultado",
+    s1_c2_1:"Informe ejecutivo con hallazgos y recomendaciones",
+    s1_c2_2:"Validación por la certificadora con evidencias de la organización",
+    s1_c2_3:"Emisión del reconocimiento (sello) según el score obtenido",
+    s1_c2_4:"Base objetiva para un roadmap de mejora posterior",
+    s2_eyebrow:"Alcance", s2_title:"Qué incluye y qué no",
+    s2_intro:"Un alcance claro y acotado para mantener el ciclo rápido. Los servicios adicionales se ofertan por separado.",
+    s2_c1_t:"Incluye",
+    s2_c1_1:"2 días de entrevistas (agenda pactada)",
+    s2_c1_2:"Matriz de evidencias (dossier estructurado)",
+    s2_c1_3:"Informe ejecutivo + score /100",
+    s2_c1_4:"Emisión del sello de reconocimiento",
+    s2_c2_t:"No incluye (por defecto)",
+    s2_c2_1:"Implantación o consultoría de mejora (se oferta aparte)",
+    s2_c2_2:"Auditorías multisede complejas sin ajuste de alcance",
+    s2_c2_3:"Recopilación extensa de evidencias fuera de agenda",
+    s3_eyebrow:"El proceso", s3_title:"Las sesiones de consultoría y certificación",
+    s3_intro:"El flujo operativo se desarrolla en tres fases encadenadas, desde la preparación hasta la emisión del reconocimiento.",
+    s3_st1_t:"Preparación",
+    s3_st1_1:"Certificadora: coordinación y agenda de la entrevista de devolución",
+    s3_st1_2:"Consultora: guía de evidencias y preguntas",
+    s3_st1_3:"Checklist de disponibilidad de información",
+    s3_st2_t:"Entrevistas y evaluación",
+    s3_st2_1:"2 días con stakeholders clave",
+    s3_st2_2:"Captura estructurada de evidencias",
+    s3_st2_3:"Consolidación diaria de hallazgos",
+    s3_st3_t:"Validación, informe y sello",
+    s3_st3_1:"La certificadora valida con evidencias",
+    s3_st3_2:"Informe ejecutivo y score /100",
+    s3_st3_3:"Emisión del reconocimiento",
+    s4_eyebrow:"Gobernanza", s4_title:"Consultora y certificadora: roles separados",
+    s4_intro:"La separación de roles garantiza independencia: quien evalúa no es quien emite el reconocimiento.",
+    s4_g1_role:"Consultora", s4_g1_t:"Evaluador asesor",
+    s4_g1_1:"Estructura la información y las evidencias",
+    s4_g1_2:"Conduce las entrevistas y documenta hallazgos",
+    s4_g1_3:'Entrega el dossier "audit-ready" a la certificadora',
+    s4_g1_4:"No emite el reconocimiento (separación de roles)",
+    s4_g2_role:"Certificadora", s4_g2_t:"Validador y emisor",
+    s4_g2_1:"Planifica y coordina el proceso",
+    s4_g2_2:"Valida el informe frente a las evidencias aportadas",
+    s4_g2_3:"Emite el informe final y el sello",
+    s4_g2_4:"Control de calidad y trazabilidad",
+    s5_eyebrow:"Plan de trabajo", s5_title:"Cronograma típico: una semana",
+    s5_intro:"Un proceso ágil y predecible. Los plazos son orientativos y ajustables según la disponibilidad del cliente y la modalidad (presencial o híbrida).",
+    s5_h1:"Fase", s5_h2:"Responsable", s5_h3:"Duración", s5_h4:"Salida",
+    role_cert:"Certificadora", role_cons:"Consultora",
+    s5_r1_p:"Coordinación y agenda", s5_r1_d:"1–2 días", s5_r1_o:"Agenda cerrada de la entrevista de devolución",
+    s5_r2_p:"Preparación de evidencias", s5_r2_d:"1 día", s5_r2_o:"Checklist + dossier base",
+    s5_r3_p:"Entrevistas", s5_r3_d:"2 días", s5_r3_o:"Notas estructuradas + evidencias",
+    s5_r4_p:"Validación + informe", s5_r4_d:"2–3 días", s5_r4_o:"Informe final + score",
+    s5_r5_p:"Emisión del reconocimiento", s5_r5_d:"0,5 día", s5_r5_o:"Sello",
+    s5_note:"Nota: plazos orientativos, ajustables por disponibilidad del cliente y modalidad (presencial / híbrida).",
+    s6_eyebrow:"Entregables", s6_title:"Qué recibe la organización",
+    s6_intro:"Un conjunto de entregables tangibles que dan valor inmediato y sirven de base para la mejora continua.",
+    s6_d1_t:"Informe ejecutivo", s6_d1_d:"Hallazgos, recomendaciones y mejoras priorizadas.",
+    s6_d2_t:"Score /100", s6_d2_d:"Puntuación objetiva sobre la matriz de madurez.",
+    s6_d3_t:"Matriz de evidencias", s6_d3_d:"Dossier estructurado de evidencias de referencia.",
+    s6_d4_t:"Sello de reconocimiento", s6_d4_d:"Sello según el score, para comunicación y confianza.",
+    cta_title:'¿Listo para obtener tu <em>Sello MAGIC®</em>?',
+    cta_lead:"Hablemos de cómo aplicar la certificación en tu organización. El primer paso es una conversación.",
+    cta_btn:"Solicitar información",
+    footer_legal_notice:"Aviso legal",
+    footer_rights:"Todos los derechos reservados",
+    footer_made:"Desde España con amor · 2014",
+    footer_about:"MAGIC® — Modelo Avanzado de Gestión, Innovación y Cambio. Una metodología para acompañar a las organizaciones en su camino hacia la excelencia.",
+    footer_nav_title:"Navegación",
+    footer_legal_title:"Legal",
+    footer_privacy:"Política de privacidad",
+    footer_cookies:"Política de cookies",
+    footer_tag:"MAGIC® — Modelo Avanzado de Gestión, Innovación y Cambio — Desde España con amor ❤️",
+    nav_method:"Metodología", nav_benefits:"Beneficios",
+  },
+  en: {
+    nav_about:"The Model", nav_criteria:"Criteria", nav_method:"Methodology",
+    nav_certify:"Certify", nav_benefits:"Benefits", nav_contact:"Contact", nav_my_magic:"I'm MAGIC®",
+    hero_eyebrow:"Consultancy + Certifier",
+    hero_title:'Certify your management with the <em>MAGIC® Seal</em>.',
+    hero_lead:"A fast assessment based on interviews and key evidence that delivers a credible external snapshot in days, not months. Executive report, score and recognition seal.",
+    strip_1_t:"2 days of interviews", strip_1_d:"Assessment based on interviews with key stakeholders and evidence, with an agreed agenda.",
+    strip_2_t:"Report + seal", strip_2_d:"Executive report with score /100, strengths, prioritized improvements and recognition seal.",
+    strip_3_t:"Fast cycle", strip_3_d:'Full process in around one week, with no extensive "submission". Focus on clarity and speed.',
+    s1_eyebrow:"The concept", s1_title:"What MAGIC® certification is",
+    s1_intro:"An operating model that separates the consultancy (know-how and assessment) from the certifier (validation and issuance), ensuring independence and rigor.",
+    s1_c1_t:"Concept",
+    s1_c1_1:"Fast assessment based on interviews and key evidence",
+    s1_c1_2:'Maturity matrix up to <strong>1000 points</strong>',
+    s1_c1_3:'No extensive "submission": focus on clarity and speed',
+    s1_c1_4:"Output: score /100 + strengths + prioritized improvements",
+    s1_c1_5:"List of reference evidence",
+    s1_c2_t:"Result",
+    s1_c2_1:"Executive report with findings and recommendations",
+    s1_c2_2:"Validation by the certifier with the organization's evidence",
+    s1_c2_3:"Issuance of the recognition (seal) based on the score obtained",
+    s1_c2_4:"Objective basis for a subsequent improvement roadmap",
+    s2_eyebrow:"Scope", s2_title:"What's included and what's not",
+    s2_intro:"A clear and bounded scope to keep the cycle fast. Additional services are quoted separately.",
+    s2_c1_t:"Included",
+    s2_c1_1:"2 days of interviews (agreed agenda)",
+    s2_c1_2:"Evidence matrix (structured dossier)",
+    s2_c1_3:"Executive report + score /100",
+    s2_c1_4:"Issuance of the recognition seal",
+    s2_c2_t:"Not included (by default)",
+    s2_c2_1:"Improvement implementation or consultancy (quoted separately)",
+    s2_c2_2:"Complex multi-site audits without scope adjustment",
+    s2_c2_3:"Extensive evidence gathering outside the agenda",
+    s3_eyebrow:"The process", s3_title:"Consultancy and certification sessions",
+    s3_intro:"The operating flow runs across three linked phases, from preparation to issuance of the recognition.",
+    s3_st1_t:"Preparation",
+    s3_st1_1:"Certifier: coordination and agenda of the feedback interview",
+    s3_st1_2:"Consultancy: evidence and questions guide",
+    s3_st1_3:"Information availability checklist",
+    s3_st2_t:"Interviews and assessment",
+    s3_st2_1:"2 days with key stakeholders",
+    s3_st2_2:"Structured evidence capture",
+    s3_st2_3:"Daily consolidation of findings",
+    s3_st3_t:"Validation, report and seal",
+    s3_st3_1:"The certifier validates against evidence",
+    s3_st3_2:"Executive report and score /100",
+    s3_st3_3:"Issuance of the recognition",
+    s4_eyebrow:"Governance", s4_title:"Consultancy and certifier: separate roles",
+    s4_intro:"Role separation guarantees independence: whoever assesses is not whoever issues the recognition.",
+    s4_g1_role:"Consultancy", s4_g1_t:"Advisory assessor",
+    s4_g1_1:"Structures the information and the evidence",
+    s4_g1_2:"Conducts the interviews and documents findings",
+    s4_g1_3:'Delivers the "audit-ready" dossier to the certifier',
+    s4_g1_4:"Does not issue the recognition (role separation)",
+    s4_g2_role:"Certifier", s4_g2_t:"Validator and issuer",
+    s4_g2_1:"Plans and coordinates the process",
+    s4_g2_2:"Validates the report against the evidence provided",
+    s4_g2_3:"Issues the final report and the seal",
+    s4_g2_4:"Quality control and traceability",
+    s5_eyebrow:"Work plan", s5_title:"Typical timeline: one week",
+    s5_intro:"An agile and predictable process. Timeframes are indicative and adjustable depending on client availability and modality (on-site or hybrid).",
+    s5_h1:"Phase", s5_h2:"Owner", s5_h3:"Duration", s5_h4:"Output",
+    role_cert:"Certifier", role_cons:"Consultancy",
+    s5_r1_p:"Coordination and agenda", s5_r1_d:"1–2 days", s5_r1_o:"Closed agenda for the feedback interview",
+    s5_r2_p:"Evidence preparation", s5_r2_d:"1 day", s5_r2_o:"Checklist + base dossier",
+    s5_r3_p:"Interviews", s5_r3_d:"2 days", s5_r3_o:"Structured notes + evidence",
+    s5_r4_p:"Validation + report", s5_r4_d:"2–3 days", s5_r4_o:"Final report + score",
+    s5_r5_p:"Issuance of the recognition", s5_r5_d:"0.5 day", s5_r5_o:"Seal",
+    s5_note:"Note: indicative timeframes, adjustable by client availability and modality (on-site / hybrid).",
+    s6_eyebrow:"Deliverables", s6_title:"What the organization receives",
+    s6_intro:"A set of tangible deliverables that provide immediate value and serve as a basis for continuous improvement.",
+    s6_d1_t:"Executive report", s6_d1_d:"Findings, recommendations and prioritized improvements.",
+    s6_d2_t:"Score /100", s6_d2_d:"Objective score over the maturity matrix.",
+    s6_d3_t:"Evidence matrix", s6_d3_d:"Structured dossier of reference evidence.",
+    s6_d4_t:"Recognition seal", s6_d4_d:"Seal based on the score, for communication and trust.",
+    cta_title:'Ready to earn your <em>MAGIC® Seal</em>?',
+    cta_lead:"Let's talk about applying the certification in your organization. The first step is a conversation.",
+    cta_btn:"Request information",
+    footer_legal_notice:"Legal notice",
+    footer_rights:"All rights reserved",
+    footer_made:"From Spain with love · since 2014",
+    footer_about:"MAGIC® — Advanced Model of Management, Innovation and Change. A methodology to accompany organizations on their path to excellence.",
+    footer_nav_title:"Navigation",
+    footer_legal_title:"Legal",
+    footer_privacy:"Privacy policy",
+    footer_cookies:"Cookie policy",
+    footer_tag:"MAGIC® — Advanced Model of Management, Innovation and Change — From Spain with love ❤️",
+    nav_method:"Methodology", nav_benefits:"Benefits",
+  },
+  ar: {
+    nav_about:"النموذج", nav_criteria:"المعايير", nav_method:"المنهجية",
+    nav_certify:"الاعتماد", nav_benefits:"الفوائد", nav_contact:"تواصل", nav_my_magic:"‏أنا MAGIC®‏",
+    hero_eyebrow:"استشارة + جهة اعتماد",
+    hero_title:'اعتمِد إدارتك بـ <em>ختم MAGIC®</em>.',
+    hero_lead:"تقييم سريع قائم على المقابلات والأدلة الرئيسية يقدّم صورة خارجية موثوقة في أيام، لا أشهر. تقرير تنفيذي ودرجة وختم اعتراف.",
+    strip_1_t:"يومان من المقابلات", strip_1_d:"تقييم قائم على مقابلات مع أصحاب المصلحة الرئيسيين والأدلة، بجدول متّفق عليه.",
+    strip_2_t:"تقرير + ختم", strip_2_d:"تقرير تنفيذي بدرجة /100 ونقاط قوة وتحسينات مرتّبة وختم اعتراف.",
+    strip_3_t:"دورة سريعة", strip_3_d:"عملية كاملة في حوالي أسبوع، دون تقديم مستندات مطوّل. التركيز على الوضوح والسرعة.",
+    s1_eyebrow:"المفهوم", s1_title:"ما هو اعتماد MAGIC®",
+    s1_intro:"نموذج تشغيلي يفصل بين الاستشارة (المعرفة والتقييم) وجهة الاعتماد (التحقّق والإصدار)، بما يضمن الاستقلالية والدقّة.",
+    s1_c1_t:"المفهوم",
+    s1_c1_1:"تقييم سريع قائم على المقابلات والأدلة الرئيسية",
+    s1_c1_2:'مصفوفة نضج حتى <strong>1000 نقطة</strong>',
+    s1_c1_3:"دون تقديم مستندات مطوّل: التركيز على الوضوح والسرعة",
+    s1_c1_4:"المُخرَج: درجة /100 + نقاط القوة + تحسينات مرتّبة",
+    s1_c1_5:"قائمة بالأدلة المرجعية",
+    s1_c2_t:"النتيجة",
+    s1_c2_1:"تقرير تنفيذي بالنتائج والتوصيات",
+    s1_c2_2:"تحقّق من جهة الاعتماد بأدلة المنظمة",
+    s1_c2_3:"إصدار الاعتراف (الختم) وفق الدرجة المحقّقة",
+    s1_c2_4:"أساس موضوعي لخارطة طريق تحسين لاحقة",
+    s2_eyebrow:"النطاق", s2_title:"ما المشمول وما غير المشمول",
+    s2_intro:"نطاق واضح ومحدّد للحفاظ على سرعة الدورة. تُعرض الخدمات الإضافية بشكل منفصل.",
+    s2_c1_t:"يشمل",
+    s2_c1_1:"يومان من المقابلات (جدول متّفق عليه)",
+    s2_c1_2:"مصفوفة أدلة (ملف منظّم)",
+    s2_c1_3:"تقرير تنفيذي + درجة /100",
+    s2_c1_4:"إصدار ختم الاعتراف",
+    s2_c2_t:"لا يشمل (افتراضيًا)",
+    s2_c2_1:"تنفيذ أو استشارة التحسين (تُعرض منفصلة)",
+    s2_c2_2:"عمليات تدقيق معقّدة متعدّدة المواقع دون تعديل النطاق",
+    s2_c2_3:"جمع أدلة مكثّف خارج الجدول",
+    s3_eyebrow:"العملية", s3_title:"جلسات الاستشارة والاعتماد",
+    s3_intro:"يجري التدفّق التشغيلي عبر ثلاث مراحل متسلسلة، من التحضير حتى إصدار الاعتراف.",
+    s3_st1_t:"التحضير",
+    s3_st1_1:"جهة الاعتماد: التنسيق وجدول مقابلة التغذية الراجعة",
+    s3_st1_2:"الاستشارة: دليل الأدلة والأسئلة",
+    s3_st1_3:"قائمة تحقّق لتوافر المعلومات",
+    s3_st2_t:"المقابلات والتقييم",
+    s3_st2_1:"يومان مع أصحاب المصلحة الرئيسيين",
+    s3_st2_2:"جمع منظّم للأدلة",
+    s3_st2_3:"توحيد يومي للنتائج",
+    s3_st3_t:"التحقّق والتقرير والختم",
+    s3_st3_1:"تتحقّق جهة الاعتماد بالأدلة",
+    s3_st3_2:"تقرير تنفيذي ودرجة /100",
+    s3_st3_3:"إصدار الاعتراف",
+    s4_eyebrow:"الحوكمة", s4_title:"الاستشارة وجهة الاعتماد: أدوار منفصلة",
+    s4_intro:"يضمن فصل الأدوار الاستقلالية: من يقيّم ليس من يُصدر الاعتراف.",
+    s4_g1_role:"الاستشارة", s4_g1_t:"مقيّم استشاري",
+    s4_g1_1:"تنظيم المعلومات والأدلة",
+    s4_g1_2:"إجراء المقابلات وتوثيق النتائج",
+    s4_g1_3:"تسليم الملف الجاهز للتدقيق إلى جهة الاعتماد",
+    s4_g1_4:"لا تُصدر الاعتراف (فصل الأدوار)",
+    s4_g2_role:"جهة الاعتماد", s4_g2_t:"المُحقِّق والمُصدِر",
+    s4_g2_1:"تخطيط وتنسيق العملية",
+    s4_g2_2:"التحقّق من التقرير مقابل الأدلة المقدّمة",
+    s4_g2_3:"إصدار التقرير النهائي والختم",
+    s4_g2_4:"مراقبة الجودة والتتبّع",
+    s5_eyebrow:"خطة العمل", s5_title:"الجدول الزمني النموذجي: أسبوع واحد",
+    s5_intro:"عملية رشيقة وقابلة للتنبّؤ. المُدد إرشادية وقابلة للتعديل حسب توافر العميل والنمط (حضوري أو هجين).",
+    s5_h1:"المرحلة", s5_h2:"المسؤول", s5_h3:"المدّة", s5_h4:"المُخرَج",
+    role_cert:"جهة الاعتماد", role_cons:"الاستشارة",
+    s5_r1_p:"التنسيق والجدول", s5_r1_d:"1–2 يوم", s5_r1_o:"جدول مغلق لمقابلة التغذية الراجعة",
+    s5_r2_p:"تحضير الأدلة", s5_r2_d:"يوم واحد", s5_r2_o:"قائمة تحقّق + ملف أساسي",
+    s5_r3_p:"المقابلات", s5_r3_d:"يومان", s5_r3_o:"ملاحظات منظّمة + أدلة",
+    s5_r4_p:"التحقّق + التقرير", s5_r4_d:"2–3 أيام", s5_r4_o:"تقرير نهائي + درجة",
+    s5_r5_p:"إصدار الاعتراف", s5_r5_d:"نصف يوم", s5_r5_o:"الختم",
+    s5_note:"ملاحظة: مُدد إرشادية، قابلة للتعديل حسب توافر العميل والنمط (حضوري / هجين).",
+    s6_eyebrow:"المُخرَجات", s6_title:"ما تتلقّاه المنظمة",
+    s6_intro:"مجموعة من المُخرَجات الملموسة تقدّم قيمة فورية وتُشكّل أساسًا للتحسين المستمر.",
+    s6_d1_t:"تقرير تنفيذي", s6_d1_d:"النتائج والتوصيات والتحسينات المرتّبة.",
+    s6_d2_t:"درجة /100", s6_d2_d:"درجة موضوعية على مصفوفة النضج.",
+    s6_d3_t:"مصفوفة الأدلة", s6_d3_d:"ملف منظّم بالأدلة المرجعية.",
+    s6_d4_t:"ختم الاعتراف", s6_d4_d:"ختم وفق الدرجة، للتواصل والثقة.",
+    cta_title:'جاهز للحصول على <em>ختم MAGIC®</em>؟',
+    cta_lead:"لنتحدّث عن تطبيق الاعتماد في منظمتك. الخطوة الأولى محادثة.",
+    cta_btn:"اطلب معلومات",
+    footer_legal_notice:"إشعار قانوني",
+    footer_rights:"جميع الحقوق محفوظة",
+    footer_made:"من إسبانيا بحب · منذ 2014",
+    footer_about:"‏MAGIC®‏ — نموذج متقدّم للإدارة والابتكار والتغيير. منهجية ترافق المنظمات في طريقها نحو التميّز.",
+    footer_nav_title:"تصفّح",
+    footer_legal_title:"قانوني",
+    footer_privacy:"سياسة الخصوصية",
+    footer_cookies:"سياسة ملفات تعريف الارتباط",
+    footer_tag:"‏MAGIC®‏ — نموذج متقدّم للإدارة والابتكار والتغيير — من إسبانيا بحب ❤️",
+    nav_method:"المنهجية", nav_benefits:"الفوائد",
+  }
+};
+
+function setLang(lang){
+  const dict = i18n[lang];
+  if(!dict) return;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = (lang === "ar") ? "rtl" : "ltr";
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const k = el.getAttribute("data-i18n");
+    if(dict[k]) el.textContent = dict[k];
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach(el=>{
+    const k = el.getAttribute("data-i18n-html");
+    if(dict[k]) el.innerHTML = dict[k];
+  });
+  document.querySelectorAll(".lang-switch button").forEach(b=>{
+    b.classList.toggle("active", b.dataset.lang === lang);
+  });
+  const titles = {es:"Certificar — Modelo MAGIC®", en:"Certify — MAGIC® Model", ar:"الاعتماد — نموذج MAGIC®"};
+  document.title = titles[lang] || titles.es;
+  try { localStorage.setItem("magic_lang", lang); } catch(e){}
+}
+document.querySelectorAll(".lang-switch button").forEach(b=>{
+  b.addEventListener("click", ()=> setLang(b.dataset.lang));
+});
+
+// Mobile menu
+(function(){
+  const t = document.getElementById("menuTrigger");
+  const n = document.getElementById("navLinks");
+  if(!t || !n) return;
+  function close(){ n.classList.remove("open"); t.setAttribute("aria-expanded","false"); document.body.style.overflow=""; }
+  function open(){ n.classList.add("open"); t.setAttribute("aria-expanded","true"); document.body.style.overflow="hidden"; }
+  t.addEventListener("click", ()=> n.classList.contains("open") ? close() : open());
+  n.querySelectorAll("a").forEach(a=> a.addEventListener("click", close));
+  document.addEventListener("keydown", e=>{ if(e.key==="Escape" && n.classList.contains("open")) close(); });
+  window.addEventListener("resize", ()=>{ if(window.innerWidth>880 && n.classList.contains("open")) close(); });
+})();
+
+// Reveal on scroll
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+}, {threshold:.12});
+document.querySelectorAll(".reveal").forEach(el=> io.observe(el));
+
+// Init language from storage
+let saved = "es";
+try { saved = localStorage.getItem("magic_lang") || "es"; } catch(e){}
+setLang(saved);
+</script>
+
+</body>
+</html>

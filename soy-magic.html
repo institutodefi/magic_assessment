@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soy MAGIC® — Portal de clientes · Modelo MAGIC®</title>
+<meta name="description" content="Portal de acceso para clientes del Modelo MAGIC®. Accede a tu autoevaluación, tus informes y el seguimiento de tu certificación.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230b0d12'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23d4b06a' stroke-width='1'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%23d4b06a' stroke-width='1' opacity='.6'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23d4b06a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Kufi+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0d12;--bg-2:#11141b;--line:rgba(255,255,255,.08);--line-strong:rgba(255,255,255,.18);
+    --ink:#e9ecf2;--ink-dim:#a8aebb;--ink-faint:#6c7280;--accent:#d4b06a;
+    --serif:"Manrope",system-ui,sans-serif;--sans:"Manrope",system-ui,sans-serif;--mono:"Manrope",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  body{background:
+    radial-gradient(900px 500px at 80% -10%,rgba(212,176,106,.06),transparent 60%),
+    radial-gradient(700px 400px at 0% 30%,rgba(212,176,106,.03),transparent 60%),
+    var(--bg);
+    min-height:100vh;display:flex;flex-direction:column;
+  }
+
+  /* Manrope display normalization */
+  h1,h2,h3,h4,h5{font-weight:600;letter-spacing:-.02em;font-variation-settings:normal}
+  header.page-head h1{font-weight:500}
+  [class*="num"],em{font-style:normal!important}
+  .eyebrow,.back-link{font-variation-settings:normal}
+
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline;text-underline-offset:2px}
+  img{display:block;max-width:100%}
+  .container{max-width:1100px;margin:0 auto;padding:0 32px;position:relative}
+  @media (max-width:680px){.container{padding:0 20px}}
+
+  /* ─── NAV ─── */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(11,13,18,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;max-width:1240px;margin:0 auto}
+  @media (max-width:680px){.nav-inner{padding:14px 20px}}
+  .brand-logo{height:28px;width:auto}
+  .back-link{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);display:flex;align-items:center;gap:8px}
+  .back-link:hover{color:var(--accent);text-decoration:none}
+
+  /* ─── HERO ─── */
+  header.page-head{padding:140px 0 60px;text-align:center;position:relative;overflow:hidden}
+  /* Anillos decorativos sutiles, eco del hero principal */
+  .page-head::before, .page-head::after{
+    content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    border:1px solid var(--line);border-radius:50%;pointer-events:none;
+  }
+  .page-head::before{width:520px;height:520px;opacity:.55}
+  .page-head::after{width:340px;height:340px;opacity:.85;border-color:var(--line-strong)}
+  @media (max-width:680px){
+    .page-head::before{width:380px;height:380px}
+    .page-head::after{width:240px;height:240px}
+  }
+  .page-head .container{position:relative;z-index:1}
+  .eyebrow{
+    font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--accent);
+    text-transform:uppercase;margin-bottom:28px;
+    display:inline-flex;align-items:center;gap:14px;
+  }
+  .eyebrow::before,.eyebrow::after{content:"";width:24px;height:1px;background:var(--accent)}
+  header.page-head h1{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(40px,5.4vw,72px);line-height:1.04;letter-spacing:-.035em;
+    margin:0 auto 22px;max-width:780px;
+  }
+  header.page-head h1 em{color:var(--accent);font-weight:700}
+  header.page-head p.lead{
+    color:var(--ink-dim);font-size:17px;line-height:1.6;
+    margin:0 auto;max-width:580px;
+  }
+
+  /* ─── PORTAL CARDS ─── */
+  main{flex:1;padding:60px 0 90px}
+  .portal-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:80px;
+  }
+  @media (max-width:760px){.portal-grid{grid-template-columns:1fr}}
+  .portal-card{
+    background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.005));
+    border:1px solid var(--line);border-radius:6px;padding:36px 32px;
+    display:flex;flex-direction:column;gap:18px;position:relative;overflow:hidden;
+    transition:border-color .3s, transform .3s, box-shadow .3s;
+  }
+  .portal-card:hover{
+    border-color:rgba(212,176,106,.4);transform:translateY(-2px);
+    box-shadow:0 16px 40px -16px rgba(0,0,0,.5),0 0 0 1px rgba(212,176,106,.05);
+  }
+  .portal-card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(212,176,106,.5),transparent);
+    opacity:0;transition:opacity .3s;
+  }
+  .portal-card:hover::before{opacity:1}
+  .card-icon{
+    width:52px;height:52px;border-radius:50%;
+    background:rgba(212,176,106,.08);border:1px solid rgba(212,176,106,.25);
+    display:flex;align-items:center;justify-content:center;color:var(--accent);
+    margin-bottom:4px;
+  }
+  .portal-card h3{
+    font-family:var(--serif);font-size:24px;font-weight:600;
+    margin:0;letter-spacing:-.02em;color:var(--ink);
+  }
+  .portal-card p{
+    color:var(--ink-dim);font-size:15px;line-height:1.6;margin:0;flex:1;
+  }
+  .card-meta{
+    display:flex;gap:18px;font-family:var(--mono);font-size:11px;
+    letter-spacing:.1em;color:var(--ink-faint);text-transform:uppercase;
+    padding-top:14px;border-top:1px solid var(--line);
+  }
+  .card-meta span{display:inline-flex;align-items:center;gap:6px}
+  .card-meta .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.6}
+  .card-cta{
+    margin-top:auto;display:inline-flex;align-items:center;gap:10px;
+    font-family:var(--mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;
+    color:var(--accent);padding:14px 22px;border:1px solid rgba(212,176,106,.4);
+    border-radius:999px;align-self:flex-start;
+    transition:background .25s, border-color .25s;
+  }
+  .portal-card a.card-cta:hover{
+    background:rgba(212,176,106,.1);border-color:var(--accent);text-decoration:none;
+  }
+  .card-cta svg{transition:transform .25s}
+  .portal-card:hover .card-cta svg{transform:translateX(4px)}
+
+  /* Estado "próximamente" sutil */
+  .portal-card.soon{opacity:.85}
+  .portal-card.soon .card-cta{
+    color:var(--ink-dim);border-color:var(--line-strong);cursor:default;pointer-events:none;
+  }
+  .badge-soon{
+    position:absolute;top:18px;right:18px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ink-faint);padding:4px 10px;border:1px solid var(--line-strong);
+    border-radius:999px;background:rgba(255,255,255,.02);
+  }
+
+  /* ─── INFO BLOCK ─── */
+  .info-block{
+    background:var(--bg-2);border:1px solid var(--line);border-radius:6px;
+    padding:40px 44px;display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;
+  }
+  @media (max-width:760px){.info-block{grid-template-columns:1fr;padding:32px 28px;text-align:center}}
+  .info-block .info-mark{
+    width:64px;height:64px;border-radius:50%;
+    border:1px solid rgba(212,176,106,.35);
+    display:flex;align-items:center;justify-content:center;color:var(--accent);
+    background:radial-gradient(circle at center,rgba(212,176,106,.08),transparent 70%);
+  }
+  @media (max-width:760px){.info-block .info-mark{margin:0 auto}}
+  .info-block h4{
+    font-family:var(--serif);font-size:20px;font-weight:600;margin:0 0 8px;
+    letter-spacing:-.02em;color:var(--ink);
+  }
+  .info-block p{color:var(--ink-dim);font-size:14.5px;line-height:1.65;margin:0 0 14px}
+  .info-block a.contact-link{
+    font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--accent);display:inline-flex;align-items:center;gap:8px;
+  }
+  .info-block a.contact-link:hover{text-decoration:none;opacity:.8}
+
+  /* ─── FOOTER (consistente con resto del sitio) ─── */
+  footer{border-top:1px solid var(--line);padding:64px 0 36px;background:var(--bg-2);position:relative}
+  .footer-top{
+    display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;
+    padding-bottom:48px;border-bottom:1px solid var(--line);
+  }
+  @media (max-width:760px){.footer-top{grid-template-columns:1fr;gap:40px}}
+  .footer-brand img.footer-logo{height:36px;width:auto;margin-bottom:18px;filter:drop-shadow(0 1px 0 rgba(0,0,0,.3))}
+  .footer-brand p{color:var(--ink-dim);font-size:14px;line-height:1.65;margin:0 0 22px;max-width:380px}
+  .footer-iee-link{display:inline-block;margin-top:6px;transition:opacity .25s, transform .3s}
+  .footer-iee-link:hover{opacity:.8;transform:translateY(-2px)}
+  .footer-iee-logo{
+    height:56px;width:auto;display:block;opacity:.85;
+    filter:drop-shadow(0 2px 8px rgba(0,0,0,.4));
+  }
+  @media (max-width:760px){.footer-iee-logo{height:48px}}
+  .footer-tagline{
+    font-family:var(--serif);font-size:14px;color:var(--ink-faint);
+    margin-top:8px;display:flex;align-items:center;gap:8px;
+  }
+  .footer-tagline::before{content:"";display:inline-block;width:18px;height:1px;background:var(--ink-faint)}
+  .footer-col h6{
+    font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--accent);
+    text-transform:uppercase;margin:0 0 18px;font-weight:500;
+  }
+  .footer-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+  .footer-col a{color:var(--ink-dim);font-size:14px;transition:color .2s}
+  .footer-col a:hover{color:var(--accent)}
+  .foot-grid{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding-top:32px}
+  .foot-grid small{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink-faint);text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" aria-label="MAGIC® — Inicio">
+      <img src="assets/magic_logo.png" alt="MAGIC®" class="brand-logo">
+    </a>
+    <a href="index.html" class="back-link">
+      <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 1L1 5L5 9M1 5H16" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+      Volver
+    </a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="container">
+    <div class="eyebrow">Portal de clientes</div>
+    <h1>Soy <em>MAGIC®</em></h1>
+    <p class="lead">Tu espacio privado para acceder a las autoevaluaciones, informes y al seguimiento de tu camino hacia la excelencia. Bienvenida, bienvenido.</p>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <div class="portal-grid">
+      <!-- Tarjeta 1: Autoevaluación -->
+      <article class="portal-card">
+        <div class="card-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.4"/>
+            <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.4" opacity=".6"/>
+            <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3>Autoevaluación MAGIC®</h3>
+        <p>Accede a tu cuestionario de autoevaluación basado en el Modelo MAGIC®. Comienza por el Criterio 1 — Propósito, Visión y Estrategia: mide la madurez de tu organización en escala 0–100, justifica tus respuestas y adjunta evidencias.</p>
+        <div class="card-meta">
+          <span><span class="dot"></span> Criterio 1</span>
+          <span><span class="dot"></span> 10 preguntas</span>
+          <span><span class="dot"></span> Escala 0–100</span>
+        </div>
+        <a href="evaluar.html" class="card-cta">
+          Comenzar autoevaluación
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M1 5H13M13 5L9 1M13 5L9 9" stroke="currentColor" stroke-width="1.4"/>
+          </svg>
+        </a>
+      </article>
+
+      <!-- Tarjeta 2: Portal de seguimiento -->
+      <article class="portal-card soon">
+        <span class="badge-soon">Próximamente</span>
+        <div class="card-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 19V9l8-5 8 5v10" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+            <path d="M9 19v-7h6v7" stroke="currentColor" stroke-width="1.4"/>
+          </svg>
+        </div>
+        <h3>Mi organización</h3>
+        <p>Espacio privado con tus informes ejecutivos, score sobre 100, dossier de evidencias y plan de mejoras. Próximamente disponible para organizaciones certificadas.</p>
+        <div class="card-meta">
+          <span><span class="dot"></span> Informes</span>
+          <span><span class="dot"></span> Score /100</span>
+          <span><span class="dot"></span> Evidencias</span>
+        </div>
+        <span class="card-cta">
+          Disponible pronto
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="3" cy="5" r="1" fill="currentColor"/>
+            <circle cx="7" cy="5" r="1" fill="currentColor"/>
+            <circle cx="11" cy="5" r="1" fill="currentColor"/>
+          </svg>
+        </span>
+      </article>
+    </div>
+
+    <!-- Info / contacto -->
+    <div class="info-block">
+      <div class="info-mark" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.4"/>
+        </svg>
+      </div>
+      <div>
+        <h4>¿Aún no eres MAGIC®?</h4>
+        <p>El acceso al portal está reservado a organizaciones que han iniciado el proceso de autoevaluación o certificación. Si quieres conocer cómo aplicar el Modelo MAGIC® en tu organización, escríbenos.</p>
+        <a href="mailto:hola@institutoexcelencia.com?subject=Informaci%C3%B3n%20sobre%20el%20Modelo%20MAGIC%C2%AE" class="contact-link">
+          hola@institutoexcelencia.com
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M1 5H13M13 5L9 1M13 5L9 9" stroke="currentColor" stroke-width="1.4"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html"><img src="assets/magic_logo.png" alt="MAGIC®" class="footer-logo"></a>
+        <p>MAGIC® — Modelo Avanzado de Gestión, Innovación y Cambio. Una metodología para acompañar a las organizaciones en su camino hacia la excelencia.</p>
+        <a href="https://www.institutoexcelencia.com" target="_blank" rel="noopener" class="footer-iee-link" aria-label="Instituto de Excelencia Europea">
+          <img src="assets/iee_logo_full.png" alt="Instituto de Excelencia Europea" class="footer-iee-logo">
+        </a>
+      </div>
+      <div class="footer-col">
+        <h6>Navegación</h6>
+        <ul>
+          <li><a href="index.html#about">El Modelo</a></li>
+          <li><a href="index.html#criteria">Criterios</a></li>
+          <li><a href="index.html#method">Metodología</a></li>
+          <li><a href="certificar.html">Certificar</a></li>
+          <li><a href="index.html#benefits">Beneficios</a></li>
+          <li><a href="index.html#contact">Contacto</a></li>
+          <li><a href="soy-magic.html">Soy MAGIC®</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h6>Legal</h6>
+        <ul>
+          <li><a href="aviso-legal.html">Aviso legal</a></li>
+          <li><a href="aviso-legal.html#privacidad">Política de privacidad</a></li>
+          <li><a href="aviso-legal.html#cookies">Política de cookies</a></li>
+        </ul>
+        <div class="footer-tagline">Desde España con amor · 2014</div>
+      </div>
+    </div>
+    <div class="foot-grid">
+      <small>© 2026 Instituto de Excelencia Europea · Todos los derechos reservados</small>
+      <small>MAGIC® — Modelo Avanzado de Gestión, Innovación y Cambio — Desde España con amor ❤️</small>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

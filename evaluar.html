@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autoevaluación · Criterio 1 — Modelo MAGIC®</title>
+<meta name="description" content="Autoevaluación del Modelo MAGIC® — Criterio 1: Propósito, Visión y Estrategia. Mide la madurez de tu organización en escala 0–100, justifica tus respuestas y adjunta evidencias.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230b0d12'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23d4b06a' stroke-width='1'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%23d4b06a' stroke-width='1' opacity='.6'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23d4b06a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0d12;--bg-2:#11141b;--bg-3:#161a23;--line:rgba(255,255,255,.08);--line-strong:rgba(255,255,255,.18);
+    --ink:#e9ecf2;--ink-dim:#a8aebb;--ink-faint:#6c7280;--accent:#d4b06a;--accent-soft:rgba(212,176,106,.12);
+    --sans:"Manrope",system-ui,sans-serif;--mono:"Manrope",ui-monospace,monospace;
+    /* escala de madurez */
+    --s0:#b25b54;--s20:#c2823f;--s40:#cba94d;--s60:#9ab464;--s80:#6fae7e;--s100:#5ba897;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  body{background:
+    radial-gradient(900px 500px at 80% -10%,rgba(212,176,106,.06),transparent 60%),
+    radial-gradient(700px 400px at 0% 30%,rgba(212,176,106,.03),transparent 60%),
+    var(--bg);min-height:100vh;display:flex;flex-direction:column}
+  h1,h2,h3,h4,h5{font-weight:600;letter-spacing:-.02em}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline;text-underline-offset:2px}
+  img{display:block;max-width:100%}
+  .container{max-width:1100px;margin:0 auto;padding:0 32px;position:relative}
+  @media (max-width:680px){.container{padding:0 20px}}
+
+  /* ─── NAV ─── */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(11,13,18,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;max-width:1240px;margin:0 auto}
+  @media (max-width:680px){.nav-inner{padding:14px 20px}}
+  .brand-logo{height:28px;width:auto}
+  .back-link{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);display:flex;align-items:center;gap:8px}
+  .back-link:hover{color:var(--accent);text-decoration:none}
+
+  /* ─── HERO ─── */
+  header.page-head{padding:130px 0 44px;text-align:center;position:relative;overflow:hidden}
+  .page-head::before,.page-head::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid var(--line);border-radius:50%;pointer-events:none}
+  .page-head::before{width:520px;height:520px;opacity:.55}
+  .page-head::after{width:340px;height:340px;opacity:.85;border-color:var(--line-strong)}
+  @media (max-width:680px){.page-head::before{width:360px;height:360px}.page-head::after{width:230px;height:230px}}
+  .page-head .container{position:relative;z-index:1}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--accent);text-transform:uppercase;margin-bottom:24px;display:inline-flex;align-items:center;gap:14px}
+  .eyebrow::before,.eyebrow::after{content:"";width:24px;height:1px;background:var(--accent)}
+  header.page-head h1{font-weight:500;font-size:clamp(34px,4.8vw,60px);line-height:1.05;letter-spacing:-.035em;margin:0 auto 18px;max-width:760px}
+  header.page-head h1 em{color:var(--accent);font-style:normal;font-weight:700}
+  header.page-head p.lead{color:var(--ink-dim);font-size:16.5px;line-height:1.6;margin:0 auto;max-width:560px}
+
+  main{flex:1;padding:30px 0 90px}
+
+  /* ─── PUERTA DE ACCESO ─── */
+  .gate{max-width:460px;margin:0 auto}
+  .gate-card{background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.005));border:1px solid var(--line);border-radius:8px;padding:38px 34px;position:relative}
+  .seg{display:flex;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:4px;margin-bottom:22px}
+  .seg button{flex:1;border:0;background:transparent;padding:10px;border-radius:6px;font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);cursor:pointer;transition:.2s}
+  .seg button.on{background:var(--accent-soft);color:var(--accent)}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:8px}
+  .field input{width:100%;border:1px solid var(--line-strong);border-radius:8px;padding:13px 15px;font-family:var(--sans);font-size:15px;color:var(--ink);background:var(--bg);transition:.2s}
+  .field input::placeholder{color:var(--ink-faint)}
+  .field input:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .btn{width:100%;border:0;border-radius:999px;padding:15px;font-family:var(--mono);font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:.2s}
+  .btn-primary{background:var(--accent);color:#1a1407}
+  .btn-primary:hover{background:#e0c184;transform:translateY(-1px)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .gate-msg{margin-top:14px;font-size:13px;font-weight:600;min-height:18px;text-align:center}
+  .gate-msg.err{color:var(--s0)}.gate-msg.ok{color:var(--s100)}
+  .hint{margin-top:20px;font-size:12.5px;color:var(--ink-faint);line-height:1.6;text-align:center}
+  .hint b{color:var(--ink-dim)}
+
+  /* ─── APP ─── */
+  .app{display:none}.app.show{display:block}
+  .progresswrap{max-width:980px;margin:0 auto 30px}
+  .prog-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+  .prog-meta b{color:var(--accent)}
+  .progress{height:4px;background:var(--line);border-radius:99px;overflow:hidden}
+  .progress>span{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),#e8d4a8);transition:width .5s cubic-bezier(.4,0,.2,1)}
+
+  .scorecard{max-width:980px;margin:0 auto 36px;display:flex;align-items:center;gap:28px;background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:26px 30px}
+  .gauge{position:relative;width:108px;height:108px;flex:none}
+  .gauge svg{transform:rotate(-90deg)}
+  .gauge .val{position:absolute;inset:0;display:grid;place-items:center;font-weight:700;font-size:26px;color:var(--ink)}
+  .gauge .val small{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--ink-faint);font-weight:600;margin-top:2px}
+  .scoremeta{flex:1}
+  .scoremeta h3{font-size:17px;font-weight:600;margin:0 0 5px;color:var(--ink)}
+  .scoremeta p{font-size:13.5px;color:var(--ink-dim);margin:0}
+  .scoremeta .nivel{display:inline-block;margin-top:10px;padding:5px 14px;border-radius:999px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:#1a1407;background:var(--ink-faint)}
+  .exportbtns{display:flex;flex-direction:column;gap:9px}
+  .btn-ghost{background:transparent;color:var(--accent);border:1px solid rgba(212,176,106,.4);padding:11px 18px;border-radius:999px;font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:.2s;white-space:nowrap}
+  .btn-ghost:hover{background:var(--accent-soft);border-color:var(--accent)}
+  @media (max-width:680px){.scorecard{flex-direction:column;text-align:center}.exportbtns{flex-direction:row;flex-wrap:wrap;justify-content:center}}
+
+  .questions{max-width:980px;margin:0 auto}
+  .bloque-tag{display:flex;align-items:center;gap:14px;margin:36px 0 16px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+  .bloque-tag::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  .q{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.004));border:1px solid var(--line);border-radius:8px;margin-bottom:16px;overflow:hidden;transition:border-color .3s}
+  .q.answered{border-color:rgba(212,176,106,.28)}
+  .q-head{padding:22px 26px;display:flex;gap:16px;align-items:flex-start;cursor:pointer}
+  .q-cod{flex:none;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--accent);border:1px solid rgba(212,176,106,.35);padding:5px 9px;border-radius:5px;margin-top:2px}
+  .q-cod.done{background:var(--accent);color:#1a1407;border-color:var(--accent)}
+  .q-text{flex:1}
+  .q-text .qt{font-size:16px;font-weight:600;color:var(--ink);line-height:1.45}
+  .q-text .qb{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);font-weight:600;text-transform:uppercase;letter-spacing:.12em;margin-top:5px}
+  .q-pill{flex:none;font-family:var(--mono);font-weight:700;font-size:13px;padding:7px 13px;border-radius:999px;color:#1a1407;background:var(--line-strong);margin-top:1px;min-width:42px;text-align:center}
+  .chev{flex:none;color:var(--ink-faint);transition:.25s;margin-top:6px}
+  .q.open .chev{transform:rotate(180deg)}
+  .q-body{display:none;padding:0 26px 24px;border-top:1px solid var(--line)}
+  .q.open .q-body{display:block}
+
+  .scale{display:grid;gap:9px;margin:22px 0 6px}
+  .opt{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:14px 16px;cursor:pointer;transition:.18s;background:var(--bg)}
+  .opt:hover{border-color:var(--line-strong)}
+  .opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+  .opt .mark{flex:none;width:48px;height:48px;border-radius:8px;display:grid;place-items:center;color:#1a1407;font-weight:700;font-size:15px;font-family:var(--mono)}
+  .opt .desc{flex:1;font-size:14px;color:var(--ink-dim);line-height:1.5;padding-top:4px}
+  .opt.sel .desc{color:var(--ink)}
+
+  .field-label{display:block;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);margin:20px 0 8px}
+  textarea.just{width:100%;min-height:86px;border:1px solid var(--line-strong);border-radius:8px;padding:13px 15px;font-family:var(--sans);font-size:14.5px;color:var(--ink);resize:vertical;background:var(--bg);transition:.2s}
+  textarea.just::placeholder{color:var(--ink-faint)}
+  textarea.just:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+
+  .dropzone{border:1.5px dashed var(--line-strong);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:.18s;background:var(--bg);color:var(--ink-faint);font-size:13.5px}
+  .dropzone:hover,.dropzone.drag{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+  .dropzone b{color:var(--accent)}
+  .dropzone small{display:block;margin-top:4px;font-size:11.5px;color:var(--ink-faint)}
+  .doclist{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px}
+  .doclist li{display:flex;align-items:center;gap:12px;background:var(--bg-2);border:1px solid var(--line);border-radius:7px;padding:11px 14px;font-size:13.5px}
+  .doclist .fi{flex:none;width:34px;height:34px;border-radius:6px;background:var(--bg);border:1px solid var(--line);display:grid;place-items:center;color:var(--accent);font-family:var(--mono);font-weight:700;font-size:9px}
+  .doclist .fn{flex:1;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .doclist .fs{color:var(--ink-faint);font-family:var(--mono);font-size:11px}
+  .doclist .del{border:0;background:transparent;color:var(--s0);cursor:pointer;font-weight:700;font-size:18px;padding:0 4px;line-height:1}
+  .saverow{display:flex;align-items:center;gap:14px;margin-top:20px}
+  .savestate{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
+  .savestate.saved{color:var(--s100)}
+
+  /* ─── FOOTER ─── */
+  footer{border-top:1px solid var(--line);padding:54px 0 32px;background:var(--bg-2)}
+  .foot-grid{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+  .foot-grid small{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink-faint);text-transform:uppercase}
+
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--accent);color:#1a1407;padding:13px 24px;border-radius:999px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;font-weight:700;box-shadow:0 16px 40px rgba(0,0,0,.5);transition:.3s;opacity:0;z-index:100}
+  .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+  .spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(26,20,7,.3);border-top-color:#1a1407;border-radius:50%;animation:r .7s linear infinite;vertical-align:-2px;margin-right:7px}
+  @keyframes r{to{transform:rotate(360deg)}}
+
+  @media print{
+    .nav,footer,.exportbtns,.dropzone,.chev,.seg,.saverow,.page-head::before,.page-head::after{display:none!important}
+    .q-body{display:block!important}.q{break-inside:avoid}
+    body{background:#fff;color:#000}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" aria-label="MAGIC® — Inicio"><img src="assets/magic_logo.png" alt="MAGIC®" class="brand-logo"></a>
+    <a href="soy-magic.html" class="back-link">
+      <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M5 1L1 5L5 9M1 5H16" stroke="currentColor" stroke-width="1.5"/></svg>
+      Soy MAGIC®
+    </a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="container">
+    <div class="eyebrow">Autoevaluación · Criterio 1</div>
+    <h1>Propósito, Visión y <em>Estrategia</em></h1>
+    <p class="lead">Valora cada pregunta en la escala 0–100, justifica tu elección y adjunta las evidencias. Tu progreso se guarda automáticamente.</p>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- PUERTA DE ACCESO -->
+    <section class="gate" id="gate">
+      <div class="gate-card">
+        <div class="seg">
+          <button id="tabAbrir" class="on" onclick="setModo('abrir')">Abrir evaluación</button>
+          <button id="tabCrear" onclick="setModo('crear')">Nueva evaluación</button>
+        </div>
+        <div class="field" id="fOrg" style="display:none">
+          <label>Organización evaluada</label>
+          <input id="inOrg" type="text" placeholder="Nombre de tu organización" autocomplete="off">
+        </div>
+        <div class="field">
+          <label id="lblCode">Código de acceso</label>
+          <input id="inCode" type="text" placeholder="Introduce tu código" autocomplete="off">
+        </div>
+        <button class="btn btn-primary" id="btnGo" onclick="entrar()">Acceder</button>
+        <div class="gate-msg" id="gateMsg"></div>
+        <p class="hint">El <b>código de acceso</b> abre y protege cada evaluación. Guárdalo: con él retomas el trabajo desde cualquier dispositivo.</p>
+      </div>
+    </section>
+
+    <!-- APP -->
+    <section class="app" id="app">
+      <div class="progresswrap">
+        <div class="prog-meta"><span id="orgName">—</span><span><b id="progTxt">0/10</b> respondidas</span></div>
+        <div class="progress"><span id="progBar"></span></div>
+      </div>
+
+      <div class="scorecard">
+        <div class="gauge">
+          <svg width="108" height="108">
+            <circle cx="54" cy="54" r="46" stroke="rgba(255,255,255,.08)" stroke-width="10" fill="none"/>
+            <circle id="gaugeArc" cx="54" cy="54" r="46" stroke="#d4b06a" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="289"/>
+          </svg>
+          <div class="val"><span id="scoreNum">0</span></div>
+        </div>
+        <div class="scoremeta">
+          <h3>Puntuación media del Criterio 1</h3>
+          <p>Media de las preguntas valoradas, en escala 0–100.</p>
+          <span class="nivel" id="nivelTag">Sin valorar</span>
+        </div>
+        <div class="exportbtns">
+          <button class="btn-ghost" onclick="exportarJSON()">Exportar JSON</button>
+          <button class="btn-ghost" onclick="window.print()">Imprimir / PDF</button>
+        </div>
+      </div>
+
+      <div class="questions" id="preguntas"></div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <small>© 2026 Instituto de Excelencia Europea · Todos los derechos reservados</small>
+      <small>MAGIC® — Modelo Avanzado de Gestión, Innovación y Cambio — Desde España con amor ❤️</small>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API='/api';
+const ESCALA=[0,20,40,60,80,100];
+const COLORS={0:'#b25b54',20:'#c2823f',40:'#cba94d',60:'#9ab464',80:'#6fae7e',100:'#5ba897'};
+const NIVELES=[{min:0,t:'Inicial',c:'#b25b54'},{min:20,t:'Básico',c:'#c2823f'},{min:40,t:'En desarrollo',c:'#cba94d'},{min:60,t:'Consolidado',c:'#9ab464'},{min:80,t:'Avanzado',c:'#6fae7e'},{min:95,t:'Referente',c:'#5ba897'}];
+
+let SESSION={id:null,code:null,org:null}, MODELO=[], RESP={}, DOCS={}, modo='abrir';
+
+function setModo(m){
+  modo=m;
+  document.getElementById('tabAbrir').classList.toggle('on',m==='abrir');
+  document.getElementById('tabCrear').classList.toggle('on',m==='crear');
+  document.getElementById('fOrg').style.display=m==='crear'?'block':'none';
+  document.getElementById('lblCode').textContent=m==='crear'?'Crea un código de acceso':'Código de acceso';
+  document.getElementById('btnGo').textContent=m==='crear'?'Crear y empezar':'Acceder';
+  document.getElementById('gateMsg').textContent='';
+}
+
+async function entrar(){
+  const code=document.getElementById('inCode').value.trim();
+  const org=document.getElementById('inOrg').value.trim();
+  const msg=document.getElementById('gateMsg'), btn=document.getElementById('btnGo');
+  if(!code){msg.className='gate-msg err';msg.textContent='Introduce un código de acceso.';return;}
+  if(modo==='crear'&&!org){msg.className='gate-msg err';msg.textContent='Indica el nombre de la organización.';return;}
+  btn.disabled=true;const orig=btn.textContent;btn.innerHTML='<span class="spin"></span>Procesando…';
+  try{
+    const r=await fetch(API+'/eval-acceso',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({modo,organizacion:org,accessCode:code})});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.error||'Error de acceso');
+    SESSION={id:d.evaluacion.id,code,org:d.evaluacion.organizacion};
+    await cargar();
+    document.getElementById('gate').style.display='none';
+    document.querySelector('.page-head p.lead').style.display='none';
+    document.getElementById('app').classList.add('show');
+  }catch(e){msg.className='gate-msg err';msg.textContent=e.message;btn.disabled=false;btn.textContent=orig;}
+}
+
+async function cargar(){
+  const r=await fetch(`${API}/eval-cargar?id=${encodeURIComponent(SESSION.id)}&code=${encodeURIComponent(SESSION.code)}`);
+  const d=await r.json();
+  if(!r.ok)throw new Error(d.error||'No se pudo cargar');
+  MODELO=d.modelo;RESP={};DOCS={};
+  (d.respuestas||[]).forEach(x=>RESP[x.pregunta_cod]={puntuacion:x.puntuacion,justificacion:x.justificacion||''});
+  (d.documentos||[]).forEach(x=>{(DOCS[x.pregunta_cod]=DOCS[x.pregunta_cod]||[]).push(x)});
+  document.getElementById('orgName').textContent=SESSION.org;
+  render();actualizarScore();
+}
+
+function render(){
+  const cont=document.getElementById('preguntas');cont.innerHTML='';
+  let bloqueActual=null;
+  MODELO.forEach((q,idx)=>{
+    if(q.bloque!==bloqueActual){bloqueActual=q.bloque;const bt=document.createElement('div');bt.className='bloque-tag';bt.textContent=q.bloque;cont.appendChild(bt);}
+    const r=RESP[q.codigo]||{};const answered=r.puntuacion!=null;
+    const card=document.createElement('div');card.className='q'+(answered?' answered':'');card.id='q-'+idx;
+    card.innerHTML=`
+      <div class="q-head" onclick="toggle(${idx})">
+        <span class="q-cod ${answered?'done':''}">${q.codigo}</span>
+        <div class="q-text"><div class="qt">${esc(q.pregunta)}</div><div class="qb">${esc(q.bloque)}</div></div>
+        <span class="q-pill" id="pill-${idx}" style="background:${answered?COLORS[r.puntuacion]:'var(--line-strong)'};color:${answered?'#1a1407':'var(--ink-faint)'}">${answered?r.puntuacion:'—'}</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="q-body">
+        <div class="scale">
+          ${q.niveles.map((nv,i)=>{const val=ESCALA[i];const sel=r.puntuacion===val;return `<div class="opt ${sel?'sel':''}" onclick="elegir(${idx},${val})"><div class="mark" style="background:${COLORS[val]}">${val}</div><div class="desc">${esc(nv)}</div></div>`}).join('')}
+        </div>
+        <label class="field-label">Justificación de la respuesta</label>
+        <textarea class="just" id="just-${idx}" placeholder="Explica la evidencia que respalda esta puntuación…">${esc(r.justificacion||'')}</textarea>
+        <label class="field-label">Documentación de soporte</label>
+        <div class="dropzone" id="dz-${idx}" onclick="document.getElementById('file-${idx}').click()"><b>Haz clic para subir</b> o arrastra aquí tus archivos<small>PDF, Word, Excel, imágenes… (máx. 15 MB por archivo)</small></div>
+        <input type="file" id="file-${idx}" multiple style="display:none" onchange="subir(${idx},this.files)">
+        <ul class="doclist" id="docs-${idx}"></ul>
+        <div class="saverow"><button class="btn-ghost" onclick="guardar(${idx})">Guardar pregunta</button><span class="savestate" id="state-${idx}"></span></div>
+      </div>`;
+    cont.appendChild(card);
+    pintarDocs(idx);
+    card.querySelector('#just-'+idx).addEventListener('blur',()=>guardar(idx,true));
+    const dz=card.querySelector('#dz-'+idx);
+    ['dragover','dragenter'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('drag')}));
+    ['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('drag')}));
+    dz.addEventListener('drop',e=>{e.preventDefault();subir(idx,e.dataTransfer.files)});
+  });
+}
+
+function toggle(i){document.getElementById('q-'+i).classList.toggle('open')}
+
+function elegir(idx,val){
+  const q=MODELO[idx];RESP[q.codigo]=RESP[q.codigo]||{};RESP[q.codigo].puntuacion=val;
+  const card=document.getElementById('q-'+idx);
+  card.querySelectorAll('.opt').forEach((o,i)=>o.classList.toggle('sel',ESCALA[i]===val));
+  const pill=document.getElementById('pill-'+idx);pill.textContent=val;pill.style.background=COLORS[val];pill.style.color='#1a1407';
+  card.classList.add('answered');card.querySelector('.q-cod').classList.add('done');
+  actualizarScore();guardar(idx,true);
+}
+
+async function guardar(idx,silent){
+  const q=MODELO[idx];const just=document.getElementById('just-'+idx).value;
+  RESP[q.codigo]=RESP[q.codigo]||{};RESP[q.codigo].justificacion=just;
+  const st=document.getElementById('state-'+idx);
+  if(!silent){st.textContent='Guardando…';st.className='savestate'}
+  try{
+    const r=await fetch(API+'/respuesta-guardar',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({evaluacionId:SESSION.id,accessCode:SESSION.code,preguntaCod:q.codigo,bloque:q.bloque,puntuacion:RESP[q.codigo].puntuacion??null,justificacion:just})});
+    if(!r.ok){const d=await r.json();throw new Error(d.error||'Error')}
+    st.textContent='✓ Guardado';st.className='savestate saved';setTimeout(()=>st.textContent='',2500);
+  }catch(e){st.textContent='⚠ '+e.message;st.className='savestate'}
+}
+
+function pintarDocs(idx){
+  const q=MODELO[idx];const ul=document.getElementById('docs-'+idx);const list=DOCS[q.codigo]||[];
+  ul.innerHTML=list.map(d=>`<li><span class="fi">${(d.nombre_archivo.split('.').pop()||'?').slice(0,4).toUpperCase()}</span><span class="fn">${d.url?`<a href="${d.url}" target="_blank" rel="noopener">${esc(d.nombre_archivo)}</a>`:esc(d.nombre_archivo)}</span><span class="fs">${fmtSize(d.tamano_bytes)}</span><button class="del" title="Eliminar" onclick="borrarDoc(${idx},'${d.id}')">×</button></li>`).join('');
+}
+
+async function subir(idx,files){
+  const q=MODELO[idx];
+  for(const f of files){
+    if(f.size>15*1024*1024){toast('“'+f.name+'” supera 15 MB');continue}
+    toast('Subiendo '+f.name+'…');
+    const b64=await toBase64(f);
+    try{
+      const r=await fetch(API+'/doc-subir',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({evaluacionId:SESSION.id,accessCode:SESSION.code,preguntaCod:q.codigo,nombreArchivo:f.name,mime:f.type,contenidoBase64:b64})});
+      const d=await r.json();if(!r.ok)throw new Error(d.error||'Error al subir');
+      (DOCS[q.codigo]=DOCS[q.codigo]||[]).push(d.documento);pintarDocs(idx);toast('✓ '+f.name+' subido');
+    }catch(e){toast('⚠ '+e.message)}
+  }
+  document.getElementById('file-'+idx).value='';
+}
+
+async function borrarDoc(idx,docId){
+  const q=MODELO[idx];
+  try{
+    const r=await fetch(API+'/doc-borrar',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({evaluacionId:SESSION.id,accessCode:SESSION.code,documentoId:docId})});
+    if(!r.ok){const d=await r.json();throw new Error(d.error||'Error')}
+    DOCS[q.codigo]=(DOCS[q.codigo]||[]).filter(x=>x.id!==docId);pintarDocs(idx);toast('Documento eliminado');
+  }catch(e){toast('⚠ '+e.message)}
+}
+
+function actualizarScore(){
+  const vals=MODELO.map(q=>RESP[q.codigo]?.puntuacion).filter(v=>v!=null);
+  const n=vals.length;const media=n?Math.round(vals.reduce((a,b)=>a+b,0)/n):0;
+  document.getElementById('scoreNum').textContent=media;
+  document.getElementById('progTxt').textContent=`${n}/${MODELO.length}`;
+  const C=2*Math.PI*46;document.getElementById('gaugeArc').style.strokeDashoffset=C*(1-media/100);
+  const niv=[...NIVELES].reverse().find(x=>media>=x.min)||NIVELES[0];
+  const tag=document.getElementById('nivelTag');tag.textContent=n?niv.t:'Sin valorar';tag.style.background=n?niv.c:'var(--ink-faint)';
+  document.getElementById('gaugeArc').setAttribute('stroke',n?niv.c:'#d4b06a');
+  document.getElementById('progBar').style.width=(n/MODELO.length*100)+'%';
+}
+
+function exportarJSON(){
+  const out={organizacion:SESSION.org,criterio:'C1 — Propósito, Visión y Estrategia',fecha:new Date().toISOString(),
+    respuestas:MODELO.map(q=>({codigo:q.codigo,bloque:q.bloque,pregunta:q.pregunta,puntuacion:RESP[q.codigo]?.puntuacion??null,justificacion:RESP[q.codigo]?.justificacion||'',documentos:(DOCS[q.codigo]||[]).map(d=>d.nombre_archivo)}))};
+  const blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`MAGIC_C1_${SESSION.org.replace(/\s+/g,'_')}.json`;a.click();
+}
+
+function esc(s){return (s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function fmtSize(b){if(b==null)return'';const u=['B','KB','MB'];let i=0,n=b;while(n>=1024&&i<2){n/=1024;i++}return n.toFixed(n<10&&i>0?1:0)+' '+u[i]}
+function toBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file)})}
+let toastT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600)}
+setModo('abrir');
+</script>
+</body>
+</html>

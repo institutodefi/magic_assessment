@@ -8,12 +8,12 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230b0d12'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23d4b06a' stroke-width='1'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%23d4b06a' stroke-width='1' opacity='.6'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23d4b06a'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Kufi+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Kufi+Arabic:wght@300;400;500;600;700&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Kufi+Arabic:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Kufi+Arabic:wght@300;400;500;600;700&display=swap"></noscript>
 <style>
   :root{
     --bg:#0b0d12;--bg-2:#11141b;--bg-3:#161a23;
     --line:rgba(255,255,255,.08);--line-strong:rgba(255,255,255,.18);
-    --ink:#e9ecf2;--ink-dim:#a8aebb;--ink-faint:#6c7280;
+    --ink:#e9ecf2;--ink-dim:#a8aebb;--ink-faint:#8a90a0;
     --accent:#d4b06a;--accent-warm:#c98a5e;
     --serif:"Manrope",system-ui,sans-serif;
     --sans:"Manrope",system-ui,sans-serif;
@@ -207,7 +207,7 @@
   }
   html[dir="rtl"] .footer-tagline{font-family:var(--arabic-serif)}
   .footer-tagline::before{content:"";display:inline-block;width:18px;height:1px;background:var(--ink-faint)}
-  .footer-col h6{
+  .footer-col h4{
     font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--accent);
     text-transform:uppercase;margin:0 0 18px;font-weight:500;
   }
@@ -221,13 +221,19 @@
   .reveal.in{opacity:1;transform:none}
   @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
 </style>
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#0b0d12">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAGIC®">
 </head>
 <body>
 
 <nav class="nav" id="nav">
   <div class="nav-inner">
     <a href="index.html" class="brand" aria-label="MAGIC®">
-      <img src="assets/magic_logo.png" alt="MAGIC®" class="brand-logo">
+      <picture><source srcset="assets/magic_logo-sm.webp" type="image/webp"><img src="assets/magic_logo.png" alt="MAGIC®" class="brand-logo" width="229" height="72"></picture>
     </a>
     <button class="menu-trigger" id="menuTrigger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
       <svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M0 1h22M0 7h22M0 13h22" stroke="currentColor" stroke-width="1.5"/></svg>
@@ -507,14 +513,14 @@
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
-        <a href="index.html"><img src="assets/magic_logo.png" alt="MAGIC®" class="footer-logo"></a>
+        <a href="index.html"><picture><source srcset="assets/magic_logo-sm.webp" type="image/webp"><img src="assets/magic_logo.png" alt="MAGIC®" class="footer-logo" width="229" height="72"></picture></a>
         <p data-i18n="footer_about">MAGIC® — Modelo Avanzado de Gestión, Innovación y Cambio. Una metodología para acompañar a las organizaciones en su camino hacia la excelencia.</p>
         <a href="https://www.institutoexcelencia.com" target="_blank" rel="noopener" class="footer-iee-link" aria-label="Instituto de Excelencia Europea">
-          <img src="assets/iee_logo_full.png" alt="Instituto de Excelencia Europea" class="footer-iee-logo">
+          <picture><source srcset="assets/iee_logo_full-sm.webp" type="image/webp"><img src="assets/iee_logo_full.png" alt="Instituto de Excelencia Europea" class="footer-iee-logo" width="356" height="120"></picture>
         </a>
       </div>
       <div class="footer-col">
-        <h6 data-i18n="footer_nav_title">Navegación</h6>
+        <h4 data-i18n="footer_nav_title">Navegación</h4>
         <ul>
           <li><a href="index.html#about" data-i18n="nav_about">El Modelo</a></li>
           <li><a href="index.html#criteria" data-i18n="nav_criteria">Criterios</a></li>
@@ -526,7 +532,7 @@
         </ul>
       </div>
       <div class="footer-col">
-        <h6 data-i18n="footer_legal_title">Legal</h6>
+        <h4 data-i18n="footer_legal_title">Legal</h4>
         <ul>
           <li><a href="aviso-legal.html" data-i18n="footer_legal_notice">Aviso legal</a></li>
           <li><a href="aviso-legal.html#privacidad" data-i18n="footer_privacy">Política de privacidad</a></li>
@@ -863,5 +869,6 @@ setLang(saved);
 </script>
 
 <script src="assets/contact-modal.js" defer></script>
+<script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){});});}</script>
 </body>
 </html>

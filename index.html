@@ -7,7 +7,7 @@
 <meta name="description" content="Modelo MAGIC®: marco europeo de excelencia organizacional. Siete criterios para diagnosticar, transformar y elevar la madurez de tu organización.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230b0d12'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23d4b06a' stroke-width='1'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%23d4b06a' stroke-width='1' opacity='.6'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23d4b06a'/%3E%3C/svg%3E"><link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Kufi+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Kufi+Arabic:wght@300;400;500;600;700&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Kufi+Arabic:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Kufi+Arabic:wght@300;400;500;600;700&display=swap"></noscript>
 <style>
   :root{
     --bg:#0b0d12;
@@ -17,7 +17,7 @@
     --line-strong:rgba(255,255,255,.18);
     --ink:#e9ecf2;
     --ink-dim:#a8aebb;
-    --ink-faint:#6c7280;
+    --ink-faint:#8a90a0;
     --accent:#d4b06a;       /* old gold */
     --accent-2:#7fb3c9;     /* cool steel */
     --accent-warm:#e0775c;  /* terracotta */
@@ -50,7 +50,7 @@
      the serif-only effects and re-express emphasis through weight + colour
      for a clean, unified typographic system. */
   h1,h2,h3,h4,h5,.section-title,.hero h1,.cta h2,.crit-title,.pillar h3,
-  .step h4,.benefit h4,.letter-content h5{
+  .step h3,.benefit h3,.letter-content h3{
     font-weight:600;letter-spacing:-.02em;font-variation-settings:normal;
   }
   /* Big light display weights stay airy */
@@ -342,7 +342,7 @@
   .step-num{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.18em;margin-bottom:16px;display:flex;align-items:center;gap:8px}
   .step-num::after{content:"→";font-size:14px}
   html[dir="rtl"] .step-num::after{content:"←"}
-  .step h4{font-family:var(--serif);font-size:22px;font-weight:400;margin:0 0 12px;letter-spacing:-.01em}
+  .step h3{font-family:var(--serif);font-size:22px;font-weight:400;margin:0 0 12px;letter-spacing:-.01em}
   .step p{margin:0;color:var(--ink-dim);font-size:14px;line-height:1.6}
 
   /* ─── MATRIZ DE MADUREZ ─────────────────────── */
@@ -353,7 +353,7 @@
   .letter-row:last-child{border-bottom:none}
   .letter{font-family:var(--serif);font-size:72px;font-weight:300;color:var(--accent);line-height:1;font-style:italic;font-variation-settings:"opsz" 144}
   html[dir="rtl"] .letter{font-family:var(--arabic-serif);font-style:normal}
-  .letter-content h5{font-family:var(--serif);font-size:22px;font-weight:400;margin:0 0 8px;letter-spacing:-.01em}
+  .letter-content h3{font-family:var(--serif);font-size:22px;font-weight:400;margin:0 0 8px;letter-spacing:-.01em}
   .letter-content p{margin:0;color:var(--ink-dim);font-size:14px;line-height:1.6}
 
   /* ─── BENEFITS ─────────────────────────────────── */
@@ -369,7 +369,7 @@
   }
   .benefit-num{font-family:var(--serif);font-style:italic;color:var(--accent);font-size:24px;margin-bottom:16px;font-variation-settings:"opsz" 144}
   html[dir="rtl"] .benefit-num{font-family:var(--arabic-serif);font-style:normal}
-  .benefit h4{font-family:var(--serif);font-size:24px;font-weight:400;margin:0 0 12px;letter-spacing:-.01em}
+  .benefit h3{font-family:var(--serif);font-size:24px;font-weight:400;margin:0 0 12px;letter-spacing:-.01em}
   .benefit p{margin:0;color:var(--ink-dim);font-size:15px;line-height:1.7}
 
   /* ─── CTA ─────────────────────────────────── */
@@ -432,7 +432,7 @@
   }
   html[dir="rtl"] .footer-tagline{font-family:var(--arabic-serif);font-style:normal}
   .footer-tagline::before{content:"";display:inline-block;width:18px;height:1px;background:var(--ink-faint)}
-  .footer-col h6{
+  .footer-col h4{
     font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--accent);
     text-transform:uppercase;margin:0 0 18px;font-weight:500;
   }
@@ -551,13 +551,19 @@
   .cookie-accept:hover{background:#e3c585;border-color:#e3c585}
 
 </style>
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#0b0d12">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAGIC®">
 </head>
 <body id="top">
 
 <nav class="nav" id="nav">
   <div class="container nav-inner">
     <a href="#top" class="brand" aria-label="MAGIC® — Modelo Avanzado de Gestión, Innovación y Cambio">
-      <img src="assets/magic_logo.png" alt="MAGIC®" class="brand-logo">
+      <picture><source srcset="assets/magic_logo-sm.webp" type="image/webp"><img src="assets/magic_logo.png" alt="MAGIC®" class="brand-logo" width="229" height="72"></picture>
     </a>
 
     <div class="nav-links" id="navLinks">
@@ -610,7 +616,7 @@
           <div class="ring"></div>
           <div class="ring"></div>
           <div class="core"></div>
-          <div class="core-label"><img src="assets/magic_logo.png" alt="MAGIC®" width="1663" height="524"></div>
+          <div class="core-label"><picture><source srcset="assets/magic_logo.webp" type="image/webp"><img src="assets/magic_logo.png" alt="MAGIC®" width="1663" height="524"></picture></div>
           <!-- 7 criteria pips around the outer ring -->
           <div class="pip pip-1" data-num="1"></div>
           <div class="pip pip-2" data-num="2"></div>
@@ -771,35 +777,35 @@
         <div class="letter-row">
           <span class="letter">01</span>
           <div class="letter-content">
-            <h5 data-i18n="matrix_1_title">Niveles de madurez</h5>
+            <h3 data-i18n="matrix_1_title">Niveles de madurez</h3>
             <p data-i18n="matrix_1_desc">Cada pregunta se valora en una escala graduada de madurez, desde la ausencia de enfoque hasta su despliegue sistemático con resultados sostenidos y referencia en el ecosistema.</p>
           </div>
         </div>
         <div class="letter-row">
           <span class="letter">02</span>
           <div class="letter-content">
-            <h5 data-i18n="matrix_2_title">Criterios ponderados</h5>
+            <h3 data-i18n="matrix_2_title">Criterios ponderados</h3>
             <p data-i18n="matrix_2_desc">Los 7 criterios no pesan por igual. Cada uno aporta una fracción del total según su relevancia estratégica, de modo que la puntuación refleja el impacto real de cada dimensión.</p>
           </div>
         </div>
         <div class="letter-row">
           <span class="letter">03</span>
           <div class="letter-content">
-            <h5 data-i18n="matrix_3_title">Evidencias verificables</h5>
+            <h3 data-i18n="matrix_3_title">Evidencias verificables</h3>
             <p data-i18n="matrix_3_desc">Cada valoración se sostiene en evidencias documentales. La puntuación no se autoafirma: se contrasta con hechos, datos y registros que la certificadora puede validar.</p>
           </div>
         </div>
         <div class="letter-row">
           <span class="letter">04</span>
           <div class="letter-content">
-            <h5 data-i18n="matrix_4_title">Score agregado /1000</h5>
+            <h3 data-i18n="matrix_4_title">Score agregado /1000</h3>
             <p data-i18n="matrix_4_desc">La matriz consolida los niveles ponderados de todos los criterios en una puntuación objetiva sobre 1000 puntos, comparable en el tiempo y entre organizaciones.</p>
           </div>
         </div>
         <div class="letter-row">
           <span class="letter">05</span>
           <div class="letter-content">
-            <h5 data-i18n="matrix_5_title">Mejora por ciclos</h5>
+            <h3 data-i18n="matrix_5_title">Mejora por ciclos</h3>
             <p data-i18n="matrix_5_desc">Cada reevaluación recalcula la matriz, evidenciando el avance de madurez y orientando dónde concentrar el esfuerzo en el siguiente ciclo de excelencia.</p>
           </div>
         </div>
@@ -840,22 +846,22 @@
       <div class="method-steps">
         <div class="step reveal">
           <div class="step-num">01</div>
-          <h4 data-i18n="step_1_title">Autoevaluación</h4>
+          <h3 data-i18n="step_1_title">Autoevaluación</h3>
           <p data-i18n="step_1_desc">La organización se examina con honestidad ante cada criterio y cada subcriterio.</p>
         </div>
         <div class="step reveal">
           <div class="step-num">02</div>
-          <h4 data-i18n="step_2_title">Diagnóstico</h4>
+          <h3 data-i18n="step_2_title">Diagnóstico</h3>
           <p data-i18n="step_2_desc">Identificación de fortalezas, áreas de mejora y palancas estratégicas.</p>
         </div>
         <div class="step reveal">
           <div class="step-num">03</div>
-          <h4 data-i18n="step_3_title">Plan de acción</h4>
+          <h3 data-i18n="step_3_title">Plan de acción</h3>
           <p data-i18n="step_3_desc">Priorización de iniciativas alineadas con el propósito y la visión.</p>
         </div>
         <div class="step reveal">
           <div class="step-num">04</div>
-          <h4 data-i18n="step_4_title">Mejora continua</h4>
+          <h3 data-i18n="step_4_title">Mejora continua</h3>
           <p data-i18n="step_4_desc">Ciclos sucesivos que elevan la madurez de la organización con el tiempo.</p>
         </div>
       </div>
@@ -876,32 +882,32 @@
     <div class="benefits">
       <div class="benefit reveal">
         <div class="benefit-num">i.</div>
-        <h4 data-i18n="benefit_1_title">Claridad estratégica</h4>
+        <h3 data-i18n="benefit_1_title">Claridad estratégica</h3>
         <p data-i18n="benefit_1_desc">Una imagen objetiva del estado actual y de la distancia entre lo que la organización es y lo que aspira a ser.</p>
       </div>
       <div class="benefit reveal">
         <div class="benefit-num">ii.</div>
-        <h4 data-i18n="benefit_2_title">Alineamiento</h4>
+        <h3 data-i18n="benefit_2_title">Alineamiento</h3>
         <p data-i18n="benefit_2_desc">Conexión real entre propósito, estrategia, personas, procesos y resultados. Una organización que actúa con coherencia.</p>
       </div>
       <div class="benefit reveal">
         <div class="benefit-num">iii.</div>
-        <h4 data-i18n="benefit_3_title">Lenguaje común</h4>
+        <h3 data-i18n="benefit_3_title">Lenguaje común</h3>
         <p data-i18n="benefit_3_desc">Un vocabulario compartido para hablar de excelencia, de mejora y de transformación con todos los grupos de interés.</p>
       </div>
       <div class="benefit reveal">
         <div class="benefit-num">iv.</div>
-        <h4 data-i18n="benefit_4_title">Capacidad de cambio</h4>
+        <h3 data-i18n="benefit_4_title">Capacidad de cambio</h3>
         <p data-i18n="benefit_4_desc">Una cultura preparada para identificar oportunidades, aprender de los errores y adaptarse con agilidad.</p>
       </div>
       <div class="benefit reveal">
         <div class="benefit-num">v.</div>
-        <h4 data-i18n="benefit_5_title">Reputación e impacto</h4>
+        <h3 data-i18n="benefit_5_title">Reputación e impacto</h3>
         <p data-i18n="benefit_5_desc">Una organización que se percibe positivamente en su ecosistema y que contribuye al bienestar social y ambiental.</p>
       </div>
       <div class="benefit reveal">
         <div class="benefit-num">vi.</div>
-        <h4 data-i18n="benefit_6_title">Resultados sostenibles</h4>
+        <h3 data-i18n="benefit_6_title">Resultados sostenibles</h3>
         <p data-i18n="benefit_6_desc">Logros financieros, operativos y humanos que se sostienen en el tiempo y crecen con la madurez del modelo.</p>
       </div>
     </div>
@@ -937,7 +943,7 @@
     <div class="origin-inner reveal">
       <div class="origin-eyebrow" data-i18n="origin_eyebrow">Una creación de</div>
       <a href="https://www.institutoexcelencia.com" target="_blank" rel="noopener" class="origin-logo-link" aria-label="Instituto de Excelencia Europea">
-        <img src="assets/iee_logo_full.png" alt="Instituto de Excelencia Europea" class="origin-logo">
+        <picture><source srcset="assets/iee_logo_full-sm.webp" type="image/webp"><img src="assets/iee_logo_full.png" alt="Instituto de Excelencia Europea" class="origin-logo" width="356" height="120"></picture>
       </a>
       <p class="origin-text" data-i18n="origin_text">El Modelo MAGIC® nace y es desarrollado por el Instituto de Excelencia Europea, comprometido con la excelencia en la gestión de las organizaciones y el desarrollo de las personas.</p>
       <div class="origin-love" data-i18n-html="origin_love">Hecho con <span class="heart">&#10084;</span> desde Madrid &middot; desde 2014</div>
@@ -949,14 +955,14 @@
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
-        <img src="assets/magic_logo.png" alt="MAGIC®" class="footer-logo">
+        <picture><source srcset="assets/magic_logo-sm.webp" type="image/webp"><img src="assets/magic_logo.png" alt="MAGIC®" class="footer-logo" width="229" height="72"></picture>
         <p data-i18n="footer_about">MAGIC® — Modelo Avanzado de Gestión, Innovación y Cambio. Una metodología para acompañar a las organizaciones en su camino hacia la excelencia.</p>
         <a href="https://www.institutoexcelencia.com" target="_blank" rel="noopener" class="footer-iee-link" aria-label="Instituto de Excelencia Europea">
-          <img src="assets/iee_logo_full.png" alt="Instituto de Excelencia Europea" class="footer-iee-logo">
+          <picture><source srcset="assets/iee_logo_full-sm.webp" type="image/webp"><img src="assets/iee_logo_full.png" alt="Instituto de Excelencia Europea" class="footer-iee-logo" width="356" height="120"></picture>
         </a>
       </div>
       <div class="footer-col">
-        <h6 data-i18n="footer_nav_title">Navegación</h6>
+        <h4 data-i18n="footer_nav_title">Navegación</h4>
         <ul>
           <li><a href="#about" data-i18n="nav_about">El Modelo</a></li>
           <li><a href="#criteria" data-i18n="nav_criteria">Criterios</a></li>
@@ -968,7 +974,7 @@
         </ul>
       </div>
       <div class="footer-col">
-        <h6 data-i18n="footer_legal_title">Legal</h6>
+        <h4 data-i18n="footer_legal_title">Legal</h4>
         <ul>
           <li><a href="aviso-legal.html" data-i18n="footer_legal_notice">Aviso legal</a></li>
           <li><a href="aviso-legal.html#privacidad" data-i18n="footer_privacy">Política de privacidad</a></li>
@@ -1563,5 +1569,6 @@ setLang(saved);
 </script>
 
 <script src="assets/contact-modal.js" defer></script>
+<script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){});});}</script>
 </body>
 </html>

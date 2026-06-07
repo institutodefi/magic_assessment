@@ -1,0 +1,19 @@
+{
+  "name": "MAGIC® — Modelo Avanzado de Gestión, Innovación y Cambio",
+  "short_name": "MAGIC®",
+  "description": "Modelo de excelencia del Instituto de Excelencia Europea: autoevaluación, certificación y matriz de madurez.",
+  "lang": "es",
+  "dir": "auto",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0b0d12",
+  "theme_color": "#0b0d12",
+  "icons": [
+    { "src": "/assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/icons/icon-192-maskable.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/assets/icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -32,6 +32,19 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
+# El service worker nunca se cachea (para que las actualizaciones lleguen)
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Manifest con su tipo correcto
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json"
+    Cache-Control = "public, max-age=86400"
+
 # ─── API → Netlify Functions (backend de la autoevaluación) ───
 [[redirects]]
   from = "/api/*"

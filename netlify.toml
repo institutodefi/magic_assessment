@@ -8,7 +8,7 @@
 
 [functions]
   node_bundler = "esbuild"
-  included_files = ["netlify/functions/c1-data.json"]
+  included_files = ["netlify/functions/magic-data.json"]
 
 # ─── Cabeceras de seguridad y rendimiento ───
 [[headers]]

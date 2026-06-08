@@ -1,11 +1,11 @@
 // netlify/functions/eval-cargar.js
-// Devuelve el modelo C1 + respuestas guardadas + documentos de una evaluación.
+// Devuelve el modelo MAGIC (7 criterios) + respuestas guardadas + documentos.
 const fs = require('fs');
 const path = require('path');
 const { supabase, BUCKET, json, preflight, checkAccess } = require('./_supabase');
 
 const MODELO = JSON.parse(
-  fs.readFileSync(path.join(__dirname, 'c1-data.json'), 'utf8')
+  fs.readFileSync(path.join(__dirname, 'magic-data.json'), 'utf8')
 );
 
 exports.handler = async (event) => {

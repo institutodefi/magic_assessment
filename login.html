@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acceso · MAGIC®</title>
+<meta name="description" content="Acceso al área privada del Modelo MAGIC®. Inicia sesión o crea tu cuenta.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230b0d12'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23d4b06a' stroke-width='1'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%23d4b06a' stroke-width='1' opacity='.6'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23d4b06a'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#0b0d12">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"></noscript>
+<style>
+  :root{--bg:#0b0d12;--bg-2:#11141b;--line:rgba(255,255,255,.08);--line-strong:rgba(255,255,255,.18);--ink:#e9ecf2;--ink-dim:#a8aebb;--ink-faint:#8a90a0;--accent:#d4b06a;--accent-soft:rgba(212,176,106,.12);--sans:"Manrope",system-ui,sans-serif;--mono:"Manrope",ui-monospace,monospace}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6}
+  body{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;background:radial-gradient(900px 500px at 50% -8%,#141b27 0%,#000 65%)}
+  a{color:var(--accent);text-decoration:none}
+  .rings{position:fixed;inset:0;pointer-events:none;display:grid;place-items:center;opacity:.5}
+  .rings::before,.rings::after{content:"";position:absolute;border:1px solid var(--line);border-radius:50%}
+  .rings::before{width:560px;height:560px}.rings::after{width:360px;height:360px;border-color:var(--line-strong)}
+  .card{position:relative;z-index:1;width:100%;max-width:440px;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:40px 36px}
+  .logo{text-align:center;margin-bottom:8px}
+  .logo img{height:30px;display:inline-block}
+  .sub{text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:26px}
+  .seg{display:flex;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:4px;margin-bottom:24px}
+  .seg button{flex:1;border:0;background:transparent;padding:11px;border-radius:6px;font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);cursor:pointer;transition:.2s}
+  .seg button.on{background:var(--accent-soft);color:var(--accent)}
+  .field{margin-bottom:15px}
+  .field label{display:block;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:7px}
+  .field input{width:100%;border:1px solid var(--line-strong);border-radius:8px;padding:13px 15px;font-family:var(--sans);font-size:15px;color:var(--ink);background:var(--bg);transition:.2s}
+  .field input::placeholder{color:var(--ink-faint)}
+  .field input:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .btn{width:100%;border:0;border-radius:999px;padding:15px;font-family:var(--mono);font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:.2s;background:var(--accent);color:#1a1407}
+  .btn:hover{background:#e0c184}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .msg{margin-top:16px;font-size:13px;font-weight:600;min-height:18px;text-align:center}
+  .msg.err{color:#e0564f}.msg.ok{color:#5ba897}
+  .foot{text-align:center;margin-top:22px;font-size:12px;color:var(--ink-faint)}
+  .spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(26,20,7,.3);border-top-color:#1a1407;border-radius:50%;animation:r .7s linear infinite;vertical-align:-2px;margin-right:7px}
+  @keyframes r{to{transform:rotate(360deg)}}
+  .back{position:fixed;top:22px;left:24px;z-index:2;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);display:flex;align-items:center;gap:7px}
+  .back:hover{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="rings"></div>
+<a href="index.html" class="back"><svg width="15" height="10" viewBox="0 0 16 10" fill="none"><path d="M5 1L1 5L5 9M1 5H16" stroke="currentColor" stroke-width="1.5"/></svg> Inicio</a>
+
+<div class="card">
+  <div class="logo"><picture><source srcset="assets/magic_logo-sm.webp" type="image/webp"><img src="assets/magic_logo.png" alt="MAGIC®" width="229" height="72"></picture></div>
+  <div class="sub">Área privada</div>
+
+  <div class="seg">
+    <button id="tabLogin" class="on" onclick="setModo('login')">Iniciar sesión</button>
+    <button id="tabReg" onclick="setModo('registro')">Crear cuenta</button>
+  </div>
+
+  <div class="field" id="fNombre" style="display:none">
+    <label>Nombre</label>
+    <input id="inNombre" type="text" placeholder="Tu nombre" autocomplete="name">
+  </div>
+  <div class="field">
+    <label>Email</label>
+    <input id="inEmail" type="email" placeholder="tu@email.com" autocomplete="email">
+  </div>
+  <div class="field">
+    <label>Contraseña</label>
+    <input id="inPass" type="password" placeholder="Tu contraseña" autocomplete="current-password">
+  </div>
+
+  <button class="btn" id="btnGo" onclick="accion()">Entrar</button>
+  <div class="msg" id="msg"></div>
+  <p class="foot" id="foot">¿Aún no tienes cuenta? Crea una para empezar tu autoevaluación.</p>
+</div>
+
+<script src="assets/magic-auth.js"></script>
+<script>
+let modo='login';
+function setModo(m){
+  modo=m;
+  document.getElementById('tabLogin').classList.toggle('on',m==='login');
+  document.getElementById('tabReg').classList.toggle('on',m==='registro');
+  document.getElementById('fNombre').style.display=m==='registro'?'block':'none';
+  document.getElementById('btnGo').textContent=m==='registro'?'Crear cuenta':'Entrar';
+  document.getElementById('inPass').autocomplete=m==='registro'?'new-password':'current-password';
+  document.getElementById('foot').textContent=m==='registro'
+    ? 'Tu cuenta se creará como cliente. El equipo MAGIC® podrá asignarte un rol de auditor.'
+    : '¿Aún no tienes cuenta? Crea una para empezar tu autoevaluación.';
+  document.getElementById('msg').textContent='';
+}
+
+async function irDestino(){
+  const perfil = await window.MagicAuth.perfil();
+  if (perfil && (perfil.rol==='auditor' || perfil.rol==='superadmin')) {
+    window.location.href = 'panel.html';
+  } else {
+    window.location.href = 'evaluar.html';
+  }
+}
+
+async function accion(){
+  const email=document.getElementById('inEmail').value.trim();
+  const pass=document.getElementById('inPass').value;
+  const nombre=document.getElementById('inNombre').value.trim();
+  const msg=document.getElementById('msg'), btn=document.getElementById('btnGo');
+  if(!email||!pass){msg.className='msg err';msg.textContent='Introduce email y contraseña.';return;}
+  if(modo==='registro'&&pass.length<6){msg.className='msg err';msg.textContent='La contraseña debe tener al menos 6 caracteres.';return;}
+  btn.disabled=true;const orig=btn.textContent;btn.innerHTML='<span class="spin"></span>Procesando…';
+  try{
+    if(modo==='registro'){
+      await window.MagicAuth.registrar(email,pass,nombre);
+      // En algunos proyectos Supabase pide confirmar email. Intentamos entrar directo:
+      try{ await window.MagicAuth.entrar(email,pass); await irDestino(); }
+      catch(e){ msg.className='msg ok'; msg.textContent='Cuenta creada. Revisa tu email si se requiere confirmación, luego inicia sesión.'; setModo('login'); btn.disabled=false; btn.textContent='Entrar'; }
+    }else{
+      await window.MagicAuth.entrar(email,pass);
+      await irDestino();
+    }
+  }catch(e){
+    msg.className='msg err';
+    msg.textContent = (e && e.message) ? traducir(e.message) : 'No se pudo completar la operación.';
+    btn.disabled=false;btn.textContent=orig;
+  }
+}
+function traducir(m){
+  if(/Invalid login/i.test(m)) return 'Email o contraseña incorrectos.';
+  if(/already registered/i.test(m)) return 'Ese email ya tiene una cuenta. Inicia sesión.';
+  if(/Email not confirmed/i.test(m)) return 'Debes confirmar tu email antes de entrar.';
+  return m;
+}
+// Si ya hay sesión, ir directo
+document.addEventListener('magic-ready', async ()=>{
+  const s = await window.MagicAuth.sesion();
+  if (s) irDestino();
+});
+document.getElementById('inPass').addEventListener('keydown',e=>{if(e.key==='Enter')accion();});
+</script>
+</body>
+</html>

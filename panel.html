@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel · MAGIC®</title>
+<meta name="theme-color" content="#0b0d12">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230b0d12'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23d4b06a' stroke-width='1'/%3E%3C/svg%3E">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"></noscript>
+<style>
+  :root{--bg:#0b0d12;--bg-2:#11141b;--line:rgba(255,255,255,.08);--line-strong:rgba(255,255,255,.18);--ink:#e9ecf2;--ink-dim:#a8aebb;--ink-faint:#8a90a0;--accent:#d4b06a;--accent-soft:rgba(212,176,106,.12);--audit:#6aa6d4;--sans:"Manrope",system-ui,sans-serif;--mono:"Manrope",ui-monospace,monospace}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6}
+  body{min-height:100vh;background:radial-gradient(900px 500px at 80% -10%,rgba(212,176,106,.06),transparent 60%),var(--bg)}
+  a{color:var(--accent);text-decoration:none}
+  .container{max-width:1100px;margin:0 auto;padding:0 32px}@media(max-width:680px){.container{padding:0 20px}}
+  .nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(11,13,18,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .nav-inner{display:flex;align-items:center;gap:16px;padding:14px 32px;max-width:1240px;margin:0 auto}
+  .brand-logo{height:28px}.nav-right{margin-left:auto;display:flex;gap:16px;align-items:center}
+  .link-btn{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim);background:0;border:0;cursor:pointer}.link-btn:hover{color:var(--accent)}
+  .who{font-family:var(--mono);font-size:11px;color:var(--ink-dim);text-align:right}.who b{display:block;color:var(--ink)}
+  header{padding:108px 0 24px}.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--accent);text-transform:uppercase}
+  header h1{font-weight:500;font-size:32px;letter-spacing:-.03em;margin:8px 0 0}
+  main{padding:10px 0 90px}
+  .card{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:24px 26px;margin-bottom:20px}
+  .card h2{font-size:16px;margin:0 0 16px;color:#fff}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line)}
+  td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+  select,input{background:var(--bg);border:1px solid var(--line-strong);border-radius:7px;color:var(--ink);font-family:var(--sans);font-size:13.5px;padding:8px 10px}
+  select:focus,input:focus{outline:0;border-color:var(--accent)}
+  .badge{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:999px}
+  .b-cliente{background:var(--accent-soft);color:var(--accent)}.b-auditor{background:rgba(106,166,212,.14);color:var(--audit)}.b-superadmin{background:rgba(160,120,220,.15);color:#b89be0}
+  .btn-ghost{background:0;color:var(--accent);border:1px solid rgba(212,176,106,.4);padding:7px 13px;border-radius:999px;font-family:var(--mono);font-weight:600;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+  .btn-ghost:hover{background:var(--accent-soft)}
+  .empty{color:var(--ink-faint);font-size:13.5px;padding:10px 0}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--accent);color:#1a1407;padding:13px 24px;border-radius:999px;font-family:var(--mono);font-size:12px;font-weight:700;transition:.3s;opacity:0;z-index:100}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+  .denied{max-width:480px;margin:120px auto;text-align:center;color:var(--ink-dim)}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a href="index.html"><picture><source srcset="assets/magic_logo-sm.webp" type="image/webp"><img src="assets/magic_logo.png" alt="MAGIC®" class="brand-logo" width="229" height="72"></picture></a>
+  <div class="nav-right"><span class="who" id="who"></span><button class="link-btn" onclick="location.href='evaluar.html'">Evaluaciones</button><button class="link-btn" onclick="cerrar()">Salir</button></div>
+</div></nav>
+
+<header><div class="container"><div class="eyebrow">Área de gestión</div><h1 id="hTitle">Panel</h1></div></header>
+
+<main><div class="container" id="content">
+  <div class="empty">Cargando…</div>
+</div></main>
+
+<div class="toast" id="toast"></div>
+
+<script src="assets/magic-auth.js"></script>
+<script src="assets/magic-data.js"></script>
+<script>
+let PERFIL=null, esAdmin=false;
+document.addEventListener('magic-ready', init);
+
+async function init(){
+  const s=await MagicAuth.requiereSesion('login.html'); if(!s)return;
+  PERFIL=await MagicAuth.perfil();
+  if(!PERFIL || !(PERFIL.rol==='auditor'||PERFIL.rol==='superadmin')){
+    document.getElementById('content').innerHTML='<div class="denied">Esta sección es solo para auditores. <br><a href="evaluar.html">Ir a mis evaluaciones</a></div>';
+    return;
+  }
+  esAdmin = PERFIL.rol==='superadmin';
+  document.getElementById('who').innerHTML=`<b>${esc(PERFIL.nombre||PERFIL.email)}</b>${PERFIL.rol}`;
+  document.getElementById('hTitle').textContent = esAdmin?'Panel de administración':'Panel del auditor';
+  render();
+}
+async function cerrar(){ await MagicAuth.salir(); location.href='login.html'; }
+
+async function render(){
+  const c=document.getElementById('content');c.innerHTML='';
+  // Evaluaciones visibles
+  const evals=await MagicData.misEvaluaciones();
+  let evalRows = evals.length? evals.map(e=>`<tr><td><b>${esc(e.organizacion)}</b></td><td>${e.estado}</td><td>${new Date(e.creado_en).toLocaleDateString('es-ES')}</td><td><button class="btn-ghost" onclick="location.href='evaluar.html?eval=${e.id}'">Abrir</button></td></tr>`).join('') : '<tr><td colspan="4" class="empty">Sin evaluaciones '+(esAdmin?'en el sistema.':'asignadas.')+'</td></tr>';
+  c.innerHTML += `<div class="card"><h2>${esAdmin?'Todas las evaluaciones':'Evaluaciones asignadas'}</h2><table><thead><tr><th>Organización</th><th>Estado</th><th>Creada</th><th></th></tr></thead><tbody>${evalRows}</tbody></table></div>`;
+
+  if(esAdmin){
+    // Gestión de usuarios (solo superadmin)
+    const { data:usuarios } = await sb.from('perfiles').select('*').order('creado_en');
+    const uRows=(usuarios||[]).map(u=>`<tr>
+      <td><b>${esc(u.nombre||'—')}</b><br><span style="color:var(--ink-faint);font-size:12px">${esc(u.email||'')}</span></td>
+      <td><span class="badge b-${u.rol}">${u.rol}</span></td>
+      <td><select onchange="cambiarRol('${u.id}',this.value)">
+        <option value="cliente" ${u.rol==='cliente'?'selected':''}>cliente</option>
+        <option value="auditor" ${u.rol==='auditor'?'selected':''}>auditor</option>
+        <option value="superadmin" ${u.rol==='superadmin'?'selected':''}>superadmin</option>
+      </select></td></tr>`).join('');
+    c.innerHTML += `<div class="card"><h2>Usuarios y roles</h2><table><thead><tr><th>Usuario</th><th>Rol actual</th><th>Cambiar rol</th></tr></thead><tbody>${uRows||'<tr><td colspan=3 class="empty">Sin usuarios.</td></tr>'}</tbody></table></div>`;
+
+    // Asignación de auditores a evaluaciones
+    const auditores=(usuarios||[]).filter(u=>u.rol==='auditor'||u.rol==='superadmin');
+    const { data:asigs } = await sb.from('asignaciones').select('*');
+    const asgMap={}; (asigs||[]).forEach(a=>{(asgMap[a.evaluacion_id]=asgMap[a.evaluacion_id]||[]).push(a.auditor_id);});
+    let asgRows = evals.map(e=>{
+      const opts=auditores.map(a=>`<option value="${a.id}">${esc(a.nombre||a.email)}</option>`).join('');
+      const actuales=(asgMap[e.id]||[]).map(aid=>{const a=auditores.find(x=>x.id===aid);return a?`<span class="badge b-auditor" style="margin-right:5px">${esc(a.nombre||a.email)} <a href="#" onclick="quitarAsig('${e.id}','${aid}');return false" style="color:#e0564f">×</a></span>`:'';}).join(' ')||'<span class="empty">Sin asignar</span>';
+      return `<tr><td><b>${esc(e.organizacion)}</b></td><td>${actuales}</td><td><select id="asg-${e.id}"><option value="">— auditor —</option>${opts}</select> <button class="btn-ghost" onclick="asignar('${e.id}')">Asignar</button></td></tr>`;
+    }).join('');
+    c.innerHTML += `<div class="card"><h2>Asignación de auditores</h2><table><thead><tr><th>Evaluación</th><th>Auditores</th><th>Añadir</th></tr></thead><tbody>${asgRows||'<tr><td colspan=3 class="empty">Sin evaluaciones.</td></tr>'}</tbody></table></div>`;
+  }
+}
+
+async function cambiarRol(uid,rol){
+  try{ const {error}=await sb.from('perfiles').update({rol}).eq('id',uid); if(error)throw error; toast('Rol actualizado'); }
+  catch(e){ toast('Error: '+e.message); }
+}
+async function asignar(eid){
+  const sel=document.getElementById('asg-'+eid);const aid=sel.value;if(!aid){toast('Elige un auditor');return;}
+  try{ const {error}=await sb.from('asignaciones').upsert({evaluacion_id:eid,auditor_id:aid},{onConflict:'evaluacion_id,auditor_id'}); if(error)throw error; toast('Auditor asignado'); render(); }
+  catch(e){ toast('Error: '+e.message); }
+}
+async function quitarAsig(eid,aid){
+  try{ const {error}=await sb.from('asignaciones').delete().eq('evaluacion_id',eid).eq('auditor_id',aid); if(error)throw error; toast('Asignación retirada'); render(); }
+  catch(e){ toast('Error: '+e.message); }
+}
+
+function esc(s){return (s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+let toastT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600)}
+</script>
+</body>
+</html>

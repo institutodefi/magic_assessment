@@ -3,12 +3,9 @@
 
 [build]
   # Sitio estático: no hay paso de build, se publica la raíz tal cual.
+  # La autenticación y los datos van directos a Supabase (SDK + RLS),
+  # por eso ya no hay Netlify Functions.
   publish = "."
-  functions = "netlify/functions"
-
-[functions]
-  node_bundler = "esbuild"
-  included_files = ["netlify/functions/magic-data.json"]
 
 # ─── Cabeceras de seguridad y rendimiento ───
 [[headers]]
@@ -45,16 +42,20 @@
     Content-Type = "application/manifest+json"
     Cache-Control = "public, max-age=86400"
 
-# ─── API → Netlify Functions (backend de la autoevaluación) ───
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-
-# Atajo amigable hacia la autoevaluación
+# Atajo amigable hacia la autoevaluación (requiere login)
 [[redirects]]
   from = "/evaluar"
   to = "/evaluar.html"
+  status = 301
+
+[[redirects]]
+  from = "/acceso"
+  to = "/login.html"
+  status = 301
+
+[[redirects]]
+  from = "/panel"
+  to = "/panel.html"
   status = 301
 
 # Página principal

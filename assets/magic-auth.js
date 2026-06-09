@@ -11,7 +11,7 @@ window.MAGIC_CONFIG = {
   // Supabase → Project Settings → Data API → Project URL
   SUPABASE_URL: "https://qlnsvoadnhchzpsuqdqk.supabase.co",
   // Supabase → Project Settings → API Keys → anon public  (¡la anon, NO la service_role!)
-  SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsbnN2b2FkbmhjaHpwc3VxZHFrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDg1MzcxNywiZXhwIjoyMDk2NDI5NzE3fQ.SdBkRkPAvdjwR6QmAR3fDzfN6Mb86E30ugc27bjZKDA"
+  SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsbnN2b2FkbmhjaHpwc3VxZHFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTM3MTcsImV4cCI6MjA5NjQyOTcxN30._4Oxc1CJPXgeWIYRVJhuhmE0NfG9xkFB3ZUAm4DFYis"
 };
 
 // Carga del SDK de Supabase desde CDN y exposición de helpers.

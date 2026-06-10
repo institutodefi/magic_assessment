@@ -83,9 +83,10 @@ window.MagicTerminos = (function () {
       const dec = ov.querySelector('#mt-decline');
       cb.addEventListener('change', () => { acc.disabled = !cb.checked; });
       acc.addEventListener('click', async () => {
-        acc.disabled = true; acc.textContent = 'Guardando…';
-        try { await MagicData.aceptarTerminos(); } catch (e) { /* si falla el guardado, igualmente dejamos pasar la sesión */ }
+        // Cerramos la pantalla AL INSTANTE; el guardado viaja en segundo plano
+        // (si fallara, la próxima vez volvería a pedirse: no se pierde nada).
         ov.remove(); document.body.style.overflow = '';
+        MagicData.aceptarTerminos().catch(() => {});
         resolve(true);
       });
       dec.addEventListener('click', async () => {
@@ -145,9 +146,9 @@ window.MagicTerminos = (function () {
       const dec = ov.querySelector('#mc-decline');
       cb.addEventListener('change', () => { acc.disabled = !cb.checked; });
       acc.addEventListener('click', async () => {
-        acc.disabled = true; acc.textContent = 'Guardando…';
-        try { await MagicData.aceptarConfidencialidad(); } catch (e) {}
+        // Cerramos al instante; el guardado viaja en segundo plano.
         ov.remove(); document.body.style.overflow = '';
+        MagicData.aceptarConfidencialidad().catch(() => {});
         resolve(true);
       });
       dec.addEventListener('click', async () => {

@@ -484,7 +484,7 @@ async function mostrarPicker(){
     if(!evals.length){ list.innerHTML='<div class="empty">Aún no tienes evaluaciones'+(esAuditor?' asignadas.':'. Crea una abajo para empezar.')+'</div>'; return; }
     list.innerHTML='';
     evals.forEach(ev=>{
-      const row=document.createElement('div');row.className='eval-row';row.onclick=()=>abrirEval(ev.id);
+      const row=document.createElement('div');row.className='eval-row';row.onclick=()=>abrirEval(ev.id, ev);
       row.innerHTML=`<div class="er-main"><div class="er-org">${esc(ev.organizacion)}</div><div class="er-meta">${ev.estado} · ${new Date(ev.creado_en).toLocaleDateString('es-ES')}</div></div><span class="er-arrow">→</span>`;
       list.appendChild(row);
     });
@@ -499,9 +499,9 @@ async function crearEval(){
 function volverPicker(){ history.replaceState(null,'','evaluar.html'); mostrarPicker(); }
 
 /* ---------- ABRIR EVALUACIÓN ---------- */
-async function abrirEval(eid){
+async function abrirEval(eid, evalObj){
   try{
-    EVAL=await MagicData.getEvaluacion(eid);
+    EVAL = evalObj || await MagicData.getEvaluacion(eid); // si venimos del listado, evitamos un viaje
   }catch(e){ toast('No tienes acceso a esa evaluación'); return mostrarPicker(); }
   history.replaceState(null,'','evaluar.html?eval='+eid);
   RESP={};DOCS={};AUDIT={};AITEMS=[];

@@ -60,6 +60,11 @@ window.MagicTerminos = (function () {
             <p>La organización es responsable de la veracidad y exactitud de la información y las evidencias que aporta. El IEE no se responsabiliza de las decisiones que se tomen basándose en los resultados de esta herramienta.</p>
           </div>
 
+          <div class="mt-section">
+            <h3>Propiedad intelectual</h3>
+            <p>El Modelo MAGIC® es un modelo de excelencia y transformación diseñado por el Instituto de Excelencia Europea y cuya propiedad intelectual le pertenece en exclusiva. Todos los derechos reservados. Queda prohibida su reproducción, distribución o uso no autorizado.</p>
+          </div>
+
           <div class="mt-check">
             <input type="checkbox" id="mt-cb">
             <label for="mt-cb">He leído y acepto la política de protección de datos (RGPD) y el disclaimer de responsabilidad del Modelo MAGIC®.</label>
@@ -115,6 +120,11 @@ window.MagicTerminos = (function () {
             <h3>Protección de datos e imparcialidad</h3>
             <p>Cumplirás la normativa de protección de datos (RGPD) en todo tratamiento de información personal al que accedas, y actuarás con independencia, objetividad e imparcialidad, declarando cualquier conflicto de interés con una organización evaluada.</p>
             <p>El incumplimiento de este compromiso podrá conllevar la retirada del rol de auditor y las responsabilidades legales que correspondan. Más información en el <a class="mt-link" href="aviso-legal.html" target="_blank" rel="noopener">aviso legal</a>.</p>
+          </div>
+
+          <div class="mt-section">
+            <h3>Propiedad intelectual</h3>
+            <p>El Modelo MAGIC® es un modelo de excelencia y transformación diseñado por el Instituto de Excelencia Europea y cuya propiedad intelectual le pertenece en exclusiva. Todos los derechos reservados. Como auditor, te comprometes a no reproducir, divulgar ni utilizar el modelo, sus criterios o metodología fuera del ámbito autorizado.</p>
           </div>
 
           <div class="mt-check">

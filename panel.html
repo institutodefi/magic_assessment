@@ -92,13 +92,13 @@ async function render(){
     const uRows=(usuarios||[]).map(u=>`<tr>
       <td><b>${esc(u.nombre||'—')}</b><br><span style="color:var(--ink-faint);font-size:12px">${esc(u.email||'')}</span></td>
       <td><span class="badge b-${u.rol}">${u.rol}</span></td>
-      <td><span class="badge ${u.verificado?'b-auditor':'b-cliente'}" style="cursor:pointer" onclick="toggleVerificado('${u.id}',${u.verificado?'false':'true'})">${u.verificado?'verificado':'sin verificar'}</span></td>
+      <td><span class="badge ${u.aprobado?'b-auditor':'b-cliente'}" style="cursor:pointer" onclick="toggleAprobado('${u.id}',${u.aprobado?'false':'true'})">${u.aprobado?'aprobado':'pendiente'}</span></td>
       <td><select onchange="cambiarRol('${u.id}',this.value)">
         <option value="cliente" ${u.rol==='cliente'?'selected':''}>cliente</option>
         <option value="auditor" ${u.rol==='auditor'?'selected':''}>auditor</option>
         <option value="superadmin" ${u.rol==='superadmin'?'selected':''}>superadmin</option>
       </select></td></tr>`).join('');
-    c.innerHTML += `<div class="card"><h2>Usuarios y roles</h2><table><thead><tr><th>Usuario</th><th>Rol</th><th>Verificación</th><th>Cambiar rol</th></tr></thead><tbody>${uRows||'<tr><td colspan=4 class="empty">Sin usuarios.</td></tr>'}</tbody></table></div>`;
+    c.innerHTML += `<div class="card"><h2>Usuarios y roles</h2><table><thead><tr><th>Usuario</th><th>Rol</th><th>Acceso</th><th>Cambiar rol</th></tr></thead><tbody>${uRows||'<tr><td colspan=4 class="empty">Sin usuarios.</td></tr>'}</tbody></table></div>`;
 
     // Asignación de auditores a evaluaciones
     const auditores=(usuarios||[]).filter(u=>u.rol==='auditor'||u.rol==='superadmin');
@@ -132,9 +132,13 @@ async function render(){
   }
 }
 
-async function toggleVerificado(uid,val){
-  try{ await MagicData.verificarUsuario(uid, val==='true'||val===true); toast('Verificación actualizada'); render(); }
-  catch(e){ toast('Error: '+e.message); }
+async function toggleAprobado(uid,val){
+  const aprobar = (val==='true'||val===true);
+  try{
+    const { error } = await sb.from('perfiles').update({ aprobado: aprobar, aprobado_en: aprobar?new Date().toISOString():null }).eq('id', uid);
+    if(error) throw error;
+    toast(aprobar?'Usuario aprobado':'Aprobación retirada'); render();
+  }catch(e){ toast('Error: '+e.message); }
 }
 async function crearCodigo(){
   const codigo=document.getElementById('ncCodigo').value.trim();

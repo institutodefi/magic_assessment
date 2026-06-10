@@ -92,5 +92,60 @@ window.MagicTerminos = (function () {
     });
   }
 
-  return { exigir };
+  return { exigir, exigirConfidencialidad };
+
+  function exigirConfidencialidad(perfil) {
+    return new Promise((resolve) => {
+      if (perfil && perfil.confidencialidad_aceptada) { resolve(true); return; }
+      inyectarEstilos();
+      const ov = document.createElement('div');
+      ov.className = 'mt-overlay';
+      ov.innerHTML = `
+        <div class="mt-box" role="dialog" aria-modal="true" aria-labelledby="mc-title">
+          <h2 id="mc-title">Compromiso de confidencialidad</h2>
+          <div class="mt-sub">Acceso de auditor · MAGIC®</div>
+
+          <div class="mt-section">
+            <h3>Deber de confidencialidad</h3>
+            <p>Como auditor del Modelo MAGIC®, accederás a información confidencial de las organizaciones evaluadas: datos de empresa, evidencias documentales, resultados y valoraciones.</p>
+            <p>Te comprometes a tratar toda esa información con estricta confidencialidad, a usarla únicamente para la finalidad de la evaluación o auditoría, a no divulgarla ni cederla a terceros, y a no conservarla más allá de lo necesario para tu labor.</p>
+          </div>
+
+          <div class="mt-section">
+            <h3>Protección de datos e imparcialidad</h3>
+            <p>Cumplirás la normativa de protección de datos (RGPD) en todo tratamiento de información personal al que accedas, y actuarás con independencia, objetividad e imparcialidad, declarando cualquier conflicto de interés con una organización evaluada.</p>
+            <p>El incumplimiento de este compromiso podrá conllevar la retirada del rol de auditor y las responsabilidades legales que correspondan. Más información en el <a class="mt-link" href="aviso-legal.html" target="_blank" rel="noopener">aviso legal</a>.</p>
+          </div>
+
+          <div class="mt-check">
+            <input type="checkbox" id="mc-cb">
+            <label for="mc-cb">He leído y acepto el compromiso de confidencialidad, protección de datos e imparcialidad como auditor del Modelo MAGIC®.</label>
+          </div>
+
+          <div class="mt-actions">
+            <button class="mt-btn mt-decline" id="mc-decline">No acepto</button>
+            <button class="mt-btn mt-accept" id="mc-accept" disabled>Aceptar y continuar</button>
+          </div>
+        </div>`;
+      document.body.appendChild(ov);
+      document.body.style.overflow = 'hidden';
+
+      const cb = ov.querySelector('#mc-cb');
+      const acc = ov.querySelector('#mc-accept');
+      const dec = ov.querySelector('#mc-decline');
+      cb.addEventListener('change', () => { acc.disabled = !cb.checked; });
+      acc.addEventListener('click', async () => {
+        acc.disabled = true; acc.textContent = 'Guardando…';
+        try { await MagicData.aceptarConfidencialidad(); } catch (e) {}
+        ov.remove(); document.body.style.overflow = '';
+        resolve(true);
+      });
+      dec.addEventListener('click', async () => {
+        ov.remove(); document.body.style.overflow = '';
+        try { await MagicAuth.salir(); } catch (e) {}
+        window.location.href = 'login-auditor.html';
+        resolve(false);
+      });
+    });
+  }
 })();

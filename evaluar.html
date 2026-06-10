@@ -287,6 +287,7 @@ async function init(){
   const ok = await MagicTerminos.exigir(PERFIL);
   if(!ok) return;
   esAuditor = PERFIL && (PERFIL.rol==='auditor'||PERFIL.rol==='superadmin');
+  if(esAuditor){ const okc = await MagicTerminos.exigirConfidencialidad(PERFIL); if(!okc) return; }
   document.getElementById('who').innerHTML = `<b>${esc(PERFIL.nombre||PERFIL.email)}</b><span class="role-badge role-${PERFIL.rol}">${PERFIL.rol}</span>`;
   if(esAuditor) document.getElementById('panelLink').style.display='inline-block';
   // Cargar modelo

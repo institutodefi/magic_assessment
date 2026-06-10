@@ -70,6 +70,8 @@ async function init(){
     document.getElementById('content').innerHTML='<div class="denied">Esta sección es solo para auditores. <br><a href="evaluar.html">Ir a mis evaluaciones</a></div>';
     return;
   }
+  const okc = await MagicTerminos.exigirConfidencialidad(PERFIL);
+  if(!okc) return;
   esAdmin = PERFIL.rol==='superadmin';
   document.getElementById('who').innerHTML=`<b>${esc(PERFIL.nombre||PERFIL.email)}</b>${PERFIL.rol}`;
   document.getElementById('hTitle').textContent = esAdmin?'Panel de administración':'Panel del auditor';
@@ -90,12 +92,13 @@ async function render(){
     const uRows=(usuarios||[]).map(u=>`<tr>
       <td><b>${esc(u.nombre||'—')}</b><br><span style="color:var(--ink-faint);font-size:12px">${esc(u.email||'')}</span></td>
       <td><span class="badge b-${u.rol}">${u.rol}</span></td>
+      <td><span class="badge ${u.verificado?'b-auditor':'b-cliente'}" style="cursor:pointer" onclick="toggleVerificado('${u.id}',${u.verificado?'false':'true'})">${u.verificado?'verificado':'sin verificar'}</span></td>
       <td><select onchange="cambiarRol('${u.id}',this.value)">
         <option value="cliente" ${u.rol==='cliente'?'selected':''}>cliente</option>
         <option value="auditor" ${u.rol==='auditor'?'selected':''}>auditor</option>
         <option value="superadmin" ${u.rol==='superadmin'?'selected':''}>superadmin</option>
       </select></td></tr>`).join('');
-    c.innerHTML += `<div class="card"><h2>Usuarios y roles</h2><table><thead><tr><th>Usuario</th><th>Rol actual</th><th>Cambiar rol</th></tr></thead><tbody>${uRows||'<tr><td colspan=3 class="empty">Sin usuarios.</td></tr>'}</tbody></table></div>`;
+    c.innerHTML += `<div class="card"><h2>Usuarios y roles</h2><table><thead><tr><th>Usuario</th><th>Rol</th><th>Verificación</th><th>Cambiar rol</th></tr></thead><tbody>${uRows||'<tr><td colspan=4 class="empty">Sin usuarios.</td></tr>'}</tbody></table></div>`;
 
     // Asignación de auditores a evaluaciones
     const auditores=(usuarios||[]).filter(u=>u.rol==='auditor'||u.rol==='superadmin');
@@ -107,7 +110,44 @@ async function render(){
       return `<tr><td><b>${esc(e.organizacion)}</b></td><td>${actuales}</td><td><select id="asg-${e.id}"><option value="">— auditor —</option>${opts}</select> <button class="btn-ghost" onclick="asignar('${e.id}')">Asignar</button></td></tr>`;
     }).join('');
     c.innerHTML += `<div class="card"><h2>Asignación de auditores</h2><table><thead><tr><th>Evaluación</th><th>Auditores</th><th>Añadir</th></tr></thead><tbody>${asgRows||'<tr><td colspan=3 class="empty">Sin evaluaciones.</td></tr>'}</tbody></table></div>`;
+
+    // Códigos de invitación de auditor
+    const codigos = await MagicData.getCodigosAuditor();
+    const codRows = (codigos||[]).map(k=>`<tr>
+      <td><b style="font-family:var(--mono)">${esc(k.codigo)}</b><br><span style="color:var(--ink-faint);font-size:12px">${esc(k.descripcion||'')}</span></td>
+      <td>${k.usos}/${k.usos_max}</td>
+      <td>${k.caduca_en?new Date(k.caduca_en).toLocaleDateString('es-ES'):'—'}</td>
+      <td><span class="badge ${k.activo?'b-auditor':'b-cliente'}">${k.activo?'activo':'inactivo'}</span></td>
+      <td><button class="btn-ghost" onclick="borrarCodigo('${k.codigo}')">Eliminar</button></td>
+    </tr>`).join('');
+    c.innerHTML += `<div class="card"><h2>Códigos de invitación de auditor</h2>
+      <p style="color:var(--ink-faint);font-size:13px;margin:-6px 0 14px">Genera códigos para que nuevos auditores se den de alta en <b style="color:var(--ink-dim)">login-auditor.html</b>. Cada alta consume un uso.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:16px">
+        <div><label style="display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px">Código</label><input id="ncCodigo" placeholder="MAGIC-AUD-2026"></div>
+        <div><label style="display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px">Descripción</label><input id="ncDesc" placeholder="Auditores 2026"></div>
+        <div><label style="display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px">Usos máx.</label><input id="ncUsos" type="number" min="1" value="1" style="width:90px"></div>
+        <button class="btn-ghost" onclick="crearCodigo()">Crear código</button>
+      </div>
+      <table><thead><tr><th>Código</th><th>Usos</th><th>Caduca</th><th>Estado</th><th></th></tr></thead><tbody>${codRows||'<tr><td colspan=5 class="empty">Aún no hay códigos.</td></tr>'}</tbody></table></div>`;
   }
+}
+
+async function toggleVerificado(uid,val){
+  try{ await MagicData.verificarUsuario(uid, val==='true'||val===true); toast('Verificación actualizada'); render(); }
+  catch(e){ toast('Error: '+e.message); }
+}
+async function crearCodigo(){
+  const codigo=document.getElementById('ncCodigo').value.trim();
+  const desc=document.getElementById('ncDesc').value.trim();
+  const usos=parseInt(document.getElementById('ncUsos').value)||1;
+  if(!codigo){toast('Indica un código');return;}
+  try{ await MagicData.crearCodigoAuditor({codigo,descripcion:desc,usos_max:usos}); toast('Código creado'); render(); }
+  catch(e){ toast('Error: '+e.message); }
+}
+async function borrarCodigo(codigo){
+  if(!confirm('¿Eliminar el código '+codigo+'?'))return;
+  try{ await MagicData.borrarCodigoAuditor(codigo); toast('Código eliminado'); render(); }
+  catch(e){ toast('Error: '+e.message); }
 }
 
 async function cambiarRol(uid,rol){

@@ -102,6 +102,41 @@ window.MagicData = {
       .eq('id', u.id);
     if (error) throw error;
   },
+  // ---- Aceptación de confidencialidad (auditores) ----
+  async aceptarConfidencialidad() {
+    const u = await MagicAuth.usuario();
+    const { error } = await sb.from('perfiles')
+      .update({ confidencialidad_aceptada: true, confidencialidad_aceptada_en: new Date().toISOString() })
+      .eq('id', u.id);
+    if (error) throw error;
+  },
+  // ---- Canjear código de invitación de auditor (función segura en BD) ----
+  async canjearCodigoAuditor(codigo) {
+    const { data, error } = await sb.rpc('canjear_codigo_auditor', { p_codigo: codigo });
+    if (error) throw error;
+    return data; // 'ok' | 'codigo_invalido' | 'codigo_caducado' | 'codigo_agotado' | ...
+  },
+
+  // ---- Gestión de códigos de auditor (solo superadmin) ----
+  async getCodigosAuditor() {
+    const { data } = await sb.from('codigos_auditor').select('*').order('creado_en', { ascending: false });
+    return data || [];
+  },
+  async crearCodigoAuditor(c) {
+    const { data, error } = await sb.from('codigos_auditor')
+      .insert({ codigo: c.codigo, descripcion: c.descripcion || '', usos_max: c.usos_max || 1, caduca_en: c.caduca_en || null })
+      .select('*').single();
+    if (error) throw error;
+    return data;
+  },
+  async borrarCodigoAuditor(codigo) {
+    const { error } = await sb.from('codigos_auditor').delete().eq('codigo', codigo);
+    if (error) throw error;
+  },
+  async verificarUsuario(uid, verificado) {
+    const { error } = await sb.from('perfiles').update({ verificado }).eq('id', uid);
+    if (error) throw error;
+  },
 
   // ---- Respuestas ----
   async getRespuestas(eid) {

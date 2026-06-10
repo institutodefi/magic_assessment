@@ -17,6 +17,9 @@ create table if not exists public.perfiles (
   rol         text not null default 'cliente' check (rol in ('cliente','auditor','superadmin')),
   terminos_aceptados   boolean not null default false,
   terminos_aceptados_en timestamptz,
+  confidencialidad_aceptada boolean not null default false,
+  confidencialidad_aceptada_en timestamptz,
+  verificado  boolean not null default false,
   creado_en   timestamptz not null default now()
 );
 
@@ -255,6 +258,44 @@ create policy storage_evidencias_rw on storage.objects for all
     bucket_id = 'evidencias'
     and public.puede_ver_eval( (split_part(name,'/',1))::uuid, auth.uid() )
   );
+
+-- ───────────────────────────────────────────────────────────────────
+-- 8) CÓDIGOS DE INVITACIÓN DE AUDITOR + función de canje
+-- ───────────────────────────────────────────────────────────────────
+create table if not exists public.codigos_auditor (
+  codigo      text primary key,
+  descripcion text,
+  usos_max    int not null default 1,
+  usos        int not null default 0,
+  caduca_en   timestamptz,
+  activo      boolean not null default true,
+  creado_en   timestamptz not null default now()
+);
+alter table public.codigos_auditor enable row level security;
+drop policy if exists codigos_admin on public.codigos_auditor;
+create policy codigos_admin on public.codigos_auditor for all
+  using (public.es_superadmin(auth.uid()))
+  with check (public.es_superadmin(auth.uid()));
+
+create or replace function public.canjear_codigo_auditor(p_codigo text)
+returns text language plpgsql security definer set search_path = public as $$
+declare c record; uid uuid := auth.uid();
+begin
+  if uid is null then return 'no_autenticado'; end if;
+  select * into c from public.codigos_auditor where codigo = p_codigo for update;
+  if not found then return 'codigo_invalido'; end if;
+  if c.activo = false then return 'codigo_inactivo'; end if;
+  if c.caduca_en is not null and c.caduca_en < now() then return 'codigo_caducado'; end if;
+  if c.usos >= c.usos_max then return 'codigo_agotado'; end if;
+  update public.perfiles
+     set rol = case when rol='superadmin' then 'superadmin' else 'auditor' end, verificado = true
+   where id = uid;
+  update public.codigos_auditor
+     set usos = usos + 1, activo = case when usos + 1 >= usos_max then false else activo end
+   where codigo = p_codigo;
+  return 'ok';
+end; $$;
+grant execute on function public.canjear_codigo_auditor(text) to authenticated;
 
 -- =====================================================================
 --  DESPUÉS DE EJECUTAR ESTE SCRIPT:

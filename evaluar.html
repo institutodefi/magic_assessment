@@ -501,12 +501,19 @@ function volverPicker(){ history.replaceState(null,'','evaluar.html'); mostrarPi
 /* ---------- ABRIR EVALUACIÓN ---------- */
 async function abrirEval(eid, evalObj){
   try{
-    EVAL = evalObj || await MagicData.getEvaluacion(eid); // si venimos del listado, evitamos un viaje
+    EVAL = evalObj || await MagicData.getEvaluacion(eid);
   }catch(e){ toast('No tienes acceso a esa evaluación'); return mostrarPicker(); }
   history.replaceState(null,'','evaluar.html?eval='+eid);
-  RESP={};DOCS={};AUDIT={};AITEMS=[];
-  // Las 7 lecturas EN PARALELO (antes iban una tras otra y sumaban latencias)
-  const [resp, docs, crit, aitems, cliente, empresas, centros] = await Promise.all([
+  RESP={};DOCS={};AUDIT={};AITEMS=[];CLIENTE=null;EMPRESAS=[];CENTROS=[];
+  // Mostramos el checklist YA (el modelo ya está cargado); los datos se rellenan al llegar.
+  document.getElementById('orgName').textContent=EVAL.organizacion;
+  document.getElementById('btnInforme').style.display=esAuditor?'block':'none';
+  document.getElementById('btnZip').style.display=esAuditor?'block':'none';
+  document.getElementById('picker').style.display='none';
+  document.getElementById('app').classList.add('show');
+  tabActual=0; renderTabs(); renderTab(); actualizarGlobal();
+  // Las 7 lecturas EN PARALELO; al terminar, repintamos con los datos ya cargados.
+  Promise.all([
     MagicData.getRespuestas(eid),
     MagicData.getDocumentos(eid),
     MagicData.getAuditorCriterios(eid),
@@ -514,20 +521,14 @@ async function abrirEval(eid, evalObj){
     MagicData.getClienteDatos(eid),
     MagicData.getEmpresas(eid),
     MagicData.getCentros(eid)
-  ]);
-  resp.forEach(x=>RESP[x.pregunta_cod]={puntuacion:x.puntuacion,justificacion:x.justificacion||''});
-  docs.forEach(x=>{(DOCS[x.pregunta_cod]=DOCS[x.pregunta_cod]||[]).push(x);});
-  crit.forEach(x=>AUDIT[x.criterio]={puntos_fuertes:x.puntos_fuertes||'',areas_mejora:x.areas_mejora||''});
-  AITEMS = aitems;
-  CLIENTE = cliente;
-  EMPRESAS = empresas;
-  CENTROS = centros;
-  document.getElementById('orgName').textContent=EVAL.organizacion;
-  document.getElementById('btnInforme').style.display=esAuditor?'block':'none';
-  document.getElementById('btnZip').style.display=esAuditor?'block':'none';
-  document.getElementById('picker').style.display='none';
-  document.getElementById('app').classList.add('show');
-  tabActual=0; renderTabs(); renderTab(); actualizarGlobal();
+  ]).then(([resp, docs, crit, aitems, cliente, empresas, centros])=>{
+    resp.forEach(x=>RESP[x.pregunta_cod]={puntuacion:x.puntuacion,justificacion:x.justificacion||''});
+    docs.forEach(x=>{(DOCS[x.pregunta_cod]=DOCS[x.pregunta_cod]||[]).push(x);});
+    crit.forEach(x=>AUDIT[x.criterio]={puntos_fuertes:x.puntos_fuertes||'',areas_mejora:x.areas_mejora||''});
+    AITEMS = aitems; CLIENTE = cliente; EMPRESAS = empresas; CENTROS = centros;
+    // Repintamos la pestaña actual ya con los datos y actualizamos marcadores
+    renderTabs(); renderTab(); actualizarGlobal(); actualizarTabs();
+  }).catch(e=>{ toast('Error cargando datos: '+(e.message||e)); });
 }
 
 /* ---------- TABS ---------- */

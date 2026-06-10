@@ -309,9 +309,9 @@
 
 <div class="toast" id="toast"></div>
 
-<script src="assets/magic-auth.js?v=28"></script>
-<script src="assets/magic-data.js?v=28"></script>
-<script src="assets/magic-terminos.js?v=28"></script>
+<script src="assets/magic-auth.js?v=30"></script>
+<script src="assets/magic-data.js?v=30"></script>
+<script src="assets/magic-terminos.js?v=30"></script>
 <script>
 const ESCALA=[0,20,40,60,80,100];
 const NIVEL_LBL_ES=['Inicial','Incipiente','Definido','Desplegado','Integrado','Referente'];
@@ -424,10 +424,14 @@ let tabActual=0; // 0 = Datos cliente; 1..7 = criterios
 document.addEventListener('magic-ready', init);
 
 async function init(){
+ try{
   NIVEL_LBL = (LANG==='en')?NIVEL_LBL_EN:NIVEL_LBL_ES;
   aplicarIdioma();
   // Empezamos a descargar el modelo YA, en paralelo con la autenticación
-  const modeloPromesa = fetch('assets/magic-model.json').then(r=>r.json());
+  const modeloPromesa = fetch('assets/magic-model.json').then(r=>{
+    if(!r.ok) throw new Error('No se pudo cargar el modelo ('+r.status+')');
+    return r.json();
+  });
   const s = await MagicAuth.requiereSesion('login.html');
   if(!s) return;
   PERFIL = await MagicAuth.perfil();
@@ -467,6 +471,12 @@ async function init(){
   document.getElementById('loading').style.display='none';
   if(eid){ await abrirEval(eid); }
   else { await mostrarPicker(); }
+ }catch(err){
+  // En vez de quedarse en "Cargando…" sin pista, mostramos el error.
+  const l=document.getElementById('loading');
+  if(l){ l.style.display='block'; l.innerHTML='<div style="text-align:center;padding:20px">No se pudo cargar la herramienta.<br><span style="color:var(--ink-faint);font-size:13px">'+(err&&err.message?err.message:err)+'</span><br><button class="btn-ghost" style="margin-top:14px" onclick="location.reload()">Reintentar</button></div>'; }
+  console.error('[MAGIC] Error en init:', err);
+ }
 }
 
 async function cerrarSesion(){ await MagicAuth.salir(); location.href='login.html'; }

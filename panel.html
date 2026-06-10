@@ -80,15 +80,23 @@ async function init(){
 async function cerrar(){ await MagicAuth.salir(); location.href='login.html'; }
 
 async function render(){
-  const c=document.getElementById('content');c.innerHTML='';
+  const c=document.getElementById('content');c.innerHTML='<div class="empty">Cargando…</div>';
+  // Lanzamos todas las lecturas EN PARALELO (no una tras otra) para que el panel
+  // tarde lo que la consulta más lenta, no la suma de todas.
+  const pEvals = MagicData.misEvaluaciones();
+  const pUsuarios = esAdmin ? sb.from('perfiles').select('*').order('creado_en') : Promise.resolve({data:[]});
+  const pAsigs    = esAdmin ? sb.from('asignaciones').select('*') : Promise.resolve({data:[]});
+  const pCodigos  = esAdmin ? MagicData.getCodigosAuditor() : Promise.resolve([]);
+  const [evals, usuariosRes, asigsRes, codigos] = await Promise.all([pEvals, pUsuarios, pAsigs, pCodigos]);
+  const usuarios = usuariosRes.data || [];
+  const asigs = asigsRes.data || [];
+  c.innerHTML='';
   // Evaluaciones visibles
-  const evals=await MagicData.misEvaluaciones();
   let evalRows = evals.length? evals.map(e=>`<tr><td><b>${esc(e.organizacion)}</b></td><td>${e.estado}</td><td>${new Date(e.creado_en).toLocaleDateString('es-ES')}</td><td><button class="btn-ghost" onclick="location.href='evaluar.html?eval=${e.id}'">Abrir</button></td></tr>`).join('') : '<tr><td colspan="4" class="empty">Sin evaluaciones '+(esAdmin?'en el sistema.':'asignadas.')+'</td></tr>';
   c.innerHTML += `<div class="card"><h2>${esAdmin?'Todas las evaluaciones':'Evaluaciones asignadas'}</h2><table><thead><tr><th>Organización</th><th>Estado</th><th>Creada</th><th></th></tr></thead><tbody>${evalRows}</tbody></table></div>`;
 
   if(esAdmin){
     // Gestión de usuarios (solo superadmin)
-    const { data:usuarios } = await sb.from('perfiles').select('*').order('creado_en');
     const uRows=(usuarios||[]).map(u=>`<tr>
       <td><b>${esc(u.nombre||'—')}</b><br><span style="color:var(--ink-faint);font-size:12px">${esc(u.email||'')}</span></td>
       <td><span class="badge b-${u.rol}">${u.rol}</span></td>
@@ -102,7 +110,6 @@ async function render(){
 
     // Asignación de auditores a evaluaciones
     const auditores=(usuarios||[]).filter(u=>u.rol==='auditor'||u.rol==='superadmin');
-    const { data:asigs } = await sb.from('asignaciones').select('*');
     const asgMap={}; (asigs||[]).forEach(a=>{(asgMap[a.evaluacion_id]=asgMap[a.evaluacion_id]||[]).push(a.auditor_id);});
     let asgRows = evals.map(e=>{
       const opts=auditores.map(a=>`<option value="${a.id}">${esc(a.nombre||a.email)}</option>`).join('');
@@ -112,7 +119,6 @@ async function render(){
     c.innerHTML += `<div class="card"><h2>Asignación de auditores</h2><table><thead><tr><th>Evaluación</th><th>Auditores</th><th>Añadir</th></tr></thead><tbody>${asgRows||'<tr><td colspan=3 class="empty">Sin evaluaciones.</td></tr>'}</tbody></table></div>`;
 
     // Códigos de invitación de auditor
-    const codigos = await MagicData.getCodigosAuditor();
     const codRows = (codigos||[]).map(k=>`<tr>
       <td><b style="font-family:var(--mono)">${esc(k.codigo)}</b><br><span style="color:var(--ink-faint);font-size:12px">${esc(k.descripcion||'')}</span></td>
       <td>${k.usos}/${k.usos_max}</td>
@@ -134,11 +140,20 @@ async function render(){
 
 async function toggleAprobado(uid,val){
   const aprobar = (val==='true'||val===true);
+  const badge = event && event.target ? event.target : null;
+  if(badge){ badge.style.opacity='.5'; badge.textContent='…'; }
   try{
     const { error } = await sb.from('perfiles').update({ aprobado: aprobar, aprobado_en: aprobar?new Date().toISOString():null }).eq('id', uid);
     if(error) throw error;
-    toast(aprobar?'Usuario aprobado':'Aprobación retirada'); render();
-  }catch(e){ toast('Error: '+e.message); }
+    toast(aprobar?'Usuario aprobado':'Aprobación retirada');
+    // Repintamos solo este badge, sin recargar todo el panel
+    if(badge){
+      badge.style.opacity='';
+      badge.textContent = aprobar?'aprobado':'pendiente';
+      badge.className = 'badge '+(aprobar?'b-auditor':'b-cliente');
+      badge.setAttribute('onclick', `toggleAprobado('${uid}',${aprobar?'false':'true'})`);
+    }
+  }catch(e){ toast('Error: '+e.message); if(badge){badge.style.opacity='';badge.textContent=aprobar?'pendiente':'aprobado';} }
 }
 async function crearCodigo(){
   const codigo=document.getElementById('ncCodigo').value.trim();

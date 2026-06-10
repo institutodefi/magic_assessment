@@ -84,10 +84,26 @@ window.MAGIC_CONFIG = {
   if (window.supabase && window.supabase.createClient) {
     boot();
   } else {
+    // 1º intentamos el SDK alojado en nuestra propia web (no depende de CDN externos)
+    const local = document.createElement('script');
+    local.src = 'assets/supabase.min.js?v=28';
+    local.onload = function () {
+      if (window.supabase && window.supabase.createClient) { boot(); }
+      else { cargarCDN(); }
+    };
+    local.onerror = cargarCDN;
+    document.head.appendChild(local);
+  }
+
+  function cargarCDN() {
+    if (window.supabase && window.supabase.createClient) { boot(); return; }
     const s = document.createElement('script');
     s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
     s.onload = boot;
-    s.onerror = function () { console.error('[MAGIC] No se pudo cargar el SDK de Supabase'); };
+    s.onerror = function () {
+      console.error('[MAGIC] No se pudo cargar el SDK de Supabase (ni local ni CDN).');
+      alert('No se pudo cargar un componente necesario. Revisa tu conexión o si alguna extensión del navegador está bloqueando la carga, y recarga la página.');
+    };
     document.head.appendChild(s);
   }
 })();

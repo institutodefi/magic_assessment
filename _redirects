@@ -1,9 +1,0 @@
-/aviso-legal    /aviso-legal.html    301
-/legal          /aviso-legal.html    301
-/cookies        /aviso-legal.html#cookies    301
-/privacidad     /aviso-legal.html#privacidad    301
-/certificar     /certificar.html    301
-/certify        /certificar.html    301
-/inicio         /index.html    301
-/api/*          /.netlify/functions/:splat    200
-/evaluar        /evaluar.html    301

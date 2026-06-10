@@ -66,14 +66,17 @@ async function init(){
   PERFIL=await MagicAuth.perfil();
   const ok = await MagicTerminos.exigir(PERFIL);
   if(!ok) return;
-  if(!PERFIL || !(PERFIL.rol==='auditor'||PERFIL.rol==='superadmin')){
+  // Rol activo (los superadmin @tuconsultor.com pueden alternar de perfil)
+  const multiRol = PERFIL && PERFIL.rol==='superadmin' && /@tuconsultor\.com$/i.test(PERFIL.email||'');
+  let rolActivo = multiRol ? (localStorage.getItem('magic_rol_activo')||'superadmin') : PERFIL.rol;
+  if(!PERFIL || !(rolActivo==='auditor'||rolActivo==='superadmin')){
     document.getElementById('content').innerHTML='<div class="denied">Esta sección es solo para auditores. <br><a href="evaluar.html">Ir a mis evaluaciones</a></div>';
     return;
   }
   const okc = await MagicTerminos.exigirConfidencialidad(PERFIL);
   if(!okc) return;
-  esAdmin = PERFIL.rol==='superadmin';
-  document.getElementById('who').innerHTML=`<b>${esc(PERFIL.nombre||PERFIL.email)}</b>${PERFIL.rol}`;
+  esAdmin = rolActivo==='superadmin';
+  document.getElementById('who').innerHTML=`<b>${esc(PERFIL.nombre||PERFIL.email)}</b>${rolActivo}`;
   document.getElementById('hTitle').textContent = esAdmin?'Panel de administración':'Panel del auditor';
   render();
 }

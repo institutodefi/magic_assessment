@@ -35,6 +35,14 @@
   .role-auditor{background:var(--audit-soft);color:var(--audit)}
   .role-superadmin{background:rgba(160,120,220,.15);color:#b89be0}
   .link-btn{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim);background:transparent;border:0;cursor:pointer}
+  .lang-seg{display:flex;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+  .lang-seg button{border:0;background:transparent;color:var(--ink-faint);font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;padding:5px 10px;cursor:pointer;transition:.15s}
+  .lang-seg button.on{background:var(--accent-soft);color:var(--accent)}
+  .rol-seg{display:flex;border:1px solid var(--audit);border-radius:7px;overflow:hidden;margin-right:4px}
+  .rol-seg button{border:0;background:transparent;color:var(--ink-faint);font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 9px;cursor:pointer;transition:.15s;border-right:1px solid rgba(106,166,212,.25)}
+  .rol-seg button:last-child{border-right:0}
+  .rol-seg button.on{background:var(--audit-soft);color:var(--audit)}
+  .rol-seg button:hover:not(.on){color:var(--ink-dim)}
   .link-btn:hover{color:var(--accent)}
 
   header.page-head{padding:108px 0 24px;text-align:center}
@@ -153,6 +161,25 @@
   .auditor-box .ab-sub{font-size:12px;color:var(--ink-faint);margin-bottom:14px}
   .auditor-box textarea.ta{border-color:rgba(106,166,212,.35)}
   .auditor-box textarea.ta:focus{border-color:var(--audit);box-shadow:0 0 0 3px var(--audit-soft)}
+  .auditor-q{margin-top:18px;border-top:1px dashed var(--line);padding-top:16px}
+  .auditor-q .ab-l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--audit);margin-bottom:12px;display:flex;align-items:center;gap:7px}
+  .aitem-group{margin-bottom:12px}
+  .aitem-head{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+  .aitem-title{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+  .aitem-title.pf{color:#6fae7e}.aitem-title.am{color:#c2823f}
+  .aitem-add{width:22px;height:22px;border-radius:6px;border:1px solid var(--audit);background:var(--audit-soft);color:var(--audit);font-size:15px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:.15s}
+  .aitem-add:hover{background:var(--audit);color:#0b0d12}
+  .aitem-list{display:flex;flex-direction:column;gap:7px}
+  .aitem{display:flex;gap:8px;align-items:flex-start}
+  .aitem-input{flex:1;border:1px solid var(--line-strong);border-radius:7px;padding:9px 11px;font-family:var(--sans);font-size:13.5px;color:var(--ink);background:var(--bg);resize:none;overflow:hidden;min-height:38px;line-height:1.4}
+  .aitem.fuerte .aitem-input{border-left:2px solid #6fae7e}
+  .aitem.mejora .aitem-input{border-left:2px solid #c2823f}
+  .aitem-input:focus{outline:0;border-color:var(--audit);box-shadow:0 0 0 3px var(--audit-soft)}
+  .aitem-del{flex:none;width:30px;height:30px;border:0;background:transparent;color:#e0564f;font-size:19px;line-height:1;cursor:pointer;border-radius:6px;margin-top:3px}
+  .aitem-del:hover{background:rgba(224,86,79,.12)}
+  .aitem-ro{flex:1;font-size:13.5px;color:var(--ink-dim);line-height:1.5;padding:4px 0 4px 11px;border-left:2px solid var(--line)}
+  .aitem.fuerte .aitem-ro{border-left-color:#6fae7e}.aitem.mejora .aitem-ro{border-left-color:#c2823f}
+  .aitem-empty{font-size:12.5px;color:var(--ink-faint);padding-left:11px}
 
   /* Datos cliente / sedes */
   .form-card{background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:24px 26px;margin-bottom:18px}
@@ -197,17 +224,21 @@
   <div class="nav-inner">
     <a href="index.html" aria-label="MAGIC® — Inicio"><picture><source srcset="assets/magic_logo-sm.webp" type="image/webp"><img src="assets/magic_logo.png" alt="MAGIC®" class="brand-logo" width="229" height="72"></picture></a>
     <div class="nav-right">
+      <div class="lang-seg" id="langSeg">
+        <button data-l="es" onclick="setLang('es')">ES</button>
+        <button data-l="en" onclick="setLang('en')">EN</button>
+      </div>
       <span class="who" id="who"></span>
-      <button class="link-btn" id="panelLink" style="display:none" onclick="location.href='panel.html'">Panel</button>
-      <button class="link-btn" onclick="cerrarSesion()">Salir</button>
+      <button class="link-btn" id="panelLink" style="display:none" data-i18n="panel" onclick="location.href='panel.html'">Panel</button>
+      <button class="link-btn" data-i18n="salir" onclick="cerrarSesion()">Salir</button>
     </div>
   </div>
 </nav>
 
 <header class="page-head">
   <div class="container">
-    <div class="eyebrow">Autoevaluación MAGIC®</div>
-    <h1>Checklist de <em>madurez</em></h1>
+    <div class="eyebrow" data-i18n="eyebrow">Autoevaluación MAGIC®</div>
+    <h1><span data-i18n="titulo_a">Checklist de</span> <em data-i18n="titulo_b">madurez</em></h1>
   </div>
 </header>
 
@@ -218,14 +249,14 @@
     <!-- Selector de evaluación -->
     <section class="picker" id="picker" style="display:none">
       <div class="box">
-        <h3>Tus evaluaciones</h3>
+        <h3 data-i18n="tus_eval">Tus evaluaciones</h3>
         <div id="evalList"></div>
       </div>
       <div class="box" id="newBox">
-        <h3>Nueva evaluación</h3>
+        <h3 data-i18n="nueva_eval">Nueva evaluación</h3>
         <div class="newrow">
-          <input id="newOrg" type="text" placeholder="Nombre de la organización">
-          <button class="btn" onclick="crearEval()">Crear</button>
+          <input id="newOrg" type="text" data-i18n-ph="org_ph" placeholder="Nombre de la organización">
+          <button class="btn" data-i18n="crear" onclick="crearEval()">Crear</button>
         </div>
       </div>
     </section>
@@ -239,13 +270,13 @@
         </div>
         <div class="global-meta">
           <div class="org" id="orgName">—</div>
-          <h3>Puntuación global MAGIC®</h3>
-          <p>Media de las 70 preguntas, en escala 0–100. <span id="gLevel"></span></p>
+          <h3 data-i18n="punt_global">Puntuación global MAGIC®</h3>
+          <p><span data-i18n="media_txt">Media de las 70 preguntas, en escala 0–100.</span> <span id="gLevel"></span></p>
         </div>
         <div class="global-actions">
-          <button class="btn-ghost" onclick="volverPicker()">← Mis evaluaciones</button>
-          <button class="btn-ghost" id="btnInforme" onclick="descargarInforme()">Informe PDF</button>
-          <button class="btn-ghost" id="btnZip" onclick="descargarZip()">Descargar evidencias (ZIP)</button>
+          <button class="btn-ghost" data-i18n="mis_eval" onclick="volverPicker()">← Mis evaluaciones</button>
+          <button class="btn-ghost" id="btnInforme" data-i18n="informe" onclick="descargarInforme()">Informe PDF</button>
+          <button class="btn-ghost" id="btnZip" data-i18n="zip" onclick="descargarZip()">Descargar evidencias (ZIP)</button>
         </div>
       </div>
 
@@ -253,8 +284,8 @@
       <div class="panel" id="panelContent"></div>
 
       <div class="crit-nav">
-        <button id="prevBtn" onclick="cambiarTab(-1)">← Anterior</button>
-        <button id="nextBtn" onclick="cambiarTab(1)">Siguiente →</button>
+        <button id="prevBtn" data-i18n="anterior" onclick="cambiarTab(-1)">← Anterior</button>
+        <button id="nextBtn" data-i18n="siguiente" onclick="cambiarTab(1)">Siguiente →</button>
       </div>
     </section>
   </div>
@@ -282,26 +313,133 @@
 <script src="assets/magic-terminos.js"></script>
 <script>
 const ESCALA=[0,20,40,60,80,100];
-const NIVEL_LBL=['Inicial','Incipiente','Definido','Desplegado','Integrado','Referente'];
-const COLORS={0:'#b25b54',20:'#c2823f',40:'#cba94d',60:'#9ab464',80:'#6fae7e',100:'#5ba897'};
-const NIVELES=[{min:0,t:'Inicial',c:'#b25b54'},{min:20,t:'Incipiente',c:'#c2823f'},{min:40,t:'Definido',c:'#cba94d'},{min:60,t:'Desplegado',c:'#9ab464'},{min:80,t:'Integrado',c:'#6fae7e'},{min:95,t:'Referente',c:'#5ba897'}];
+const NIVEL_LBL_ES=['Inicial','Incipiente','Definido','Desplegado','Integrado','Referente'];
+const NIVEL_LBL_EN=['Initial','Emerging','Defined','Deployed','Integrated','Reference'];
+let NIVEL_LBL=NIVEL_LBL_ES;
 
-let PERFIL=null, esAuditor=false, MODELO=null;
-let EVAL=null, RESP={}, DOCS={}, AUDIT={}, CLIENTE=null, EMPRESAS=[], CENTROS=[];
+// ---------- Internacionalización ES / EN ----------
+let LANG = localStorage.getItem('magic_lang') || 'es';
+const I18N = {
+  es:{
+    eyebrow:'Autoevaluación MAGIC®', titulo_a:'Checklist de', titulo_b:'madurez',
+    salir:'Salir', panel:'Panel', mis_eval:'← Mis evaluaciones', informe:'Informe PDF', zip:'Descargar evidencias (ZIP)',
+    tus_eval:'Tus evaluaciones', nueva_eval:'Nueva evaluación', crear:'Crear', org_ph:'Nombre de la organización',
+    sin_eval_cli:'. Crea una abajo para empezar.', sin_eval_aud:' asignadas.',
+    datos:'DATOS', cliente_sedes:'Cliente y sedes', punt_global:'Puntuación global MAGIC®',
+    media_txt:'Media de las 70 preguntas, en escala 0–100.', nivel_actual:'Nivel actual:',
+    datos_cliente:'Datos del cliente', identif:'Identificación de la organización',
+    alcance:'Alcance de la evaluación', alcance_ph:'Actividades, procesos o unidades incluidas en el alcance…',
+    guardar_alcance:'Guardar alcance', empresas_centros:'Empresas y centros de trabajo', cif_grupo:'CIF del grupo y sus centros',
+    empresas_intro:'Añade cada empresa (CIF y razón social) y, dentro de cada una, sus centros de trabajo con su dirección y número de trabajadores.',
+    add_empresa:'+ Añadir empresa (CIF)', total_grupo:'Total trabajadores del grupo:',
+    razon_social:'Razón social', cif:'CIF', empresa:'Empresa', eliminar_empresa:'Eliminar empresa', guardar_empresa:'Guardar empresa',
+    add_centro:'+ Añadir centro de trabajo', centro:'Centro', eliminar:'Eliminar', nombre_ref:'Nombre / referencia',
+    n_trab:'Nº trabajadores', direccion:'Dirección', direccion_ph:'Calle, nº, CP, localidad', guardar_centro:'Guardar centro', sin_centros:'Sin centros aún.',
+    criterio:'Criterio', de:'de', porque_importa:'Por qué importa', justif:'Justificación / hallazgos',
+    justif_ph:'Describe la evidencia que respalda esta puntuación…', justif_ro:'(Rellenado por el cliente)',
+    evid_sug:'Evidencias sugeridas', doc_soporte:'Documentación de soporte', subir_txt:'Haz clic para subir',
+    subir_sub:'o arrastra aquí tus archivos', subir_hint:'PDF, Word, Excel, imágenes… (máx. 15 MB)',
+    guardar_preg:'Guardar pregunta', aud_eval:'Evaluación del auditor', puntos_fuertes:'Puntos fuertes', aspectos_mejora:'Aspectos de mejora',
+    pf_ph:'Punto fuerte…', am_ph:'Aspecto de mejora…', anterior:'← Anterior', siguiente:'Siguiente →',
+    pendiente_tit:'Tu cuenta está pendiente de aprobación',
+    pendiente_txt:'Hemos avisado al equipo del Instituto de Excelencia Europea. En cuanto se apruebe tu acceso podrás comenzar tu autoevaluación MAGIC®.',
+    informe_tit:'Informe de Autoevaluación', punt_escala:'Puntuación global · escala 0–100', nivel_madurez:'Nivel de madurez:',
+    sedes_plantilla:'Empresas y centros de trabajo', total_plantilla:'Total plantilla:', rol_cliente:'Cliente', rol_auditor:'Auditor', rol_superadmin:'Superadmin', cambiar_perfil:'Cambiar perfil'
+  },
+  en:{
+    eyebrow:'MAGIC® Self-assessment', titulo_a:'Maturity', titulo_b:'checklist',
+    salir:'Log out', panel:'Panel', mis_eval:'← My assessments', informe:'PDF Report', zip:'Download evidence (ZIP)',
+    tus_eval:'Your assessments', nueva_eval:'New assessment', crear:'Create', org_ph:'Organisation name',
+    sin_eval_cli:'. Create one below to start.', sin_eval_aud:' assigned.',
+    datos:'DATA', cliente_sedes:'Client & sites', punt_global:'MAGIC® global score',
+    media_txt:'Average of the 70 questions, on a 0–100 scale.', nivel_actual:'Current level:',
+    datos_cliente:'Client data', identif:'Organisation identification',
+    alcance:'Assessment scope', alcance_ph:'Activities, processes or units included in the scope…',
+    guardar_alcance:'Save scope', empresas_centros:'Companies & work centres', cif_grupo:'Group tax IDs and their centres',
+    empresas_intro:'Add each company (tax ID and legal name) and, within each one, its work centres with address and headcount.',
+    add_empresa:'+ Add company (tax ID)', total_grupo:'Group total headcount:',
+    razon_social:'Legal name', cif:'Tax ID', empresa:'Company', eliminar_empresa:'Delete company', guardar_empresa:'Save company',
+    add_centro:'+ Add work centre', centro:'Centre', eliminar:'Delete', nombre_ref:'Name / reference',
+    n_trab:'Headcount', direccion:'Address', direccion_ph:'Street, no., postcode, city', guardar_centro:'Save centre', sin_centros:'No centres yet.',
+    criterio:'Criterion', de:'of', porque_importa:'Why it matters', justif:'Justification / findings',
+    justif_ph:'Describe the evidence supporting this score…', justif_ro:'(Filled in by the client)',
+    evid_sug:'Suggested evidence', doc_soporte:'Supporting documentation', subir_txt:'Click to upload',
+    subir_sub:'or drag your files here', subir_hint:'PDF, Word, Excel, images… (max. 15 MB)',
+    guardar_preg:'Save question', aud_eval:'Auditor assessment', puntos_fuertes:'Strengths', aspectos_mejora:'Areas for improvement',
+    pf_ph:'Strength…', am_ph:'Area for improvement…', anterior:'← Previous', siguiente:'Next →',
+    pendiente_tit:'Your account is pending approval',
+    pendiente_txt:'We have notified the Instituto de Excelencia Europea team. As soon as your access is approved you can start your MAGIC® self-assessment.',
+    informe_tit:'Self-assessment Report', punt_escala:'Global score · 0–100 scale', nivel_madurez:'Maturity level:',
+    sedes_plantilla:'Companies & work centres', total_plantilla:'Total headcount:', rol_cliente:'Client', rol_auditor:'Auditor', rol_superadmin:'Superadmin', cambiar_perfil:'Switch profile'
+  }
+};
+function t(k){return (I18N[LANG] && I18N[LANG][k]) || (I18N.es[k]||k);}
+function setLang(l){
+  LANG=l; localStorage.setItem('magic_lang',l);
+  NIVEL_LBL = (l==='en')?NIVEL_LBL_EN:NIVEL_LBL_ES;
+  aplicarIdioma();
+  // Repintar la pestaña actual para textos dinámicos
+  if(MODELO){ renderTabs(); renderTab(); actualizarGlobal(); }
+}
+function aplicarIdioma(){
+  document.documentElement.lang=LANG;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent=t(el.getAttribute('data-i18n')); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.placeholder=t(el.getAttribute('data-i18n-ph')); });
+  const seg=document.getElementById('langSeg');
+  if(seg){ seg.querySelectorAll('button').forEach(b=>b.classList.toggle('on', b.dataset.l===LANG)); }
+}
+const COLORS={0:'#b25b54',20:'#c2823f',40:'#cba94d',60:'#9ab464',80:'#6fae7e',100:'#5ba897'};
+const NIVELES=[{min:0,t:'Inicial',en:'Initial',c:'#b25b54'},{min:20,t:'Incipiente',en:'Emerging',c:'#c2823f'},{min:40,t:'Definido',en:'Defined',c:'#cba94d'},{min:60,t:'Desplegado',en:'Deployed',c:'#9ab464'},{min:80,t:'Integrado',en:'Integrated',c:'#6fae7e'},{min:95,t:'Referente',en:'Reference',c:'#5ba897'}];
+function nivNombre(niv){return LANG==='en'?(niv.en||niv.t):niv.t;}
+
+let PERFIL=null, esAuditor=false, MODELO=null, multiRol=false, rolActivo=null;
+
+function pintarQuien(){
+  const badge = multiRol ? rolActivo : PERFIL.rol;
+  document.getElementById('who').innerHTML = `<b>${esc(PERFIL.nombre||PERFIL.email)}</b><span class="role-badge role-${badge}">${badge}</span>`;
+}
+function pintarSelectorRol(){
+  // Pestaña de cambio de perfil para superadmins @tuconsultor.com
+  const nav = document.querySelector('.nav-right');
+  if(!nav || document.getElementById('rolSeg')) return;
+  const seg = document.createElement('div');
+  seg.className='rol-seg'; seg.id='rolSeg';
+  seg.innerHTML = ['cliente','auditor','superadmin'].map(r=>
+    `<button data-r="${r}" class="${r===rolActivo?'on':''}" onclick="cambiarRolActivo('${r}')">${t('rol_'+r)}</button>`
+  ).join('');
+  nav.insertBefore(seg, nav.firstChild);
+}
+function cambiarRolActivo(r){
+  if(!multiRol || r===rolActivo) return;
+  rolActivo = r;
+  localStorage.setItem('magic_rol_activo', r);
+  // Recargamos la vista para aplicar el rol limpio (más seguro que parchear estado)
+  const eid = new URLSearchParams(location.search).get('eval');
+  location.href = 'evaluar.html' + (eid?('?eval='+eid):'');
+}
+let EVAL=null, RESP={}, DOCS={}, AUDIT={}, AITEMS=[], CLIENTE=null, EMPRESAS=[], CENTROS=[];
 let tabActual=0; // 0 = Datos cliente; 1..7 = criterios
 
 document.addEventListener('magic-ready', init);
 
 async function init(){
+  NIVEL_LBL = (LANG==='en')?NIVEL_LBL_EN:NIVEL_LBL_ES;
+  aplicarIdioma();
   const s = await MagicAuth.requiereSesion('login.html');
   if(!s) return;
   PERFIL = await MagicAuth.perfil();
   // Pantalla de RGPD + disclaimer en el primer acceso
   const ok = await MagicTerminos.exigir(PERFIL);
   if(!ok) return;
-  esAuditor = PERFIL && (PERFIL.rol==='auditor'||PERFIL.rol==='superadmin');
-  if(esAuditor){ const okc = await MagicTerminos.exigirConfidencialidad(PERFIL); if(!okc) return; }
-  document.getElementById('who').innerHTML = `<b>${esc(PERFIL.nombre||PERFIL.email)}</b><span class="role-badge role-${PERFIL.rol}">${PERFIL.rol}</span>`;
+  // ¿Puede este usuario alternar entre roles? Solo superadmins @tuconsultor.com
+  multiRol = PERFIL && PERFIL.rol==='superadmin' && /@tuconsultor\.com$/i.test(PERFIL.email||'');
+  // Rol con el que opera ahora mismo (puede cambiarlo si multiRol)
+  rolActivo = multiRol ? (localStorage.getItem('magic_rol_activo')||'superadmin') : PERFIL.rol;
+  if(!['cliente','auditor','superadmin'].includes(rolActivo)) rolActivo='superadmin';
+  esAuditor = (rolActivo==='auditor'||rolActivo==='superadmin');
+  if(rolActivo==='auditor'||rolActivo==='superadmin'){ const okc = await MagicTerminos.exigirConfidencialidad(PERFIL); if(!okc) return; }
+  pintarQuien();
+  if(multiRol) pintarSelectorRol();
   if(esAuditor) document.getElementById('panelLink').style.display='inline-block';
   // Cliente pendiente de aprobación: no puede usar la herramienta todavía
   if(!esAuditor && PERFIL.aprobado===false){
@@ -312,8 +450,8 @@ async function init(){
     cont.insertAdjacentHTML('beforeend',
       `<div class="picker"><div class="box" style="text-align:center">
         <div style="font-size:34px;margin-bottom:8px">⏳</div>
-        <h3>Tu cuenta está pendiente de aprobación</h3>
-        <p style="color:var(--ink-dim);font-size:14px;line-height:1.6">Hemos avisado al equipo del Instituto de Excelencia Europea. En cuanto se apruebe tu acceso podrás comenzar tu autoevaluación MAGIC®.</p>
+        <h3>${t('pendiente_tit')}</h3>
+        <p style="color:var(--ink-dim);font-size:14px;line-height:1.6">${t('pendiente_txt')}</p>
         <p style="color:var(--ink-faint);font-size:12.5px;margin-top:12px">Si tienes dudas, escribe a <a href="mailto:hola@institutoexcelencia.com">hola@institutoexcelencia.com</a>.</p>
       </div></div>`);
     return;
@@ -363,10 +501,11 @@ async function abrirEval(eid){
     EVAL=await MagicData.getEvaluacion(eid);
   }catch(e){ toast('No tienes acceso a esa evaluación'); return mostrarPicker(); }
   history.replaceState(null,'','evaluar.html?eval='+eid);
-  RESP={};DOCS={};AUDIT={};
+  RESP={};DOCS={};AUDIT={};AITEMS=[];
   (await MagicData.getRespuestas(eid)).forEach(x=>RESP[x.pregunta_cod]={puntuacion:x.puntuacion,justificacion:x.justificacion||''});
   (await MagicData.getDocumentos(eid)).forEach(x=>{(DOCS[x.pregunta_cod]=DOCS[x.pregunta_cod]||[]).push(x);});
   (await MagicData.getAuditorCriterios(eid)).forEach(x=>AUDIT[x.criterio]={puntos_fuertes:x.puntos_fuertes||'',areas_mejora:x.areas_mejora||''});
+  AITEMS = await MagicData.getAuditorItems(eid);
   CLIENTE=await MagicData.getClienteDatos(eid);
   EMPRESAS=await MagicData.getEmpresas(eid);
   CENTROS=await MagicData.getCentros(eid);
@@ -384,7 +523,7 @@ function renderTabs(){
   // Tab 0: Datos del cliente
   const t0=document.createElement('div');t0.className='tab datos'+(tabActual===0?' active':'');
   t0.onclick=()=>{tabActual=0;renderTabs();renderTab();scrollTop();};
-  t0.innerHTML='<span class="cn">DATOS</span><span class="ct">Cliente y sedes</span><span class="cscore">·</span>';
+  t0.innerHTML=`<span class="cn">${t('datos')}</span><span class="ct">${t('cliente_sedes')}</span><span class="cscore">·</span>`;
   cont.appendChild(t0);
   MODELO.criterios.forEach((c,i)=>{
     const idx=i+1;
@@ -422,18 +561,18 @@ function renderDatosCliente(){
   const c=CLIENTE||{};
   const panel=document.getElementById('panelContent');
   panel.innerHTML=`
-    <div class="crit-head"><div class="kk">Datos del cliente</div><h2>Identificación de la organización</h2></div>
+    <div class="crit-head"><div class="kk">${t('datos_cliente')}</div><h2>${t('identif')}</h2></div>
     <div class="form-card">
-      <label class="field-label">Alcance de la evaluación</label>
-      <textarea class="ta" id="cd-alcance" placeholder="Actividades, procesos o unidades incluidas en el alcance…">${esc(c.alcance||'')}</textarea>
-      <div class="saverow"><button class="btn-ghost" onclick="guardarCliente()">Guardar alcance</button><span class="savestate" id="cd-state"></span></div>
+      <label class="field-label">${t('alcance')}</label>
+      <textarea class="ta" id="cd-alcance" placeholder="${t('alcance_ph')}">${esc(c.alcance||'')}</textarea>
+      <div class="saverow"><button class="btn-ghost" onclick="guardarCliente()">${t('guardar_alcance')}</button><span class="savestate" id="cd-state"></span></div>
     </div>
 
-    <div class="crit-head" style="margin-top:30px"><div class="kk">Empresas y centros de trabajo</div><h2>CIF del grupo y sus centros</h2></div>
-    <p style="color:var(--ink-faint);font-size:13px;margin:-6px 0 16px">Añade cada empresa (CIF y razón social) y, dentro de cada una, sus centros de trabajo con su dirección y número de trabajadores.</p>
+    <div class="crit-head" style="margin-top:30px"><div class="kk">${t('empresas_centros')}</div><h2>${t('cif_grupo')}</h2></div>
+    <p style="color:var(--ink-faint);font-size:13px;margin:-6px 0 16px">${t('empresas_intro')}</p>
     <div id="empresasWrap"></div>
-    <button class="btn-ghost" onclick="anadirEmpresa()">+ Añadir empresa (CIF)</button>
-    <div style="margin-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-faint);text-transform:uppercase">Total trabajadores del grupo: <b id="totalTrab" style="color:var(--accent)">0</b></div>
+    <button class="btn-ghost" onclick="anadirEmpresa()">${t('add_empresa')}</button>
+    <div style="margin-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-faint);text-transform:uppercase">${t('total_grupo')} <b id="totalTrab" style="color:var(--accent)">0</b></div>
   `;
   renderEmpresas();
 }
@@ -448,17 +587,17 @@ function renderEmpresas(){
     const cs=centrosDe(emp.id);
     div.innerHTML=`
       <div class="empresa-head">
-        <span class="empresa-tag">Empresa ${ei+1}</span>
-        <button class="sede-del" onclick="borrarEmpresa('${emp.id}')">Eliminar empresa</button>
+        <span class="empresa-tag">${t('empresa')} ${ei+1}</span>
+        <button class="sede-del" onclick="borrarEmpresa('${emp.id}')">${t('eliminar_empresa')}</button>
       </div>
       <div class="grid2">
-        <div><label class="field-label">Razón social</label><input class="inp" data-ei="${emp.id}" data-ef="razon_social" placeholder="Razón social" value="${esc(emp.razon_social||'')}"></div>
-        <div><label class="field-label">CIF</label><input class="inp" data-ei="${emp.id}" data-ef="cif" placeholder="CIF / NIF" value="${esc(emp.cif||'')}"></div>
+        <div><label class="field-label">${t('razon_social')}</label><input class="inp" data-ei="${emp.id}" data-ef="razon_social" placeholder="${t('razon_social')}" value="${esc(emp.razon_social||'')}"></div>
+        <div><label class="field-label">${t('cif')}</label><input class="inp" data-ei="${emp.id}" data-ef="cif" placeholder="${t('cif')}" value="${esc(emp.cif||'')}"></div>
       </div>
-      <div class="saverow"><button class="btn-ghost" onclick="guardarEmpresa('${emp.id}')">Guardar empresa</button><span class="savestate" id="emp-state-${emp.id}"></span></div>
+      <div class="saverow"><button class="btn-ghost" onclick="guardarEmpresa('${emp.id}')">${t('guardar_empresa')}</button><span class="savestate" id="emp-state-${emp.id}"></span></div>
 
       <div class="centros-wrap" id="centros-${emp.id}"></div>
-      <button class="btn-ghost" style="margin-top:10px" onclick="anadirCentro('${emp.id}')">+ Añadir centro de trabajo</button>
+      <button class="btn-ghost" style="margin-top:10px" onclick="anadirCentro('${emp.id}')">${t('add_centro')}</button>
     `;
     wrap.appendChild(div);
     renderCentros(emp.id);
@@ -473,14 +612,14 @@ function renderCentros(empId){
   cs.forEach((ct,ci)=>{
     const div=document.createElement('div');div.className='centro';
     div.innerHTML=`
-      <div class="centro-head"><h5>Centro ${ci+1}</h5><button class="sede-del" onclick="borrarCentro('${ct.id}','${empId}')">Eliminar</button></div>
+      <div class="centro-head"><h5>${t('centro')} ${ci+1}</h5><button class="sede-del" onclick="borrarCentro('${ct.id}','${empId}')">${t('eliminar')}</button></div>
       <div class="grid2">
-        <div><label class="field-label">Nombre / referencia</label><input class="inp" data-ci="${ct.id}" data-cf="nombre" placeholder="Sede central" value="${esc(ct.nombre||'')}"></div>
-        <div><label class="field-label">Nº trabajadores</label><input class="inp" type="number" min="0" data-ci="${ct.id}" data-cf="trabajadores" placeholder="0" value="${ct.trabajadores!=null?ct.trabajadores:''}"></div>
+        <div><label class="field-label">${t('nombre_ref')}</label><input class="inp" data-ci="${ct.id}" data-cf="nombre" placeholder="${t('nombre_ref')}" value="${esc(ct.nombre||'')}"></div>
+        <div><label class="field-label">${t('n_trab')}</label><input class="inp" type="number" min="0" data-ci="${ct.id}" data-cf="trabajadores" placeholder="0" value="${ct.trabajadores!=null?ct.trabajadores:''}"></div>
       </div>
-      <label class="field-label">Dirección</label>
-      <input class="inp" data-ci="${ct.id}" data-cf="direccion" placeholder="Calle, nº, CP, localidad" value="${esc(ct.direccion||'')}">
-      <div class="saverow"><button class="btn-ghost" onclick="guardarCentro('${ct.id}')">Guardar centro</button><span class="savestate" id="centro-state-${ct.id}"></span></div>`;
+      <label class="field-label">${t('direccion')}</label>
+      <input class="inp" data-ci="${ct.id}" data-cf="direccion" placeholder="${t('direccion_ph')}" value="${esc(ct.direccion||'')}">
+      <div class="saverow"><button class="btn-ghost" onclick="guardarCentro('${ct.id}')">${t('guardar_centro')}</button><span class="savestate" id="centro-state-${ct.id}"></span></div>`;
     cont.appendChild(div);
   });
   cont.querySelectorAll('input[data-cf="trabajadores"]').forEach(inp=>inp.addEventListener('input',recalcTrab));
@@ -545,7 +684,7 @@ async function borrarCentro(ctId,empId){
 /* ----- Pestaña de criterio ----- */
 function renderCriterio(c){
   const panel=document.getElementById('panelContent');
-  let html=`<div class="crit-head"><div class="kk">Criterio ${c.num} de 7</div><h2>${esc(c.titulo)}</h2></div>`;
+  let html=`<div class="crit-head"><div class="kk">${t('criterio')} ${c.num} ${t('de')} 7</div><h2>${esc(c.titulo)}</h2></div>`;
   let bloque=null;
   c.preguntas.forEach((q,idx)=>{
     if(q.bloque!==bloque){bloque=q.bloque;html+=`<div class="bloque-tag">${esc(q.bloque)}</div>`;}
@@ -559,39 +698,37 @@ function renderCriterio(c){
         <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
       <div class="q-body">
-        ${q.justificacion_ctx?`<div class="ctx"><div class="ctx-l">Por qué importa</div><p>${esc(q.justificacion_ctx)}</p></div>`:''}
+        ${q.justificacion_ctx?`<div class="ctx"><div class="ctx-l">${t('porque_importa')}</div><p>${esc(q.justificacion_ctx)}</p></div>`:''}
         <div class="scale">
           ${q.niveles.map((nv,i)=>{const val=ESCALA[i];const sel=r.puntuacion===val;return `<div class="opt ${sel?'sel':''}${esAuditor?' disabled':''}" ${esAuditor?'':`onclick="elegir(${idx},${val})"`}><div class="mark" style="background:${COLORS[val]}">${val}<small>${NIVEL_LBL[i]}</small></div><div class="desc">${esc(nv||'—')}</div></div>`}).join('')}
         </div>
-        <label class="field-label">Justificación / hallazgos</label>
-        <textarea class="ta" id="just-${idx}" ${esAuditor?'disabled':''} placeholder="${esAuditor?'(Rellenado por el cliente)':'Describe la evidencia que respalda esta puntuación…'}">${esc(r.justificacion||'')}</textarea>
-        ${q.evidencias?`<details class="evid"><summary><svg class="arw" width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.6"/></svg> Evidencias sugeridas</summary><div class="evid-body">${esc(q.evidencias)}</div></details>`:''}
-        <label class="field-label">Documentación de soporte</label>
-        ${esAuditor?'':`<div class="dropzone" id="dz-${idx}" onclick="document.getElementById('file-${idx}').click()"><b>Haz clic para subir</b> o arrastra aquí tus archivos<small>PDF, Word, Excel, imágenes… (máx. 15 MB)</small></div><input type="file" id="file-${idx}" multiple style="display:none" onchange="subir(${idx},this.files)">`}
+        <label class="field-label">${t('justif')}</label>
+        <textarea class="ta" id="just-${idx}" ${esAuditor?'disabled':''} placeholder="${esAuditor?t('justif_ro'):t('justif_ph')}">${esc(r.justificacion||'')}</textarea>
+        ${q.evidencias?`<details class="evid"><summary><svg class="arw" width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.6"/></svg> ${t('evid_sug')}</summary><div class="evid-body">${esc(q.evidencias)}</div></details>`:''}
+        <label class="field-label">${t('doc_soporte')}</label>
+        ${esAuditor?'':`<div class="dropzone" id="dz-${idx}" onclick="document.getElementById('file-${idx}').click()"><b>${t('subir_txt')}</b> ${t('subir_sub')}<small>${t('subir_hint')}</small></div><input type="file" id="file-${idx}" multiple style="display:none" onchange="subir(${idx},this.files)">`}
         <ul class="doclist" id="docs-${idx}"></ul>
-        ${esAuditor?'':`<div class="saverow"><button class="btn-ghost" onclick="guardarResp(${idx})">Guardar pregunta</button><span class="savestate" id="state-${idx}"></span></div>`}
+        ${esAuditor?'':`<div class="saverow"><button class="btn-ghost" onclick="guardarResp(${idx})">${t('guardar_preg')}</button><span class="savestate" id="state-${idx}"></span></div>`}
+        <div class="auditor-q">
+          <div class="ab-l"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.4 7.4H22l-6 4.4 2.3 7.2L12 16.8 5.7 21l2.3-7.2-6-4.4h7.6z" stroke="currentColor" stroke-width="1.4"/></svg> <span>${t('aud_eval')}</span></div>
+          <div class="aitem-group">
+            <div class="aitem-head"><span class="aitem-title pf">${t('puntos_fuertes')}</span>${esAuditor?`<button class="aitem-add" onclick="addItem('${q.codigo}','fuerte')">+</button>`:''}</div>
+            <div class="aitem-list" id="list-fuerte-${idx}"></div>
+          </div>
+          <div class="aitem-group">
+            <div class="aitem-head"><span class="aitem-title am">${t('aspectos_mejora')}</span>${esAuditor?`<button class="aitem-add" onclick="addItem('${q.codigo}','mejora')">+</button>`:''}</div>
+            <div class="aitem-list" id="list-mejora-${idx}"></div>
+          </div>
+        </div>
       </div>
     </div>`;
   });
 
-  // Bloque del auditor (puntos fuertes / áreas de mejora) — visible para todos, editable solo auditor
-  const a=AUDIT[c.id]||{};
-  const lectura = !esAuditor;
-  html+=`
-    <div class="auditor-box">
-      <div class="ab-l"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.4 7.4H22l-6 4.4 2.3 7.2L12 16.8 5.7 21l2.3-7.2-6-4.4h7.6z" stroke="currentColor" stroke-width="1.4"/></svg> Evaluación del auditor</div>
-      <div class="ab-sub">${lectura?'Cumplimentado por el equipo auditor de MAGIC®.':'Solo tú (auditor) puedes editar estos campos.'}</div>
-      <label class="field-label">Puntos fuertes</label>
-      <textarea class="ta" id="pf" ${lectura?'disabled':''} placeholder="${lectura?'(Pendiente de evaluación)':'Fortalezas detectadas en este criterio…'}">${esc(a.puntos_fuertes||'')}</textarea>
-      <label class="field-label">Aspectos de mejora</label>
-      <textarea class="ta" id="am" ${lectura?'disabled':''} placeholder="${lectura?'(Pendiente de evaluación)':'Áreas de mejora y recomendaciones…'}">${esc(a.areas_mejora||'')}</textarea>
-      ${lectura?'':`<div class="saverow"><button class="btn-ghost" onclick="guardarAuditor('${c.id}')">Guardar evaluación</button><span class="savestate" id="aud-state"></span></div>`}
-    </div>`;
-
   panel.innerHTML=html;
-  // pintar docs y enganchar
+  // pintar docs, ítems del auditor y enganchar
   c.preguntas.forEach((q,idx)=>{
     pintarDocs(idx,q.codigo);
+    pintarItems(idx,q.codigo);
     if(!esAuditor){
       const ta=document.getElementById('just-'+idx);if(ta)ta.addEventListener('blur',()=>guardarResp(idx,true));
       const dz=document.getElementById('dz-'+idx);
@@ -621,12 +758,50 @@ async function guardarResp(idx,silent){
     if(st){st.textContent='✓ Guardado';st.className='savestate saved';setTimeout(()=>st.textContent='',2500);} }
   catch(e){ if(st)st.textContent='⚠ '+e.message; }
 }
-async function guardarAuditor(cid){
-  const st=document.getElementById('aud-state');st.textContent='Guardando…';st.className='savestate';
-  try{ const d={puntos_fuertes:document.getElementById('pf').value,areas_mejora:document.getElementById('am').value};
-    await MagicData.guardarAuditorCriterio(EVAL.id,cid,d);AUDIT[cid]=d;
-    st.textContent='✓ Guardado';st.className='savestate saved';setTimeout(()=>st.textContent='',2500); }
-  catch(e){ st.textContent='⚠ '+e.message; }
+function itemsDe(cod,tipo){return AITEMS.filter(x=>x.pregunta_cod===cod && x.tipo===tipo);}
+function pintarItems(idx,cod){
+  ['fuerte','mejora'].forEach(tipo=>{
+    const cont=document.getElementById('list-'+tipo+'-'+idx);if(!cont)return;
+    const list=itemsDe(cod,tipo);
+    if(!list.length && !esAuditor){ cont.innerHTML='<div class="aitem-empty">—</div>'; return; }
+    cont.innerHTML='';
+    list.forEach(it=>{
+      const row=document.createElement('div');row.className='aitem '+tipo;
+      if(esAuditor){
+        row.innerHTML=`<textarea class="aitem-input" rows="1" placeholder="${tipo==='fuerte'?'Punto fuerte…':'Aspecto de mejora…'}">${esc(it.texto||'')}</textarea>`+
+                      `<button class="aitem-del" title="Eliminar">×</button>`;
+        const ta=row.querySelector('textarea');
+        autoGrow(ta);
+        ta.addEventListener('input',()=>autoGrow(ta));
+        ta.addEventListener('blur',()=>saveItem(it.id,ta.value));
+        row.querySelector('.aitem-del').addEventListener('click',()=>borrarItem(it.id,idx,cod));
+      }else{
+        row.innerHTML=`<div class="aitem-ro">${esc(it.texto||'')||'—'}</div>`;
+      }
+      cont.appendChild(row);
+    });
+  });
+}
+function autoGrow(ta){ta.style.height='auto';ta.style.height=(ta.scrollHeight)+'px';}
+async function addItem(cod,tipo){
+  try{
+    const it=await MagicData.crearAuditorItem(EVAL.id,cod,tipo,'');
+    AITEMS.push(it);
+    const idx=curCrit().preguntas.findIndex(q=>q.codigo===cod);
+    pintarItems(idx,cod);
+    // foco en el recién creado
+    const cont=document.getElementById('list-'+tipo+'-'+idx);
+    const last=cont&&cont.querySelector('.aitem:last-child textarea');if(last)last.focus();
+  }catch(e){ toast('Error: '+e.message); }
+}
+async function saveItem(id,texto){
+  const it=AITEMS.find(x=>x.id===id);if(it)it.texto=texto;
+  try{ await MagicData.actualizarAuditorItem(id,texto); }
+  catch(e){ toast('⚠ '+e.message); }
+}
+async function borrarItem(id,idx,cod){
+  try{ await MagicData.borrarAuditorItem(id); AITEMS=AITEMS.filter(x=>x.id!==id); pintarItems(idx,cod); }
+  catch(e){ toast('Error: '+e.message); }
 }
 
 function pintarDocs(idx,cod){
@@ -660,7 +835,7 @@ function actualizarGlobal(){
   const C=2*Math.PI*37;document.getElementById('gGauge').style.strokeDashoffset=C*(1-media/100);
   const niv=[...NIVELES].reverse().find(x=>media>=x.min)||NIVELES[0];
   document.getElementById('gGauge').setAttribute('stroke',n?niv.c:'#d4b06a');
-  document.getElementById('gLevel').textContent=n?('Nivel actual: '+niv.t+'.'):'';
+  document.getElementById('gLevel').textContent=n?(t('nivel_actual')+' '+niv.t+'.'):'';
 }
 
 /* ---------- INFORME PDF (auditor) ---------- */
@@ -673,15 +848,22 @@ async function descargarInforme(){
   const media=vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):0;
   const niv=[...NIVELES].reverse().find(x=>media>=x.min)||NIVELES[0];
   let cuerpo='';
+  const L=I18N[LANG];
   MODELO.criterios.forEach(c=>{
     const cv=c.preguntas.map(q=>RESP[q.codigo]?.puntuacion).filter(v=>v!=null);
     const cm=cv.length?Math.round(cv.reduce((a,b)=>a+b,0)/cv.length):'—';
-    const a=AUDIT[c.id]||{};
-    cuerpo+=`<h2>Criterio ${c.num} · ${esc(c.titulo)} <span class="cm">${cm}${cm!=='—'?'/100':''}</span></h2>`;
-    cuerpo+='<table><thead><tr><th>Ref</th><th>Pregunta</th><th>Punt.</th></tr></thead><tbody>';
-    c.preguntas.forEach(q=>{const r=RESP[q.codigo]||{};cuerpo+=`<tr><td>${esc(q.codigo)}</td><td>${esc(q.pregunta)}${r.justificacion?`<div class="just">${esc(r.justificacion)}</div>`:''}</td><td class="pt">${r.puntuacion!=null?r.puntuacion:'—'}</td></tr>`;});
-    cuerpo+='</tbody></table>';
-    cuerpo+=`<div class="aud"><div class="aud-c"><h4>Puntos fuertes</h4><p>${esc(a.puntos_fuertes||'—')}</p></div><div class="aud-c"><h4>Aspectos de mejora</h4><p>${esc(a.areas_mejora||'—')}</p></div></div>`;
+    cuerpo+=`<h2>${L.criterio} ${c.num} · ${esc(c.titulo)} <span class="cm">${cm}${cm!=='—'?'/100':''}</span></h2>`;
+    c.preguntas.forEach(q=>{
+      const r=RESP[q.codigo]||{};
+      const fuertes=itemsDe(q.codigo,'fuerte').filter(x=>(x.texto||'').trim());
+      const mejoras=itemsDe(q.codigo,'mejora').filter(x=>(x.texto||'').trim());
+      cuerpo+=`<div class="qblock">
+        <div class="qrow"><span class="qcod">${esc(q.codigo)}</span><span class="qtxt">${esc(q.pregunta)}</span><span class="qpt">${r.puntuacion!=null?r.puntuacion:'—'}</span></div>
+        ${r.justificacion?`<div class="qjust">${esc(r.justificacion)}</div>`:''}
+        ${fuertes.length?`<div class="qitems"><b class="pf">${L.puntos_fuertes}</b><ul>${fuertes.map(x=>`<li>${esc(x.texto)}</li>`).join('')}</ul></div>`:''}
+        ${mejoras.length?`<div class="qitems"><b class="am">${L.aspectos_mejora}</b><ul>${mejoras.map(x=>`<li>${esc(x.texto)}</li>`).join('')}</ul></div>`:''}
+      </div>`;
+    });
   });
   let sedesHtml='';
   if(EMPRESAS.length){
@@ -711,15 +893,24 @@ async function descargarInforme(){
   .just{color:#666;font-size:9.5px;margin-top:3px;font-style:italic}
   .aud{display:flex;gap:12px;margin:8px 0 4px}.aud-c{flex:1;border:1px solid #e3e2dc;border-left:3px solid #6aa6d4;border-radius:6px;padding:8px 12px}
   .aud-c h4{margin:0 0 4px;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#3f6f99}.aud-c p{margin:0;font-size:10px;white-space:pre-line}
+  .qblock{border:1px solid #e3e2dc;border-radius:6px;padding:9px 12px;margin:7px 0;break-inside:avoid}
+  .qrow{display:flex;align-items:baseline;gap:9px}
+  .qrow .qcod{font-weight:700;color:#8a6d2f;font-size:10px;white-space:nowrap}
+  .qrow .qtxt{flex:1;font-weight:600;font-size:10.5px}
+  .qrow .qpt{font-weight:700;font-size:12px;color:#16181d}
+  .qjust{color:#666;font-size:9.5px;margin:4px 0 2px;font-style:italic}
+  .qitems{margin:5px 0 0}.qitems b{font-size:9px;text-transform:uppercase;letter-spacing:.06em}
+  .qitems b.pf{color:#3f7a52}.qitems b.am{color:#9a6420}
+  .qitems ul{margin:2px 0 0;padding-left:16px}.qitems li{font-size:10px;margin-bottom:2px}
   h3{font-size:12px;margin:20px 0 6px;color:#8a6d2f}
   @media print{.noprint{display:none}}
   .noprint{position:fixed;top:10px;right:10px;background:#d4b06a;color:#1a1407;border:0;border-radius:6px;padding:10px 16px;font-weight:700;cursor:pointer;font-family:inherit}
   </style></head><body>
   <button class="noprint" onclick="window.print()">Imprimir / Guardar PDF</button>
-  <div class="cover"><div class="t">Informe de Autoevaluación</div><div class="s">Modelo MAGIC®</div><div class="o">${esc(EVAL.organizacion)}</div><div class="meta">${EMPRESAS.length?esc(EMPRESAS.map(e=>e.cif).filter(Boolean).join(' · ')):''}<br>${fecha}</div></div>
+  <div class="cover"><div class="t">${t('informe_tit')}</div><div class="s">Modelo MAGIC®</div><div class="o">${esc(EVAL.organizacion)}</div><div class="meta">${EMPRESAS.length?esc(EMPRESAS.map(e=>e.cif).filter(Boolean).join(' · ')):''}<br>${fecha}</div></div>
   <div class="score-box"><div class="score-num">${media}</div><div><div class="score-lbl">Puntuación global · escala 0–100</div><div style="font-weight:700">Nivel de madurez: ${niv.t}</div></div></div>
   ${cd.alcance?`<h3>Alcance</h3><p>${esc(cd.alcance)}</p>`:''}
-  ${sedesHtml?`<h3>Empresas y centros de trabajo <span style="font-weight:400;font-size:11px;color:#666">· Total plantilla: ${totalTrabPDF}</span></h3>${sedesHtml}`:''}
+  ${sedesHtml?`<h3>${t('sedes_plantilla')} <span style="font-weight:400;font-size:11px;color:#666">· ${t('total_plantilla')} ${totalTrabPDF}</span></h3>${sedesHtml}`:''}
   ${cuerpo}
   </body></html>`);
   w.document.close();

@@ -161,6 +161,28 @@ window.MagicData = {
     if (error) throw error;
   },
 
+  // ---- Ítems del auditor POR PREGUNTA (puntos fuertes / mejoras, uno por línea) ----
+  async getAuditorItems(eid) {
+    const { data } = await sb.from('auditor_items').select('*').eq('evaluacion_id', eid).order('creado_en');
+    return data || [];
+  },
+  async crearAuditorItem(eid, preguntaCod, tipo, texto) {
+    const u = await MagicAuth.usuario();
+    const { data, error } = await sb.from('auditor_items')
+      .insert({ evaluacion_id: eid, pregunta_cod: preguntaCod, tipo, texto: texto || '', auditor_id: u.id })
+      .select('*').single();
+    if (error) throw error;
+    return data;
+  },
+  async actualizarAuditorItem(id, texto) {
+    const { error } = await sb.from('auditor_items').update({ texto }).eq('id', id);
+    if (error) throw error;
+  },
+  async borrarAuditorItem(id) {
+    const { error } = await sb.from('auditor_items').delete().eq('id', id);
+    if (error) throw error;
+  },
+
   // ---- Documentos (Storage) ----
   async getDocumentos(eid) {
     const { data } = await sb.from('documentos').select('*').eq('evaluacion_id', eid);

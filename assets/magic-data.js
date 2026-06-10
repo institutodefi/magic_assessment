@@ -30,8 +30,9 @@ window.MagicData = {
     return data || null;
   },
   async guardarClienteDatos(eid, d) {
-    const { error } = await sb.from('cliente_datos')
-      .upsert({ evaluacion_id: eid, razon_social: d.razon_social, cif: d.cif, alcance: d.alcance, actualizado_en: new Date().toISOString() }, { onConflict: 'evaluacion_id' });
+    const fila = { evaluacion_id: eid, razon_social: d.razon_social, cif: d.cif, alcance: d.alcance, actualizado_en: new Date().toISOString() };
+    if (d.auditor_notas !== undefined) fila.auditor_notas = d.auditor_notas;
+    const { error } = await sb.from('cliente_datos').upsert(fila, { onConflict: 'evaluacion_id' });
     if (error) throw error;
   },
   async getSedes(eid) {

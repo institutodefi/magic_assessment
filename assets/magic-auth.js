@@ -9,7 +9,7 @@
    ============================================================ */
 window.MAGIC_CONFIG = {
   // Supabase → Project Settings → Data API → Project URL
-  SUPABASE_URL: "https://qlnsvoadnhchzpsuqdqk.supabase.co",
+  SUPABASE_URL: "https://qlnsvoadnhchzpsuqdqksupabase.co",
   // Supabase → Project Settings → API Keys → anon public  (¡la anon, NO la service_role!)
   SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsbnN2b2FkbmhjaHpwc3VxZHFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTM3MTcsImV4cCI6MjA5NjQyOTcxN30._4Oxc1CJPXgeWIYRVJhuhmE0NfG9xkFB3ZUAm4DFYis"
 };
@@ -39,20 +39,42 @@ window.MAGIC_CONFIG = {
       },
       async salir() { await sb.auth.signOut(); },
       async sesion() { const { data } = await sb.auth.getSession(); return data.session; },
-      async usuario() { const { data } = await sb.auth.getUser(); return data.user; },
+      async usuario() {
+        // getSession lee de memoria/localStorage (sin viaje de red); getUser sí va al servidor.
+        const { data: ses } = await sb.auth.getSession();
+        if (ses && ses.session && ses.session.user) return ses.session.user;
+        const { data } = await sb.auth.getUser();
+        return data.user;
+      },
       // Perfil (incluye rol)
-      async perfil() {
+      async perfil(forzar) {
         const u = await this.usuario();
         if (!u) return null;
+        // Cache en memoria durante la sesión: evita pedir el perfil varias veces
+        if (!forzar && this._perfilCache && this._perfilCache.id === u.id) return this._perfilCache;
         const { data, error } = await sb.from('perfiles').select('*').eq('id', u.id).single();
-        if (error) return { id: u.id, email: u.email, rol: 'cliente' };
-        return data;
+        const perfil = error ? { id: u.id, email: u.email, rol: 'cliente' } : data;
+        this._perfilCache = perfil;
+        return perfil;
       },
       // Exige sesión; si no hay, redirige a login
       async requiereSesion(loginUrl) {
         const s = await this.sesion();
         if (!s) { window.location.href = loginUrl || 'login.html'; return null; }
         return s;
+      },
+      // Cambiar el nombre del perfil
+      async actualizarNombre(nombre) {
+        const u = await this.usuario();
+        if (!u) throw new Error('Sin sesión');
+        const { error } = await sb.from('perfiles').update({ nombre }).eq('id', u.id);
+        if (error) throw error;
+        if (this._perfilCache) this._perfilCache.nombre = nombre;
+      },
+      // Cambiar la contraseña del usuario autenticado
+      async cambiarPassword(nueva) {
+        const { error } = await sb.auth.updateUser({ password: nueva });
+        if (error) throw error;
       }
     };
     window.MagicAuth = MagicAuth;

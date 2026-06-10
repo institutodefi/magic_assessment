@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi perfil · MAGIC®</title>
+<meta name="theme-color" content="#0b0d12">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230b0d12'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23d4b06a' stroke-width='1'/%3E%3C/svg%3E">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+<style>
+  :root{--bg:#0b0d12;--bg-soft:#11141b;--ink:#e9ecf2;--ink-dim:#a8aebb;--ink-faint:#6b7280;--line:rgba(255,255,255,.08);--line-strong:rgba(255,255,255,.14);--accent:#d4b06a;--accent-soft:rgba(212,176,106,.12);--audit:#6aa6d4;--audit-soft:rgba(106,166,212,.12);--ok:#5ba897;--err:#e0564f;--sans:"Manrope",system-ui,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,monospace}
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(900px 500px at 50% -8%,#141b27,#000 65%);font-family:var(--sans);color:var(--ink);min-height:100vh}
+  .nav{border-bottom:1px solid var(--line);background:rgba(11,13,18,.8);backdrop-filter:blur(10px);position:sticky;top:0;z-index:50}
+  .nav-inner{max-width:1100px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:16px}
+  .brand-logo{height:30px;width:auto;display:block}
+  .nav-right{margin-left:auto;display:flex;gap:14px;align-items:center}
+  .link-btn{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim);background:transparent;border:0;cursor:pointer}
+  .link-btn:hover{color:var(--ink)}
+  .who{font-size:13px;color:var(--ink-dim)}.who b{color:var(--ink)}
+  .role-badge{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:2px 8px;border-radius:999px;margin-left:7px;background:var(--accent-soft);color:var(--accent)}
+  main{max-width:640px;margin:0 auto;padding:40px 24px 80px}
+  .page-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);text-align:center;margin-bottom:8px}
+  h1{font-size:32px;font-weight:800;text-align:center;margin:0 0 34px}
+  .card{background:var(--bg-soft);border:1px solid var(--line);border-radius:12px;padding:26px 26px;margin-bottom:20px}
+  .card h2{font-size:15px;font-weight:700;margin:0 0 4px;display:flex;align-items:center;gap:9px}
+  .card .sub{font-size:13px;color:var(--ink-faint);margin:0 0 18px;line-height:1.5}
+  .field{margin-bottom:15px}
+  .field label{display:block;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:7px}
+  .field input{width:100%;border:1px solid var(--line-strong);border-radius:8px;padding:13px 15px;font-family:var(--sans);font-size:15px;color:var(--ink);background:var(--bg);transition:.2s}
+  .field input:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .field input:disabled{color:var(--ink-faint);background:rgba(255,255,255,.02);cursor:not-allowed}
+  .field input::placeholder{color:var(--ink-faint)}
+  .pass-wrap{position:relative}
+  .pass-wrap input{padding-right:46px}
+  .eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:32px;height:32px;border:0;background:transparent;cursor:pointer;color:var(--ink-faint);display:grid;place-items:center;border-radius:6px}
+  .eye:hover{color:var(--ink-dim);background:var(--accent-soft)}
+  .btn{width:100%;border:0;border-radius:999px;padding:13px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;background:var(--accent);color:#1a1407;transition:.2s;margin-top:4px}
+  .btn:hover{filter:brightness(1.07)}.btn:disabled{opacity:.6;cursor:default}
+  .btn-audit{background:var(--audit)}
+  .msg{margin-top:12px;font-size:13px;min-height:18px;text-align:center}
+  .msg.ok{color:var(--ok)}.msg.err{color:var(--err)}
+  .go-eval{display:flex;align-items:center;justify-content:space-between;gap:14px;text-decoration:none;color:inherit}
+  .go-eval .t{font-size:15px;font-weight:700}
+  .go-eval .d{font-size:13px;color:var(--ink-faint);margin-top:2px}
+  .go-arrow{font-size:20px;color:var(--accent)}
+  .spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(26,20,7,.3);border-top-color:#1a1407;border-radius:50%;animation:r .7s linear infinite;vertical-align:-2px;margin-right:7px}
+  @keyframes r{to{transform:rotate(360deg)}}
+  .hint{font-size:12px;color:var(--ink-faint);margin-top:-8px;margin-bottom:12px}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" aria-label="MAGIC® — Inicio"><picture><source srcset="assets/magic_logo-sm.webp" type="image/webp"><img src="assets/magic_logo.png" alt="MAGIC®" class="brand-logo" width="229" height="72"></picture></a>
+    <div class="nav-right">
+      <span class="who" id="who"></span>
+      <button class="link-btn" id="goEval" onclick="irEval()">Evaluaciones</button>
+      <button class="link-btn" onclick="cerrar()">Salir</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="page-eyebrow">Mi cuenta</div>
+  <h1>Mi perfil</h1>
+
+  <!-- Acceso rápido a evaluaciones / auditorías -->
+  <div class="card" id="cardAcceso" style="cursor:pointer" onclick="irEval()">
+    <a class="go-eval" href="#" onclick="event.preventDefault()">
+      <div>
+        <div class="t" id="accesoT">Mis evaluaciones</div>
+        <div class="d" id="accesoD">Ir a tu autoevaluación MAGIC®</div>
+      </div>
+      <span class="go-arrow">→</span>
+    </a>
+  </div>
+
+  <!-- Datos personales -->
+  <div class="card">
+    <h2>Datos personales</h2>
+    <p class="sub">Tu nombre se mostrará en la herramienta. El email no se puede cambiar desde aquí.</p>
+    <div class="field">
+      <label>Nombre</label>
+      <input id="inNombre" type="text" placeholder="Tu nombre" autocomplete="name">
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <input id="inEmail" type="email" disabled>
+    </div>
+    <div class="field">
+      <label>Rol</label>
+      <input id="inRol" type="text" disabled>
+    </div>
+    <button class="btn" id="btnNombre" onclick="guardarNombre()">Guardar cambios</button>
+    <div class="msg" id="msgNombre"></div>
+  </div>
+
+  <!-- Cambio de contraseña -->
+  <div class="card">
+    <h2>Cambiar contraseña</h2>
+    <p class="sub">Escribe la nueva contraseña dos veces para confirmar. Mínimo 6 caracteres.</p>
+    <div class="field">
+      <label>Nueva contraseña</label>
+      <div class="pass-wrap">
+        <input id="inPass" type="password" placeholder="Nueva contraseña" autocomplete="new-password">
+        <button type="button" class="eye" onclick="verPass('inPass',this)" aria-label="Mostrar u ocultar la contraseña"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Repetir nueva contraseña</label>
+      <div class="pass-wrap">
+        <input id="inPass2" type="password" placeholder="Vuelve a escribir la contraseña" autocomplete="new-password">
+        <button type="button" class="eye" onclick="verPass('inPass2',this)" aria-label="Mostrar u ocultar la contraseña"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </div>
+    </div>
+    <button class="btn" id="btnPass" onclick="guardarPass()">Actualizar contraseña</button>
+    <div class="msg" id="msgPass"></div>
+  </div>
+</main>
+
+<script src="assets/magic-auth.js"></script>
+<script src="assets/magic-data.js"></script>
+<script>
+let PERFIL=null;
+
+function verPass(id,btn){
+  const inp=document.getElementById(id);
+  const ver = inp.type==='password';
+  inp.type = ver?'text':'password';
+  btn.innerHTML = ver
+    ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
+    : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>';
+}
+
+function esc(s){return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+async function init(){
+  const s = await MagicAuth.requiereSesion('login.html');
+  if(!s) return;
+  PERFIL = await MagicAuth.perfil();
+  const esAud = PERFIL && (PERFIL.rol==='auditor'||PERFIL.rol==='superadmin');
+  document.getElementById('who').innerHTML = `<b>${esc(PERFIL.nombre||PERFIL.email)}</b><span class="role-badge">${esc(PERFIL.rol||'cliente')}</span>`;
+  document.getElementById('inNombre').value = PERFIL.nombre || '';
+  document.getElementById('inEmail').value = PERFIL.email || '';
+  document.getElementById('inRol').value = PERFIL.rol || 'cliente';
+  // Acceso rápido según rol
+  if(esAud){
+    document.getElementById('accesoT').textContent = 'Evaluaciones y auditorías';
+    document.getElementById('accesoD').textContent = 'Ir al panel de evaluaciones asignadas';
+    document.getElementById('goEval').textContent = 'Panel';
+  }
+}
+
+function irEval(){
+  const esAud = PERFIL && (PERFIL.rol==='auditor'||PERFIL.rol==='superadmin');
+  // Respetamos el cambio de perfil de superadmins @tuconsultor.com
+  const multiRol = PERFIL && PERFIL.rol==='superadmin' && /@tuconsultor\.com$/i.test(PERFIL.email||'');
+  const rolActivo = multiRol ? (localStorage.getItem('magic_rol_activo')||'superadmin') : (PERFIL?PERFIL.rol:'cliente');
+  if(rolActivo==='auditor'||rolActivo==='superadmin') location.href='panel.html';
+  else location.href='evaluar.html';
+}
+
+async function guardarNombre(){
+  const nombre=document.getElementById('inNombre').value.trim();
+  const msg=document.getElementById('msgNombre'), btn=document.getElementById('btnNombre');
+  if(!nombre){msg.className='msg err';msg.textContent='El nombre no puede estar vacío.';return;}
+  btn.disabled=true;const o=btn.textContent;btn.innerHTML='<span class="spin"></span>Guardando…';
+  try{
+    await MagicAuth.actualizarNombre(nombre);
+    msg.className='msg ok';msg.textContent='✓ Nombre actualizado.';
+    document.getElementById('who').innerHTML = `<b>${esc(nombre)}</b><span class="role-badge">${esc(PERFIL.rol||'cliente')}</span>`;
+  }catch(e){ msg.className='msg err';msg.textContent='No se pudo guardar: '+(e.message||e); }
+  btn.disabled=false;btn.textContent=o;
+}
+
+async function guardarPass(){
+  const p1=document.getElementById('inPass').value, p2=document.getElementById('inPass2').value;
+  const msg=document.getElementById('msgPass'), btn=document.getElementById('btnPass');
+  if(p1.length<6){msg.className='msg err';msg.textContent='La contraseña debe tener al menos 6 caracteres.';return;}
+  if(p1!==p2){msg.className='msg err';msg.textContent='Las contraseñas no coinciden.';return;}
+  btn.disabled=true;const o=btn.textContent;btn.innerHTML='<span class="spin"></span>Actualizando…';
+  try{
+    await MagicAuth.cambiarPassword(p1);
+    msg.className='msg ok';msg.textContent='✓ Contraseña actualizada.';
+    document.getElementById('inPass').value='';document.getElementById('inPass2').value='';
+  }catch(e){ msg.className='msg err';msg.textContent='No se pudo cambiar: '+(e.message||e); }
+  btn.disabled=false;btn.textContent=o;
+}
+
+async function cerrar(){ await MagicAuth.salir(); location.href='login.html'; }
+
+document.addEventListener('magic-ready', init);
+</script>
+</body>
+</html>

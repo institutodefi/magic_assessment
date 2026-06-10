@@ -101,6 +101,7 @@ window.MagicData = {
       .update({ terminos_aceptados: true, terminos_aceptados_en: new Date().toISOString() })
       .eq('id', u.id);
     if (error) throw error;
+    if (MagicAuth._perfilCache) MagicAuth._perfilCache.terminos_aceptados = true;
   },
   // ---- Aceptación de confidencialidad (auditores) ----
   async aceptarConfidencialidad() {
@@ -109,6 +110,7 @@ window.MagicData = {
       .update({ confidencialidad_aceptada: true, confidencialidad_aceptada_en: new Date().toISOString() })
       .eq('id', u.id);
     if (error) throw error;
+    if (MagicAuth._perfilCache) MagicAuth._perfilCache.confidencialidad_aceptada = true;
   },
   // ---- Canjear código de invitación de auditor (función segura en BD) ----
   async canjearCodigoAuditor(codigo) {
@@ -186,12 +188,16 @@ window.MagicData = {
   // ---- Documentos (Storage) ----
   async getDocumentos(eid) {
     const { data } = await sb.from('documentos').select('*').eq('evaluacion_id', eid);
-    const out = [];
-    for (const d of (data || [])) {
-      const { data: signed } = await sb.storage.from('evidencias').createSignedUrl(d.storage_path, 3600);
-      out.push({ ...d, url: signed?.signedUrl || null });
-    }
-    return out;
+    const docs = data || [];
+    if (!docs.length) return [];
+    // Una sola petición para TODAS las URLs firmadas (en vez de una por documento)
+    const paths = docs.map(d => d.storage_path);
+    let firmadas = {};
+    try {
+      const { data: signed } = await sb.storage.from('evidencias').createSignedUrls(paths, 3600);
+      (signed || []).forEach(s => { if (s && s.path) firmadas[s.path] = s.signedUrl; });
+    } catch (e) { /* si falla el firmado en lote, devolvemos sin url */ }
+    return docs.map(d => ({ ...d, url: firmadas[d.storage_path] || null }));
   },
   async subirDocumento(eid, preguntaCod, file) {
     const safe = file.name.replace(/[^\w.\-]/g, '_');

@@ -229,6 +229,7 @@
         <button data-l="en" onclick="setLang('en')">EN</button>
       </div>
       <span class="who" id="who"></span>
+      <button class="link-btn" onclick="location.href='perfil.html'">Mi perfil</button>
       <button class="link-btn" id="panelLink" style="display:none" data-i18n="panel" onclick="location.href='panel.html'">Panel</button>
       <button class="link-btn" data-i18n="salir" onclick="cerrarSesion()">Salir</button>
     </div>
@@ -425,6 +426,8 @@ document.addEventListener('magic-ready', init);
 async function init(){
   NIVEL_LBL = (LANG==='en')?NIVEL_LBL_EN:NIVEL_LBL_ES;
   aplicarIdioma();
+  // Empezamos a descargar el modelo YA, en paralelo con la autenticación
+  const modeloPromesa = fetch('assets/magic-model.json').then(r=>r.json());
   const s = await MagicAuth.requiereSesion('login.html');
   if(!s) return;
   PERFIL = await MagicAuth.perfil();
@@ -456,8 +459,8 @@ async function init(){
       </div></div>`);
     return;
   }
-  // Cargar modelo
-  MODELO = await (await fetch('assets/magic-model.json')).json();
+  // Modelo (ya se empezó a descargar al principio, aquí solo esperamos a que esté)
+  MODELO = await modeloPromesa;
   // ¿viene una evaluación por URL?
   const params=new URLSearchParams(location.search);
   const eid=params.get('eval');
@@ -502,13 +505,23 @@ async function abrirEval(eid){
   }catch(e){ toast('No tienes acceso a esa evaluación'); return mostrarPicker(); }
   history.replaceState(null,'','evaluar.html?eval='+eid);
   RESP={};DOCS={};AUDIT={};AITEMS=[];
-  (await MagicData.getRespuestas(eid)).forEach(x=>RESP[x.pregunta_cod]={puntuacion:x.puntuacion,justificacion:x.justificacion||''});
-  (await MagicData.getDocumentos(eid)).forEach(x=>{(DOCS[x.pregunta_cod]=DOCS[x.pregunta_cod]||[]).push(x);});
-  (await MagicData.getAuditorCriterios(eid)).forEach(x=>AUDIT[x.criterio]={puntos_fuertes:x.puntos_fuertes||'',areas_mejora:x.areas_mejora||''});
-  AITEMS = await MagicData.getAuditorItems(eid);
-  CLIENTE=await MagicData.getClienteDatos(eid);
-  EMPRESAS=await MagicData.getEmpresas(eid);
-  CENTROS=await MagicData.getCentros(eid);
+  // Las 7 lecturas EN PARALELO (antes iban una tras otra y sumaban latencias)
+  const [resp, docs, crit, aitems, cliente, empresas, centros] = await Promise.all([
+    MagicData.getRespuestas(eid),
+    MagicData.getDocumentos(eid),
+    MagicData.getAuditorCriterios(eid),
+    MagicData.getAuditorItems(eid),
+    MagicData.getClienteDatos(eid),
+    MagicData.getEmpresas(eid),
+    MagicData.getCentros(eid)
+  ]);
+  resp.forEach(x=>RESP[x.pregunta_cod]={puntuacion:x.puntuacion,justificacion:x.justificacion||''});
+  docs.forEach(x=>{(DOCS[x.pregunta_cod]=DOCS[x.pregunta_cod]||[]).push(x);});
+  crit.forEach(x=>AUDIT[x.criterio]={puntos_fuertes:x.puntos_fuertes||'',areas_mejora:x.areas_mejora||''});
+  AITEMS = aitems;
+  CLIENTE = cliente;
+  EMPRESAS = empresas;
+  CENTROS = centros;
   document.getElementById('orgName').textContent=EVAL.organizacion;
   document.getElementById('btnInforme').style.display=esAuditor?'block':'none';
   document.getElementById('btnZip').style.display=esAuditor?'block':'none';
@@ -634,8 +647,9 @@ function recalcTrab(){
 async function guardarCliente(){
   const st=document.getElementById('cd-state');st.textContent='Guardando…';st.className='savestate';
   try{
-    await MagicData.guardarClienteDatos(EVAL.id,{razon_social:(CLIENTE&&CLIENTE.razon_social)||'',cif:(CLIENTE&&CLIENTE.cif)||'',alcance:document.getElementById('cd-alcance').value.trim()});
-    CLIENTE=await MagicData.getClienteDatos(EVAL.id);
+    const datos={razon_social:(CLIENTE&&CLIENTE.razon_social)||'',cif:(CLIENTE&&CLIENTE.cif)||'',alcance:document.getElementById('cd-alcance').value.trim()};
+    await MagicData.guardarClienteDatos(EVAL.id,datos);
+    CLIENTE=Object.assign({},CLIENTE,datos); // actualizamos en memoria, sin volver a leer
     st.textContent='✓ Guardado';st.className='savestate saved';setTimeout(()=>st.textContent='',2500);
   }catch(e){st.textContent='⚠ '+e.message;}
 }

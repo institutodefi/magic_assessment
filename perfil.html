@@ -20,6 +20,11 @@
   .link-btn:hover{color:var(--ink)}
   .who{font-size:13px;color:var(--ink-dim)}.who b{color:var(--ink)}
   .role-badge{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:2px 8px;border-radius:999px;margin-left:7px;background:var(--accent-soft);color:var(--accent)}
+  .rol-seg{display:flex;border:1px solid var(--audit);border-radius:7px;overflow:hidden;margin-right:4px}
+  .rol-seg button{border:0;background:transparent;color:var(--ink-faint);font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 9px;cursor:pointer;transition:.15s;border-right:1px solid rgba(106,166,212,.25)}
+  .rol-seg button:last-child{border-right:0}
+  .rol-seg button.on{background:var(--audit-soft);color:var(--audit)}
+  .rol-seg button:hover:not(.on){color:var(--ink-dim)}
   main{max-width:640px;margin:0 auto;padding:40px 24px 80px}
   .page-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);text-align:center;margin-bottom:8px}
   h1{font-size:32px;font-weight:800;text-align:center;margin:0 0 34px}
@@ -55,7 +60,7 @@
 <nav class="nav">
   <div class="nav-inner">
     <a href="index.html" aria-label="MAGIC® — Inicio"><picture><source srcset="assets/magic_logo-sm.webp" type="image/webp"><img src="assets/magic_logo.png" alt="MAGIC®" class="brand-logo" width="229" height="72"></picture></a>
-    <div class="nav-right">
+    <div class="nav-right" id="navRight">
       <span class="who" id="who"></span>
       <button class="link-btn" id="goEval" onclick="irEval()">Evaluaciones</button>
       <button class="link-btn" onclick="cerrar()">Salir</button>
@@ -146,6 +151,8 @@ async function init(){
   document.getElementById('inNombre').value = PERFIL.nombre || '';
   document.getElementById('inEmail').value = PERFIL.email || '';
   document.getElementById('inRol').value = PERFIL.rol || 'cliente';
+  // Pestaña de cambio de perfil: cualquier superadmin
+  if(PERFIL && PERFIL.rol==='superadmin') pintarSelectorRol();
   // Acceso rápido según rol
   if(esAud){
     document.getElementById('accesoT').textContent = 'Evaluaciones y auditorías';
@@ -154,10 +161,31 @@ async function init(){
   }
 }
 
+function pintarSelectorRol(){
+  const nav = document.getElementById('navRight');
+  if(!nav || document.getElementById('rolSeg')) return;
+  const rolActivo = localStorage.getItem('magic_rol_activo') || 'superadmin';
+  const etiquetas = {cliente:'Cliente', auditor:'Auditor', superadmin:'Superadmin'};
+  const seg = document.createElement('div');
+  seg.className='rol-seg'; seg.id='rolSeg';
+  seg.innerHTML = ['cliente','auditor','superadmin'].map(r=>
+    `<button data-r="${r}" class="${r===rolActivo?'on':''}" onclick="cambiarRolActivo('${r}')">${etiquetas[r]}</button>`
+  ).join('');
+  nav.insertBefore(seg, nav.firstChild);
+}
+function cambiarRolActivo(r){
+  const actual = localStorage.getItem('magic_rol_activo') || 'superadmin';
+  if(r===actual) return;
+  localStorage.setItem('magic_rol_activo', r);
+  // Llevamos al usuario a la herramienta con el rol elegido
+  if(r==='auditor'||r==='superadmin') location.href='panel.html';
+  else location.href='evaluar.html';
+}
+
 function irEval(){
   const esAud = PERFIL && (PERFIL.rol==='auditor'||PERFIL.rol==='superadmin');
-  // Respetamos el cambio de perfil de superadmins @tuconsultor.com
-  const multiRol = PERFIL && PERFIL.rol==='superadmin' && /@tuconsultor\.com$/i.test(PERFIL.email||'');
+  // Respetamos el cambio de perfil (cualquier superadmin)
+  const multiRol = PERFIL && PERFIL.rol==='superadmin';
   const rolActivo = multiRol ? (localStorage.getItem('magic_rol_activo')||'superadmin') : (PERFIL?PERFIL.rol:'cliente');
   if(rolActivo==='auditor'||rolActivo==='superadmin') location.href='panel.html';
   else location.href='evaluar.html';

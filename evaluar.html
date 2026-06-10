@@ -400,7 +400,7 @@ function pintarQuien(){
   document.getElementById('who').innerHTML = `<b>${esc(PERFIL.nombre||PERFIL.email)}</b><span class="role-badge role-${badge}">${badge}</span>`;
 }
 function pintarSelectorRol(){
-  // Pestaña de cambio de perfil para superadmins @tuconsultor.com
+  // Pestaña de cambio de perfil para cualquier superadmin
   const nav = document.querySelector('.nav-right');
   if(!nav || document.getElementById('rolSeg')) return;
   const seg = document.createElement('div');
@@ -434,8 +434,8 @@ async function init(){
   // Pantalla de RGPD + disclaimer en el primer acceso
   const ok = await MagicTerminos.exigir(PERFIL);
   if(!ok) return;
-  // ¿Puede este usuario alternar entre roles? Solo superadmins @tuconsultor.com
-  multiRol = PERFIL && PERFIL.rol==='superadmin' && /@tuconsultor\.com$/i.test(PERFIL.email||'');
+  // ¿Puede este usuario alternar entre roles? Cualquier superadmin.
+  multiRol = PERFIL && PERFIL.rol==='superadmin';
   // Rol con el que opera ahora mismo (puede cambiarlo si multiRol)
   rolActivo = multiRol ? (localStorage.getItem('magic_rol_activo')||'superadmin') : PERFIL.rol;
   if(!['cliente','auditor','superadmin'].includes(rolActivo)) rolActivo='superadmin';

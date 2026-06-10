@@ -15,6 +15,8 @@ create table if not exists public.perfiles (
   email       text,
   nombre      text,
   rol         text not null default 'cliente' check (rol in ('cliente','auditor','superadmin')),
+  terminos_aceptados   boolean not null default false,
+  terminos_aceptados_en timestamptz,
   creado_en   timestamptz not null default now()
 );
 
@@ -56,20 +58,46 @@ create table if not exists public.evaluaciones (
 );
 create index if not exists idx_eval_owner on public.evaluaciones (propietario_id);
 
--- 2b) DATOS DE CLIENTE (1 por evaluación): razón social, CIF, alcance…
+-- 2b) DATOS DE CLIENTE (1 por evaluación): alcance general de la evaluación.
+--     (La razón social y el CIF viven ahora en la tabla "empresas", para
+--      soportar grupos con varios CIF dentro de una misma evaluación.)
 create table if not exists public.cliente_datos (
   evaluacion_id  uuid primary key references public.evaluaciones(id) on delete cascade,
-  razon_social   text,
-  cif            text,
+  razon_social   text,   -- (heredado; opcional) razón social principal del grupo
+  cif            text,   -- (heredado; opcional)
   alcance        text,
   actualizado_en timestamptz not null default now()
 );
 
--- 2c) SEDES (N por evaluación / CIF): dirección + nº trabajadores por sede
+-- 2c) EMPRESAS (N por evaluación): cada CIF con su razón social.
+create table if not exists public.empresas (
+  id            uuid primary key default gen_random_uuid(),
+  evaluacion_id uuid not null references public.evaluaciones(id) on delete cascade,
+  razon_social  text,
+  cif           text,
+  orden         int default 0,
+  creado_en     timestamptz not null default now()
+);
+create index if not exists idx_empresas_eval on public.empresas (evaluacion_id);
+
+-- 2d) CENTROS DE TRABAJO (N por empresa): dirección + nº trabajadores.
+create table if not exists public.centros (
+  id            uuid primary key default gen_random_uuid(),
+  empresa_id    uuid not null references public.empresas(id) on delete cascade,
+  evaluacion_id uuid not null references public.evaluaciones(id) on delete cascade,
+  nombre        text,           -- p.ej. "Sede central", "Delegación Norte"
+  direccion     text,
+  trabajadores  int,
+  orden         int default 0
+);
+create index if not exists idx_centros_empresa on public.centros (empresa_id);
+create index if not exists idx_centros_eval on public.centros (evaluacion_id);
+
+-- 2e) SEDES (heredado de la versión anterior; se mantiene por compatibilidad)
 create table if not exists public.sedes (
   id            uuid primary key default gen_random_uuid(),
   evaluacion_id uuid not null references public.evaluaciones(id) on delete cascade,
-  nombre        text,           -- p.ej. "Sede central", "Delegación Norte"
+  nombre        text,
   direccion     text,
   trabajadores  int,
   orden         int default 0
@@ -143,6 +171,8 @@ on conflict (id) do nothing;
 alter table public.perfiles         enable row level security;
 alter table public.evaluaciones     enable row level security;
 alter table public.cliente_datos    enable row level security;
+alter table public.empresas         enable row level security;
+alter table public.centros          enable row level security;
 alter table public.sedes            enable row level security;
 alter table public.asignaciones     enable row level security;
 alter table public.respuestas       enable row level security;
@@ -173,8 +203,14 @@ create policy eval_insert on public.evaluaciones for insert
 create policy eval_update on public.evaluaciones for update
   using (propietario_id = auth.uid() or public.es_auditor(auth.uid()));
 
--- CLIENTE_DATOS y SEDES: el propietario y quien pueda ver la evaluación
+-- CLIENTE_DATOS, EMPRESAS, CENTROS y SEDES: quien pueda ver la evaluación
 create policy cd_rw on public.cliente_datos for all
+  using (public.puede_ver_eval(evaluacion_id, auth.uid()))
+  with check (public.puede_ver_eval(evaluacion_id, auth.uid()));
+create policy empresas_rw on public.empresas for all
+  using (public.puede_ver_eval(evaluacion_id, auth.uid()))
+  with check (public.puede_ver_eval(evaluacion_id, auth.uid()));
+create policy centros_rw on public.centros for all
   using (public.puede_ver_eval(evaluacion_id, auth.uid()))
   with check (public.puede_ver_eval(evaluacion_id, auth.uid()));
 create policy sedes_rw on public.sedes for all

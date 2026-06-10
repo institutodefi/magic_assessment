@@ -54,6 +54,55 @@ window.MagicData = {
     if (error) throw error;
   },
 
+  // ---- Empresas (CIF) y centros de trabajo ----
+  async getEmpresas(eid) {
+    const { data } = await sb.from('empresas').select('*').eq('evaluacion_id', eid).order('orden');
+    return data || [];
+  },
+  async crearEmpresa(eid, emp) {
+    const { data, error } = await sb.from('empresas')
+      .insert({ evaluacion_id: eid, razon_social: emp.razon_social || '', cif: emp.cif || '', orden: emp.orden || 0 })
+      .select('*').single();
+    if (error) throw error;
+    return data;
+  },
+  async actualizarEmpresa(id, emp) {
+    const { error } = await sb.from('empresas').update({ razon_social: emp.razon_social, cif: emp.cif }).eq('id', id);
+    if (error) throw error;
+  },
+  async borrarEmpresa(id) {
+    const { error } = await sb.from('empresas').delete().eq('id', id); // borra en cascada sus centros
+    if (error) throw error;
+  },
+  async getCentros(eid) {
+    const { data } = await sb.from('centros').select('*').eq('evaluacion_id', eid).order('orden');
+    return data || [];
+  },
+  async crearCentro(eid, empresaId, centro) {
+    const { data, error } = await sb.from('centros')
+      .insert({ evaluacion_id: eid, empresa_id: empresaId, nombre: centro.nombre || '', direccion: centro.direccion || '', trabajadores: centro.trabajadores || 0, orden: centro.orden || 0 })
+      .select('*').single();
+    if (error) throw error;
+    return data;
+  },
+  async actualizarCentro(id, centro) {
+    const { error } = await sb.from('centros').update({ nombre: centro.nombre, direccion: centro.direccion, trabajadores: centro.trabajadores }).eq('id', id);
+    if (error) throw error;
+  },
+  async borrarCentro(id) {
+    const { error } = await sb.from('centros').delete().eq('id', id);
+    if (error) throw error;
+  },
+
+  // ---- Aceptación de términos (RGPD + disclaimer) ----
+  async aceptarTerminos() {
+    const u = await MagicAuth.usuario();
+    const { error } = await sb.from('perfiles')
+      .update({ terminos_aceptados: true, terminos_aceptados_en: new Date().toISOString() })
+      .eq('id', u.id);
+    if (error) throw error;
+  },
+
   // ---- Respuestas ----
   async getRespuestas(eid) {
     const { data } = await sb.from('respuestas').select('pregunta_cod,bloque,puntuacion,justificacion').eq('evaluacion_id', eid);

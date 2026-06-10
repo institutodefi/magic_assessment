@@ -163,6 +163,13 @@
   .sede-head h4{margin:0;font-size:14px;color:var(--ink)}
   .sede-del{border:0;background:transparent;color:#e0564f;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
   .add-sede{margin-top:6px}
+  .empresa-card{border:1px solid var(--line-strong);border-radius:10px;padding:20px 22px;margin-bottom:18px;background:var(--bg-2)}
+  .empresa-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .empresa-tag{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:4px 11px;border-radius:999px;font-weight:700}
+  .centros-wrap{margin-top:16px;padding-left:16px;border-left:2px solid var(--line)}
+  .centro{border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-bottom:10px;background:var(--bg)}
+  .centro-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .centro-head h5{margin:0;font-size:12.5px;color:var(--ink-dim);font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase}
 
   .crit-nav{max-width:980px;margin:30px auto 0;display:flex;justify-content:space-between;gap:12px}
   .crit-nav button{background:var(--bg-2);border:1px solid var(--line);color:var(--ink);padding:13px 22px;border-radius:999px;font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:.2s}
@@ -259,6 +266,7 @@
 
 <script src="assets/magic-auth.js"></script>
 <script src="assets/magic-data.js"></script>
+<script src="assets/magic-terminos.js"></script>
 <script>
 const ESCALA=[0,20,40,60,80,100];
 const NIVEL_LBL=['Inicial','Incipiente','Definido','Desplegado','Integrado','Referente'];
@@ -266,7 +274,7 @@ const COLORS={0:'#b25b54',20:'#c2823f',40:'#cba94d',60:'#9ab464',80:'#6fae7e',10
 const NIVELES=[{min:0,t:'Inicial',c:'#b25b54'},{min:20,t:'Incipiente',c:'#c2823f'},{min:40,t:'Definido',c:'#cba94d'},{min:60,t:'Desplegado',c:'#9ab464'},{min:80,t:'Integrado',c:'#6fae7e'},{min:95,t:'Referente',c:'#5ba897'}];
 
 let PERFIL=null, esAuditor=false, MODELO=null;
-let EVAL=null, RESP={}, DOCS={}, AUDIT={}, CLIENTE=null, SEDES=[];
+let EVAL=null, RESP={}, DOCS={}, AUDIT={}, CLIENTE=null, EMPRESAS=[], CENTROS=[];
 let tabActual=0; // 0 = Datos cliente; 1..7 = criterios
 
 document.addEventListener('magic-ready', init);
@@ -275,6 +283,9 @@ async function init(){
   const s = await MagicAuth.requiereSesion('login.html');
   if(!s) return;
   PERFIL = await MagicAuth.perfil();
+  // Pantalla de RGPD + disclaimer en el primer acceso
+  const ok = await MagicTerminos.exigir(PERFIL);
+  if(!ok) return;
   esAuditor = PERFIL && (PERFIL.rol==='auditor'||PERFIL.rol==='superadmin');
   document.getElementById('who').innerHTML = `<b>${esc(PERFIL.nombre||PERFIL.email)}</b><span class="role-badge role-${PERFIL.rol}">${PERFIL.rol}</span>`;
   if(esAuditor) document.getElementById('panelLink').style.display='inline-block';
@@ -328,7 +339,8 @@ async function abrirEval(eid){
   (await MagicData.getDocumentos(eid)).forEach(x=>{(DOCS[x.pregunta_cod]=DOCS[x.pregunta_cod]||[]).push(x);});
   (await MagicData.getAuditorCriterios(eid)).forEach(x=>AUDIT[x.criterio]={puntos_fuertes:x.puntos_fuertes||'',areas_mejora:x.areas_mejora||''});
   CLIENTE=await MagicData.getClienteDatos(eid);
-  SEDES=await MagicData.getSedes(eid);
+  EMPRESAS=await MagicData.getEmpresas(eid);
+  CENTROS=await MagicData.getCentros(eid);
   document.getElementById('orgName').textContent=EVAL.organizacion;
   document.getElementById('btnInforme').style.display=esAuditor?'block':'none';
   document.getElementById('btnZip').style.display=esAuditor?'block':'none';
@@ -383,70 +395,121 @@ function renderDatosCliente(){
   panel.innerHTML=`
     <div class="crit-head"><div class="kk">Datos del cliente</div><h2>Identificación de la organización</h2></div>
     <div class="form-card">
-      <div class="grid2">
-        <div><label class="field-label">Razón social</label><input class="inp" id="cd-razon" placeholder="Razón social" value="${esc(c.razon_social||'')}"></div>
-        <div><label class="field-label">CIF</label><input class="inp" id="cd-cif" placeholder="CIF / NIF" value="${esc(c.cif||'')}"></div>
-      </div>
       <label class="field-label">Alcance de la evaluación</label>
       <textarea class="ta" id="cd-alcance" placeholder="Actividades, procesos o unidades incluidas en el alcance…">${esc(c.alcance||'')}</textarea>
-      <div class="saverow"><button class="btn-ghost" onclick="guardarCliente()">Guardar datos</button><span class="savestate" id="cd-state"></span></div>
+      <div class="saverow"><button class="btn-ghost" onclick="guardarCliente()">Guardar alcance</button><span class="savestate" id="cd-state"></span></div>
     </div>
 
-    <div class="crit-head" style="margin-top:30px"><div class="kk">Sedes / Centros de trabajo</div><h2>Direcciones y plantilla por sede</h2></div>
-    <div id="sedesWrap"></div>
-    <button class="btn-ghost add-sede" onclick="anadirSede()">+ Añadir sede</button>
-    <div style="margin-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-faint);text-transform:uppercase">Total trabajadores: <b id="totalTrab" style="color:var(--accent)">0</b></div>
+    <div class="crit-head" style="margin-top:30px"><div class="kk">Empresas y centros de trabajo</div><h2>CIF del grupo y sus centros</h2></div>
+    <p style="color:var(--ink-faint);font-size:13px;margin:-6px 0 16px">Añade cada empresa (CIF y razón social) y, dentro de cada una, sus centros de trabajo con su dirección y número de trabajadores.</p>
+    <div id="empresasWrap"></div>
+    <button class="btn-ghost" onclick="anadirEmpresa()">+ Añadir empresa (CIF)</button>
+    <div style="margin-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-faint);text-transform:uppercase">Total trabajadores del grupo: <b id="totalTrab" style="color:var(--accent)">0</b></div>
   `;
-  renderSedes();
+  renderEmpresas();
 }
-function renderSedes(){
-  const wrap=document.getElementById('sedesWrap');wrap.innerHTML='';
-  if(!SEDES.length){ wrap.innerHTML='<div class="empty" style="color:var(--ink-faint);font-size:13.5px">Aún no hay sedes. Añade al menos una con su dirección y nº de trabajadores.</div>'; }
-  SEDES.forEach((s,i)=>{
-    const div=document.createElement('div');div.className='sede';
+
+function centrosDe(empId){ return CENTROS.filter(c=>c.empresa_id===empId); }
+
+function renderEmpresas(){
+  const wrap=document.getElementById('empresasWrap');wrap.innerHTML='';
+  if(!EMPRESAS.length){ wrap.innerHTML='<div class="empty" style="color:var(--ink-faint);font-size:13.5px;margin-bottom:12px">Aún no hay empresas. Añade la primera con su CIF y razón social.</div>'; }
+  EMPRESAS.forEach((emp,ei)=>{
+    const div=document.createElement('div');div.className='empresa-card';
+    const cs=centrosDe(emp.id);
     div.innerHTML=`
-      <div class="sede-head"><h4>Sede ${i+1}</h4><button class="sede-del" onclick="borrarSede(${i})">Eliminar</button></div>
-      <div class="grid2">
-        <div><label class="field-label">Nombre / referencia</label><input class="inp" data-si="${i}" data-f="nombre" placeholder="Sede central" value="${esc(s.nombre||'')}"></div>
-        <div><label class="field-label">Nº trabajadores</label><input class="inp" type="number" min="0" data-si="${i}" data-f="trabajadores" placeholder="0" value="${s.trabajadores!=null?s.trabajadores:''}"></div>
+      <div class="empresa-head">
+        <span class="empresa-tag">Empresa ${ei+1}</span>
+        <button class="sede-del" onclick="borrarEmpresa('${emp.id}')">Eliminar empresa</button>
       </div>
-      <label class="field-label">Dirección</label>
-      <input class="inp" data-si="${i}" data-f="direccion" placeholder="Calle, nº, CP, localidad" value="${esc(s.direccion||'')}">
-      <div class="saverow"><button class="btn-ghost" onclick="guardarSede(${i})">Guardar sede</button><span class="savestate" id="sede-state-${i}"></span></div>`;
+      <div class="grid2">
+        <div><label class="field-label">Razón social</label><input class="inp" data-ei="${emp.id}" data-ef="razon_social" placeholder="Razón social" value="${esc(emp.razon_social||'')}"></div>
+        <div><label class="field-label">CIF</label><input class="inp" data-ei="${emp.id}" data-ef="cif" placeholder="CIF / NIF" value="${esc(emp.cif||'')}"></div>
+      </div>
+      <div class="saverow"><button class="btn-ghost" onclick="guardarEmpresa('${emp.id}')">Guardar empresa</button><span class="savestate" id="emp-state-${emp.id}"></span></div>
+
+      <div class="centros-wrap" id="centros-${emp.id}"></div>
+      <button class="btn-ghost" style="margin-top:10px" onclick="anadirCentro('${emp.id}')">+ Añadir centro de trabajo</button>
+    `;
     wrap.appendChild(div);
+    renderCentros(emp.id);
   });
-  // listeners para total en vivo
-  wrap.querySelectorAll('input[data-f="trabajadores"]').forEach(inp=>inp.addEventListener('input',recalcTrab));
   recalcTrab();
 }
-function leerSedeForm(i){
-  const g=(f)=>document.querySelector(`input[data-si="${i}"][data-f="${f}"]`);
-  return {nombre:g('nombre').value.trim(),direccion:g('direccion').value.trim(),trabajadores:parseInt(g('trabajadores').value)||0};
+
+function renderCentros(empId){
+  const cont=document.getElementById('centros-'+empId);if(!cont)return;
+  const cs=centrosDe(empId);
+  cont.innerHTML = cs.length ? '' : '<div class="empty" style="color:var(--ink-faint);font-size:12.5px;margin-top:10px">Sin centros aún.</div>';
+  cs.forEach((ct,ci)=>{
+    const div=document.createElement('div');div.className='centro';
+    div.innerHTML=`
+      <div class="centro-head"><h5>Centro ${ci+1}</h5><button class="sede-del" onclick="borrarCentro('${ct.id}','${empId}')">Eliminar</button></div>
+      <div class="grid2">
+        <div><label class="field-label">Nombre / referencia</label><input class="inp" data-ci="${ct.id}" data-cf="nombre" placeholder="Sede central" value="${esc(ct.nombre||'')}"></div>
+        <div><label class="field-label">Nº trabajadores</label><input class="inp" type="number" min="0" data-ci="${ct.id}" data-cf="trabajadores" placeholder="0" value="${ct.trabajadores!=null?ct.trabajadores:''}"></div>
+      </div>
+      <label class="field-label">Dirección</label>
+      <input class="inp" data-ci="${ct.id}" data-cf="direccion" placeholder="Calle, nº, CP, localidad" value="${esc(ct.direccion||'')}">
+      <div class="saverow"><button class="btn-ghost" onclick="guardarCentro('${ct.id}')">Guardar centro</button><span class="savestate" id="centro-state-${ct.id}"></span></div>`;
+    cont.appendChild(div);
+  });
+  cont.querySelectorAll('input[data-cf="trabajadores"]').forEach(inp=>inp.addEventListener('input',recalcTrab));
 }
+
 function recalcTrab(){
   let tot=0;
-  document.querySelectorAll('input[data-f="trabajadores"]').forEach(inp=>tot+=parseInt(inp.value)||0);
+  document.querySelectorAll('input[data-cf="trabajadores"]').forEach(inp=>tot+=parseInt(inp.value)||0);
   const el=document.getElementById('totalTrab');if(el)el.textContent=tot;
 }
+
 async function guardarCliente(){
   const st=document.getElementById('cd-state');st.textContent='Guardando…';st.className='savestate';
   try{
-    await MagicData.guardarClienteDatos(EVAL.id,{razon_social:document.getElementById('cd-razon').value.trim(),cif:document.getElementById('cd-cif').value.trim(),alcance:document.getElementById('cd-alcance').value.trim()});
+    await MagicData.guardarClienteDatos(EVAL.id,{razon_social:(CLIENTE&&CLIENTE.razon_social)||'',cif:(CLIENTE&&CLIENTE.cif)||'',alcance:document.getElementById('cd-alcance').value.trim()});
     CLIENTE=await MagicData.getClienteDatos(EVAL.id);
     st.textContent='✓ Guardado';st.className='savestate saved';setTimeout(()=>st.textContent='',2500);
   }catch(e){st.textContent='⚠ '+e.message;}
 }
-async function anadirSede(){
-  try{ const s=await MagicData.crearSede(EVAL.id,{nombre:'',direccion:'',trabajadores:0,orden:SEDES.length}); SEDES.push(s); renderSedes(); }
+
+/* ---- Empresas ---- */
+async function anadirEmpresa(){
+  try{ const e=await MagicData.crearEmpresa(EVAL.id,{razon_social:'',cif:'',orden:EMPRESAS.length}); EMPRESAS.push(e); renderEmpresas(); }
   catch(e){ toast('Error: '+e.message); }
 }
-async function guardarSede(i){
-  const st=document.getElementById('sede-state-'+i);st.textContent='Guardando…';st.className='savestate';
-  try{ const d=leerSedeForm(i); await MagicData.actualizarSede(SEDES[i].id,d); Object.assign(SEDES[i],d); st.textContent='✓ Guardado';st.className='savestate saved';setTimeout(()=>st.textContent='',2500); recalcTrab(); }
+function leerEmpresa(empId){
+  const g=(f)=>document.querySelector(`input[data-ei="${empId}"][data-ef="${f}"]`);
+  return {razon_social:g('razon_social').value.trim(),cif:g('cif').value.trim()};
+}
+async function guardarEmpresa(empId){
+  const st=document.getElementById('emp-state-'+empId);st.textContent='Guardando…';st.className='savestate';
+  try{ const d=leerEmpresa(empId); await MagicData.actualizarEmpresa(empId,d); const e=EMPRESAS.find(x=>x.id===empId); if(e)Object.assign(e,d);
+    st.textContent='✓ Guardado';st.className='savestate saved';setTimeout(()=>st.textContent='',2500); }
   catch(e){st.textContent='⚠ '+e.message;}
 }
-async function borrarSede(i){
-  try{ await MagicData.borrarSede(SEDES[i].id); SEDES.splice(i,1); renderSedes(); }
+async function borrarEmpresa(empId){
+  if(!confirm('¿Eliminar esta empresa y todos sus centros?'))return;
+  try{ await MagicData.borrarEmpresa(empId); EMPRESAS=EMPRESAS.filter(x=>x.id!==empId); CENTROS=CENTROS.filter(c=>c.empresa_id!==empId); renderEmpresas(); }
+  catch(e){ toast('Error: '+e.message); }
+}
+
+/* ---- Centros ---- */
+async function anadirCentro(empId){
+  try{ const c=await MagicData.crearCentro(EVAL.id,empId,{nombre:'',direccion:'',trabajadores:0,orden:centrosDe(empId).length}); CENTROS.push(c); renderCentros(empId); recalcTrab(); }
+  catch(e){ toast('Error: '+e.message); }
+}
+function leerCentro(ctId){
+  const g=(f)=>document.querySelector(`input[data-ci="${ctId}"][data-cf="${f}"]`);
+  return {nombre:g('nombre').value.trim(),direccion:g('direccion').value.trim(),trabajadores:parseInt(g('trabajadores').value)||0};
+}
+async function guardarCentro(ctId){
+  const st=document.getElementById('centro-state-'+ctId);st.textContent='Guardando…';st.className='savestate';
+  try{ const d=leerCentro(ctId); await MagicData.actualizarCentro(ctId,d); const c=CENTROS.find(x=>x.id===ctId); if(c)Object.assign(c,d);
+    st.textContent='✓ Guardado';st.className='savestate saved';setTimeout(()=>st.textContent='',2500); recalcTrab(); }
+  catch(e){st.textContent='⚠ '+e.message;}
+}
+async function borrarCentro(ctId,empId){
+  try{ await MagicData.borrarCentro(ctId); CENTROS=CENTROS.filter(x=>x.id!==ctId); renderCentros(empId); recalcTrab(); }
   catch(e){ toast('Error: '+e.message); }
 }
 
@@ -592,7 +655,17 @@ async function descargarInforme(){
     cuerpo+=`<div class="aud"><div class="aud-c"><h4>Puntos fuertes</h4><p>${esc(a.puntos_fuertes||'—')}</p></div><div class="aud-c"><h4>Aspectos de mejora</h4><p>${esc(a.areas_mejora||'—')}</p></div></div>`;
   });
   let sedesHtml='';
-  if(SEDES.length){ sedesHtml='<table><thead><tr><th>Sede</th><th>Dirección</th><th>Trabajadores</th></tr></thead><tbody>'+SEDES.map(s=>`<tr><td>${esc(s.nombre||'—')}</td><td>${esc(s.direccion||'—')}</td><td class="pt">${s.trabajadores!=null?s.trabajadores:'—'}</td></tr>`).join('')+'</tbody></table>'; }
+  if(EMPRESAS.length){
+    sedesHtml = EMPRESAS.map(emp=>{
+      const cs=CENTROS.filter(c=>c.empresa_id===emp.id);
+      const filas = cs.length ? cs.map(ct=>`<tr><td>${esc(ct.nombre||'—')}</td><td>${esc(ct.direccion||'—')}</td><td class="pt">${ct.trabajadores!=null?ct.trabajadores:'—'}</td></tr>`).join('') : '<tr><td colspan="3" style="color:#999">Sin centros registrados</td></tr>';
+      const subtot = cs.reduce((a,c)=>a+(c.trabajadores||0),0);
+      return `<h4 style="margin:12px 0 4px;font-size:11px;color:#16181d">${esc(emp.razon_social||'(sin razón social)')} ${emp.cif?'· CIF '+esc(emp.cif):''}</h4>
+        <table><thead><tr><th>Centro de trabajo</th><th>Dirección</th><th>Trabajadores</th></tr></thead><tbody>${filas}</tbody>
+        <tfoot><tr><td colspan="2" style="text-align:right;font-weight:700">Subtotal</td><td class="pt">${subtot}</td></tr></tfoot></table>`;
+    }).join('');
+  }
+  const totalTrabPDF = CENTROS.reduce((a,c)=>a+(c.trabajadores||0),0);
   const cd=CLIENTE||{};
   w.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Informe MAGIC® — ${esc(EVAL.organizacion)}</title>
   <style>
@@ -614,10 +687,10 @@ async function descargarInforme(){
   .noprint{position:fixed;top:10px;right:10px;background:#d4b06a;color:#1a1407;border:0;border-radius:6px;padding:10px 16px;font-weight:700;cursor:pointer;font-family:inherit}
   </style></head><body>
   <button class="noprint" onclick="window.print()">Imprimir / Guardar PDF</button>
-  <div class="cover"><div class="t">Informe de Autoevaluación</div><div class="s">Modelo MAGIC®</div><div class="o">${esc(EVAL.organizacion)}</div><div class="meta">${esc(cd.razon_social||'')} ${cd.cif?'· CIF '+esc(cd.cif):''}<br>${fecha}</div></div>
+  <div class="cover"><div class="t">Informe de Autoevaluación</div><div class="s">Modelo MAGIC®</div><div class="o">${esc(EVAL.organizacion)}</div><div class="meta">${EMPRESAS.length?esc(EMPRESAS.map(e=>e.cif).filter(Boolean).join(' · ')):''}<br>${fecha}</div></div>
   <div class="score-box"><div class="score-num">${media}</div><div><div class="score-lbl">Puntuación global · escala 0–100</div><div style="font-weight:700">Nivel de madurez: ${niv.t}</div></div></div>
   ${cd.alcance?`<h3>Alcance</h3><p>${esc(cd.alcance)}</p>`:''}
-  ${sedesHtml?`<h3>Sedes y plantilla</h3>${sedesHtml}`:''}
+  ${sedesHtml?`<h3>Empresas y centros de trabajo <span style="font-weight:400;font-size:11px;color:#666">· Total plantilla: ${totalTrabPDF}</span></h3>${sedesHtml}`:''}
   ${cuerpo}
   </body></html>`);
   w.document.close();

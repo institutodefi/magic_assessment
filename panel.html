@@ -18,7 +18,7 @@
   .container{max-width:1100px;margin:0 auto;padding:0 32px}@media(max-width:680px){.container{padding:0 20px}}
   .nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(11,13,18,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
   .nav-inner{display:flex;align-items:center;gap:16px;padding:14px 32px;max-width:1240px;margin:0 auto}
-  .brand-logo{height:28px}.nav-right{margin-left:auto;display:flex;gap:16px;align-items:center}
+  .brand-logo{height:28px;width:auto}.nav-right{margin-left:auto;display:flex;gap:16px;align-items:center}
   .link-btn{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim);background:0;border:0;cursor:pointer}.link-btn:hover{color:var(--accent)}
   .who{font-family:var(--mono);font-size:11px;color:var(--ink-dim);text-align:right}.who b{display:block;color:var(--ink)}
   header{padding:108px 0 24px}.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--accent);text-transform:uppercase}
@@ -56,6 +56,7 @@
 
 <script src="assets/magic-auth.js"></script>
 <script src="assets/magic-data.js"></script>
+<script src="assets/magic-terminos.js"></script>
 <script>
 let PERFIL=null, esAdmin=false;
 document.addEventListener('magic-ready', init);
@@ -63,6 +64,8 @@ document.addEventListener('magic-ready', init);
 async function init(){
   const s=await MagicAuth.requiereSesion('login.html'); if(!s)return;
   PERFIL=await MagicAuth.perfil();
+  const ok = await MagicTerminos.exigir(PERFIL);
+  if(!ok) return;
   if(!PERFIL || !(PERFIL.rol==='auditor'||PERFIL.rol==='superadmin')){
     document.getElementById('content').innerHTML='<div class="denied">Esta sección es solo para auditores. <br><a href="evaluar.html">Ir a mis evaluaciones</a></div>';
     return;

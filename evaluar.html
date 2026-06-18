@@ -87,6 +87,20 @@
   .global-meta p{font-size:13px;color:var(--ink-dim);margin:0}
   .global-actions{display:flex;flex-direction:column;gap:9px}
   @media (max-width:680px){.global-bar{flex-direction:column;text-align:center}.global-actions{flex-direction:row;flex-wrap:wrap;justify-content:center}}
+  /* Ultrarresponsivo */
+  *{max-width:100%}
+  @media(max-width:560px){
+    .crit-dash{flex-direction:column;align-items:flex-start;gap:12px}
+    .cd-bars{flex-wrap:wrap}
+    .tabs{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .tq-txt,.tc-titulo{white-space:normal}
+    .nav-right{flex-wrap:wrap;gap:8px}
+    .resumen-global{flex-direction:column;text-align:center;gap:10px}
+  }
+  @media(max-width:400px){
+    .who{font-size:12px}
+    .global-gauge svg{width:72px;height:72px}
+  }
 
   .tabs{max-width:1000px;margin:0 auto 24px;display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
   .tab{flex:none;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:104px;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg-2);cursor:pointer;transition:.2s;position:relative}
@@ -450,7 +464,8 @@ let PERFIL=null, esAuditor=false, MODELO=null, multiRol=false, rolActivo=null;
 
 function pintarQuien(){
   const badge = multiRol ? rolActivo : PERFIL.rol;
-  document.getElementById('who').innerHTML = `<b>${esc(PERFIL.nombre||PERFIL.email)}</b><span class="role-badge role-${badge}">${badge}</span>`;
+  MagicAuth.ensureTierCSS();
+  document.getElementById('who').innerHTML = `<b>${esc(PERFIL.nombre||PERFIL.email)}</b><span class="role-badge role-${badge}">${badge}</span>${MagicAuth.tierBadge(PERFIL.tier)}`;
 }
 function pintarSelectorRol(){
   // Pestaña de cambio de perfil para cualquier superadmin

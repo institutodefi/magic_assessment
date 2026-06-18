@@ -54,6 +54,21 @@
   @keyframes r{to{transform:rotate(360deg)}}
   .hidden{display:none}
   .hint{font-size:12px;color:var(--ink-faint);margin-top:-8px;margin-bottom:12px}
+  /* Ultrarresponsivo */
+  *{max-width:100%}
+  img{height:auto}
+  @media(max-width:640px){
+    .nav-inner{padding:11px 16px;gap:8px;flex-wrap:wrap}
+    .nav-right{gap:9px;flex-wrap:wrap;justify-content:flex-end}
+    .link-btn{font-size:10px}
+    main{padding:30px 16px 64px}
+    .card{padding:20px 18px}
+    .rol-seg button{padding:5px 7px;font-size:9px}
+  }
+  @media(max-width:400px){
+    .who{display:none}
+    h1{font-size:26px}
+  }
 </style>
 </head>
 <body>
@@ -159,7 +174,8 @@ async function init(){
   if(!s) return;
   PERFIL = await MagicAuth.perfil();
   const esAud = PERFIL && (PERFIL.rol==='auditor'||PERFIL.rol==='superadmin');
-  document.getElementById('who').innerHTML = `<b>${esc(PERFIL.nombre||PERFIL.email)}</b><span class="role-badge">${esc(PERFIL.rol||'cliente')}</span>`;
+  MagicAuth.ensureTierCSS();
+  document.getElementById('who').innerHTML = `<b>${esc(PERFIL.nombre||PERFIL.email)}</b><span class="role-badge">${esc(PERFIL.rol||'cliente')}</span>${MagicAuth.tierBadge(PERFIL.tier)}`;
   document.getElementById('inNombre').value = PERFIL.nombre || '';
   document.getElementById('inEmail').value = PERFIL.email || '';
   document.getElementById('inRol').value = PERFIL.rol || 'cliente';
@@ -220,7 +236,7 @@ async function guardarNombre(){
   try{
     await MagicAuth.actualizarNombre(nombre);
     msg.className='msg ok';msg.textContent='✓ Nombre actualizado.';
-    document.getElementById('who').innerHTML = `<b>${esc(nombre)}</b><span class="role-badge">${esc(PERFIL.rol||'cliente')}</span>`;
+    document.getElementById('who').innerHTML = `<b>${esc(nombre)}</b><span class="role-badge">${esc(PERFIL.rol||'cliente')}</span>${MagicAuth.tierBadge(PERFIL.tier)}`;
   }catch(e){ msg.className='msg err';msg.textContent='No se pudo guardar: '+(e.message||e); }
   btn.disabled=false;btn.textContent=o;
 }

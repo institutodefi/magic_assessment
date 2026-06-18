@@ -27,6 +27,19 @@
   .card{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:24px 26px;margin-bottom:20px}
   .card h2{font-size:16px;margin:0 0 16px;color:#fff}
   table{width:100%;border-collapse:collapse;font-size:14px}
+  /* Ultrarresponsivo */
+  *{max-width:100%}
+  img{height:auto}
+  @media(max-width:680px){
+    .card{padding:20px 16px}
+    /* Tablas anchas: scroll horizontal propio, sin romper la página */
+    .card table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap}
+    h1{font-size:26px}
+  }
+  @media(max-width:420px){
+    .who{display:none}
+    table{font-size:13px}
+  }
   th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line)}
   td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
   select,input{background:var(--bg);border:1px solid var(--line-strong);border-radius:7px;color:var(--ink);font-family:var(--sans);font-size:13.5px;padding:8px 10px}
@@ -79,7 +92,7 @@ async function init(){
   const okc = await MagicTerminos.exigirConfidencialidad(PERFIL);
   if(!okc) return;
   esAdmin = rolActivo==='superadmin';
-  document.getElementById('who').innerHTML=`<b>${esc(PERFIL.nombre||PERFIL.email)}</b>${rolActivo}`;
+  MagicAuth.ensureTierCSS();document.getElementById('who').innerHTML=`<b>${esc(PERFIL.nombre||PERFIL.email)}</b><span class="role-badge">${rolActivo}</span>${MagicAuth.tierBadge(PERFIL.tier)}`;
   document.getElementById('hTitle').textContent = esAdmin?'Panel de administración':'Panel del auditor';
   render();
 }

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAGIC® Elite Club — Membresía de organizaciones certificadas</title>
+<meta name="description" content="El MAGIC® Elite Club es el espacio privado para organizaciones certificadas: informes ejecutivos, plan de acción comparativo, benchmarking y buenas prácticas. Membresías Basic, Pro y Ultra.">
+<meta name="theme-color" content="#0b0d12">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230b0d12'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23d4b06a' stroke-width='1'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+<style>
+  :root{--bg:#0b0d12;--bg-2:#11141b;--line:rgba(255,255,255,.08);--line-strong:rgba(255,255,255,.18);--ink:#e9ecf2;--ink-dim:#a8aebb;--ink-faint:#8a90a0;--accent:#d4b06a;--accent-soft:rgba(212,176,106,.12);--sans:"Manrope",system-ui,sans-serif;--mono:"Manrope",ui-monospace,monospace;
+    --basic:#5b9bd5;--basic-soft:rgba(91,155,213,.12);--pro:#d4b06a;--pro-soft:rgba(212,176,106,.12);--ultra:#c9ccd2;--ultra-soft:rgba(201,204,210,.12)}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  body{background:radial-gradient(900px 520px at 50% -10%,#141b27,#000 65%);min-height:100vh}
+  a{color:var(--accent);text-decoration:none}
+  h1,h2,h3{letter-spacing:-.02em}
+  .container{max-width:1080px;margin:0 auto;padding:0 28px}
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:50;background:rgba(11,13,18,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-inner{max-width:1080px;margin:0 auto;padding:13px 28px;display:flex;align-items:center;gap:16px}
+  .brand-logo{height:30px;width:auto;display:block}
+  .nav-right{margin-left:auto;display:flex;gap:18px;align-items:center}
+  .nav-right a{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim)}
+  .nav-right a:hover{color:var(--ink)}
+  .nav-cta{border:1px solid var(--accent);color:var(--accent)!important;border-radius:999px;padding:7px 15px}
+  /* HERO */
+  .hero{text-align:center;padding:80px 28px 50px;max-width:780px;margin:0 auto}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+  .hero h1{font-size:46px;font-weight:800;margin:0 0 18px;line-height:1.1}
+  .hero h1 .g{background:linear-gradient(90deg,#d4b06a,#f0d9a8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero p{font-size:17px;color:var(--ink-dim);max-width:620px;margin:0 auto 30px}
+  .hero-cta{display:inline-flex;gap:14px;flex-wrap:wrap;justify-content:center}
+  .btn{display:inline-block;border-radius:999px;padding:14px 28px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:.2s}
+  .btn-gold{background:var(--accent);color:#1a1407}
+  .btn-gold:hover{filter:brightness(1.08);text-decoration:none}
+  .btn-ghost{border:1px solid var(--line-strong);color:var(--ink-dim)}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+  /* INTRO */
+  .intro{max-width:760px;margin:30px auto 10px;padding:0 28px;text-align:center;color:var(--ink-dim);font-size:15.5px}
+  /* TIERS */
+  .section-head{text-align:center;margin:64px 0 8px}
+  .section-head .eyebrow{margin-bottom:8px}
+  .section-head h2{font-size:30px;font-weight:800;margin:0}
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:34px 28px 10px;max-width:1080px;margin:0 auto}
+  @media(max-width:820px){.tiers{grid-template-columns:1fr;max-width:460px}.hero h1{font-size:36px}}
+  /* Ultrarresponsivo */
+  *{max-width:100%}
+  img{height:auto}
+  @media(max-width:640px){
+    .nav-inner{padding:11px 16px;gap:10px}
+    .brand-logo{height:26px}
+    .nav-right{gap:10px}
+    .nav-link{font-size:10px;letter-spacing:.05em}
+    .nav-cta{padding:8px 12px;font-size:10px;letter-spacing:.05em}
+    .hero{padding:54px 18px 36px}
+    .hero p{font-size:15px}
+    .intro,.tiers,.closing{padding-left:18px;padding-right:18px}
+    .tier-card{padding:24px 20px}
+    .hero-cta{width:100%}
+    .hero-cta a,.closing a{flex:1 1 auto;text-align:center}
+  }
+  @media(max-width:400px){
+    .nav-right{gap:7px}
+    .nav-link{display:none}            /* en pantallas muy estrechas, dejamos solo logo + CTA */
+    .hero h1{font-size:30px}
+    .tiers h2,.section-h h2{font-size:22px}
+  }
+  .tier-card{position:relative;border:1px solid var(--line);border-radius:16px;padding:30px 26px;background:var(--bg-2);overflow:hidden;display:flex;flex-direction:column}
+  .tier-card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px}
+  .tier-card.basic::before{background:var(--basic)}
+  .tier-card.pro::before{background:var(--pro)}
+  .tier-card.ultra::before{background:linear-gradient(90deg,#c9ccd2,#9fa3ab)}
+  .tier-card.pro{border-color:rgba(212,176,106,.4)}
+  .tier-tag{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px}
+  .tier-card.basic .tier-tag{color:var(--basic)}
+  .tier-card.pro .tier-tag{color:var(--pro)}
+  .tier-card.ultra .tier-tag{color:var(--ultra)}
+  .tier-card h3{font-size:23px;font-weight:800;margin:0 0 14px}
+  .tier-card p.d{font-size:14px;color:var(--ink-dim);margin:0 0 20px;min-height:42px}
+  .feats{list-style:none;padding:0;margin:0 0 8px;display:flex;flex-direction:column;gap:11px;flex:1}
+  .feats li{font-size:14px;color:var(--ink);display:flex;align-items:flex-start;gap:10px}
+  .feats li svg{flex:none;margin-top:3px}
+  .feats li.muted{color:var(--ink-faint)}
+  .popular{position:absolute;top:14px;right:14px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--pro-soft);color:var(--pro)}
+  /* CIERRE */
+  .closing{text-align:center;padding:70px 28px 40px;max-width:680px;margin:0 auto}
+  .closing h2{font-size:26px;font-weight:800;margin:0 0 14px}
+  .closing p{color:var(--ink-dim);margin:0 0 26px}
+  footer{border-top:1px solid var(--line);margin-top:50px;padding:30px 28px;text-align:center;color:var(--ink-faint);font-size:12.5px}
+  footer a{color:var(--ink-dim)}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" aria-label="MAGIC® — Inicio"><picture><source srcset="assets/magic_logo-sm.webp" type="image/webp"><img src="assets/magic_logo.png" alt="MAGIC®" class="brand-logo" width="229" height="72"></picture></a>
+    <div class="nav-right">
+      <a href="soy-magic.html">Soy MAGIC®</a>
+      <a href="certificar.html">Certificar</a>
+      <a href="login-elite.html" class="nav-cta">Acceso miembros</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="eyebrow">Membresía exclusiva</div>
+  <h1>MAGIC® <span class="g">Elite Club</span></h1>
+  <p>El espacio privado de las organizaciones certificadas con el Modelo MAGIC®. Tu rendimiento traducido en informes, comparativas y un plan de acción para seguir avanzando.</p>
+  <div class="hero-cta">
+    <a href="login-elite.html" class="btn btn-gold">Acceso para miembros</a>
+    <a href="mailto:hola@institutoexcelencia.com?subject=Quiero%20unirme%20al%20MAGIC%C2%AE%20Elite%20Club" class="btn btn-ghost">Quiero unirme</a>
+  </div>
+</section>
+
+<p class="intro">El Elite Club organiza el valor que recibes en tres niveles de membresía. Cada nivel incluye lo del anterior y añade herramientas de mayor profundidad para la mejora continua de tu organización.</p>
+
+<div class="section-head">
+  <div class="eyebrow">Niveles de membresía</div>
+  <h2>Basic · Pro · Ultra</h2>
+</div>
+
+<div class="tiers">
+  <article class="tier-card basic">
+    <div class="tier-tag">Basic</div>
+    <h3>Esencial</h3>
+    <p class="d">El punto de partida: tu informe MAGIC® y acceso al club.</p>
+    <ul class="feats">
+      <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#5b9bd5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Informe</li>
+    </ul>
+  </article>
+
+  <article class="tier-card pro">
+    <span class="popular">Más elegido</span>
+    <div class="tier-tag">Pro</div>
+    <h3>Profesional</h3>
+    <p class="d">Todo lo de Basic, más el plan de acción de informe comparativo.</p>
+    <ul class="feats">
+      <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#d4b06a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Todo lo de Basic</li>
+      <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#d4b06a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Plan de Acción de Informe Comparativo</li>
+    </ul>
+  </article>
+
+  <article class="tier-card ultra">
+    <div class="tier-tag">Ultra</div>
+    <h3>All-Included</h3>
+    <p class="d">La membresía completa, con acompañamiento experto.</p>
+    <ul class="feats">
+      <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#c9ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Todo lo de Pro</li>
+      <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#c9ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Plan de Acción Tutorizado</li>
+      <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#c9ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Benchmarking avanzado</li>
+      <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#c9ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Buenas Prácticas</li>
+    </ul>
+  </article>
+</div>
+
+<section class="closing">
+  <h2>¿Tu organización ya es MAGIC®?</h2>
+  <p>Si tu organización está certificada, escríbenos y te daremos de alta en el nivel que corresponda. Si ya eres miembro, entra a tu espacio privado.</p>
+  <div class="hero-cta">
+    <a href="login-elite.html" class="btn btn-gold">Acceso para miembros</a>
+    <a href="mailto:hola@institutoexcelencia.com?subject=Informaci%C3%B3n%20MAGIC%C2%AE%20Elite%20Club" class="btn btn-ghost">Solicitar información</a>
+  </div>
+</section>
+
+<footer>
+  Una creación de <strong style="color:var(--ink-dim)">Instituto de Excelencia Europea</strong> · El Modelo MAGIC® es propiedad intelectual del Instituto de Excelencia Europea. Todos los derechos reservados.<br>
+  <a href="index.html">Inicio</a> · <a href="soy-magic.html">Soy MAGIC®</a> · <a href="aviso-legal.html">Aviso legal</a>
+</footer>
+</body>
+</html>

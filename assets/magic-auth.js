@@ -82,6 +82,20 @@ window.MAGIC_CONFIG = {
       async cambiarPassword(nueva) {
         const { error } = await sb.auth.updateUser({ password: nueva });
         if (error) throw error;
+      },
+      // Devuelve el HTML de la credencial (badge) del tier de membresía, o '' si no tiene
+      tierBadge(tier) {
+        const t = (tier || '').toLowerCase();
+        const nombres = { basic: 'Basic', pro: 'Pro', ultra: 'Ultra' };
+        if (!nombres[t]) return '';
+        return '<span class="tier-cred tier-cred-' + t + '"><span class="tc-dot"></span>' + nombres[t] + '</span>';
+      },
+      // Inyecta el CSS de la credencial una sola vez
+      ensureTierCSS() {
+        if (document.getElementById('tier-cred-css')) return;
+        const s = document.createElement('style'); s.id = 'tier-cred-css';
+        s.textContent = '.tier-cred{display:inline-flex;align-items:center;gap:6px;font-family:ui-monospace,Menlo,monospace;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:999px;margin-left:8px;border:1px solid;vertical-align:middle}.tier-cred .tc-dot{width:6px;height:6px;border-radius:50%;background:currentColor}.tier-cred-basic{color:#5b9bd5;border-color:#5b9bd5;background:rgba(91,155,213,.12)}.tier-cred-pro{color:#d4b06a;border-color:#d4b06a;background:rgba(212,176,106,.12)}.tier-cred-ultra{color:#c9ccd2;border-color:#c9ccd2;background:rgba(201,204,210,.12)}';
+        document.head.appendChild(s);
       }
     };
     window.MagicAuth = MagicAuth;

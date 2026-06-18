@@ -35,6 +35,23 @@
   .tier-pill.ultra .dot{background:var(--ultra)}
   .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:8px}
   @media(max-width:780px){.tiers{grid-template-columns:1fr}}
+  /* Ultrarresponsivo */
+  *{max-width:100%}
+  img{height:auto}
+  @media(max-width:640px){
+    .nav-inner{padding:11px 16px;gap:10px}
+    .brand-logo{height:26px}
+    .nav-right{gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    main{padding:32px 18px 70px}
+    h1{font-size:30px}
+    .tier-card{padding:24px 20px}
+    .my-tier{margin-bottom:30px}
+  }
+  @media(max-width:400px){
+    h1{font-size:26px}
+    .who{display:none}
+    .lede{font-size:14px}
+  }
   .tier-card{position:relative;border:1px solid var(--line);border-radius:16px;padding:28px 24px;background:var(--bg-soft);overflow:hidden;transition:.2s}
   .tier-card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px}
   .tier-card.basic::before{background:var(--basic)}
@@ -90,11 +107,9 @@
       <article class="tier-card basic" id="card-basic">
         <div class="tier-name">Basic</div>
         <h3>Esencial</h3>
-        <p>Acceso al club y a tu informe ejecutivo con la puntuación global MAGIC®.</p>
+        <p>Acceso al club y a tu informe ejecutivo MAGIC®.</p>
         <ul class="tier-feats">
-          <li><span class="ck"></span>Informe ejecutivo</li>
-          <li><span class="ck"></span>Score global /100</li>
-          <li><span class="ck"></span>Acceso al club</li>
+          <li><span class="ck"></span>Informe</li>
         </ul>
         <span class="yours hidden" id="yours-basic">Tu membresía</span>
       </article>
@@ -102,23 +117,23 @@
       <article class="tier-card pro" id="card-pro">
         <div class="tier-name">Pro</div>
         <h3>Profesional</h3>
-        <p>Todo lo de Basic, más el detalle por criterio y el dossier de evidencias.</p>
+        <p>Todo lo de Basic, más el plan de acción de informe comparativo.</p>
         <ul class="tier-feats">
           <li><span class="ck"></span>Todo lo de Basic</li>
-          <li><span class="ck"></span>Detalle por criterio</li>
-          <li><span class="ck"></span>Dossier de evidencias</li>
+          <li><span class="ck"></span>Plan de Acción de Informe Comparativo</li>
         </ul>
         <span class="yours hidden" id="yours-pro">Tu membresía</span>
       </article>
 
       <article class="tier-card ultra" id="card-ultra">
         <div class="tier-name">Ultra</div>
-        <h3>Titanium</h3>
-        <p>La membresía completa: plan de mejoras, comparativas y acompañamiento.</p>
+        <h3>All-Included</h3>
+        <p>La membresía completa: plan de acción tutorizado, benchmarking avanzado y buenas prácticas.</p>
         <ul class="tier-feats">
           <li><span class="ck"></span>Todo lo de Pro</li>
-          <li><span class="ck"></span>Plan de mejoras</li>
-          <li><span class="ck"></span>Acompañamiento experto</li>
+          <li><span class="ck"></span>Plan de Acción Tutorizado</li>
+          <li><span class="ck"></span>Benchmarking avanzado</li>
+          <li><span class="ck"></span>Buenas Prácticas</li>
         </ul>
         <span class="yours hidden" id="yours-ultra">Tu membresía</span>
       </article>
@@ -144,7 +159,7 @@ async function init(){
     const s = await MagicAuth.requiereSesion('login.html');
     if(!s) return;
     PERFIL = await MagicAuth.perfil();
-    document.getElementById('who').innerHTML = `<b>${esc(PERFIL.nombre||PERFIL.email)}</b>`;
+    MagicAuth.ensureTierCSS();document.getElementById('who').innerHTML = `<b>${esc(PERFIL.nombre||PERFIL.email)}</b>${MagicAuth.tierBadge(PERFIL.tier)}`;
     document.getElementById('loading').classList.add('hidden');
 
     const tier = (PERFIL.tier||'').toLowerCase();

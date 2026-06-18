@@ -31,6 +31,9 @@
   td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
   select,input{background:var(--bg);border:1px solid var(--line-strong);border-radius:7px;color:var(--ink);font-family:var(--sans);font-size:13.5px;padding:8px 10px}
   select:focus,input:focus{outline:0;border-color:var(--accent)}
+  .tier-sel.tier-basic{border-color:#5b9bd5;color:#5b9bd5}
+  .tier-sel.tier-pro{border-color:#d4b06a;color:#d4b06a}
+  .tier-sel.tier-ultra{border-color:#c9ccd2;color:#c9ccd2}
   .badge{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:999px}
   .b-cliente{background:var(--accent-soft);color:var(--accent)}.b-auditor{background:rgba(106,166,212,.14);color:var(--audit)}.b-superadmin{background:rgba(160,120,220,.15);color:#b89be0}
   .btn-ghost{background:0;color:var(--accent);border:1px solid rgba(212,176,106,.4);padding:7px 13px;border-radius:999px;font-family:var(--mono);font-weight:600;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
@@ -54,9 +57,9 @@
 
 <div class="toast" id="toast"></div>
 
-<script src="assets/magic-auth.js?v=30"></script>
-<script src="assets/magic-data.js?v=30"></script>
-<script src="assets/magic-terminos.js?v=30"></script>
+<script src="assets/magic-auth.js?v=33"></script>
+<script src="assets/magic-data.js?v=33"></script>
+<script src="assets/magic-terminos.js?v=33"></script>
 <script>
 let PERFIL=null, esAdmin=false;
 document.addEventListener('magic-ready', init);
@@ -108,8 +111,14 @@ async function render(){
         <option value="cliente" ${u.rol==='cliente'?'selected':''}>cliente</option>
         <option value="auditor" ${u.rol==='auditor'?'selected':''}>auditor</option>
         <option value="superadmin" ${u.rol==='superadmin'?'selected':''}>superadmin</option>
+      </select></td>
+      <td><select class="tier-sel tier-${u.tier||'none'}" onchange="cambiarTier('${u.id}',this.value)">
+        <option value="" ${!u.tier?'selected':''}>— sin club —</option>
+        <option value="basic" ${u.tier==='basic'?'selected':''}>Basic</option>
+        <option value="pro" ${u.tier==='pro'?'selected':''}>Pro</option>
+        <option value="ultra" ${u.tier==='ultra'?'selected':''}>Ultra</option>
       </select></td></tr>`).join('');
-    c.innerHTML += `<div class="card"><h2>Usuarios y roles</h2><table><thead><tr><th>Usuario</th><th>Rol</th><th>Acceso</th><th>Cambiar rol</th></tr></thead><tbody>${uRows||'<tr><td colspan=4 class="empty">Sin usuarios.</td></tr>'}</tbody></table></div>`;
+    c.innerHTML += `<div class="card"><h2>Usuarios y roles</h2><table><thead><tr><th>Usuario</th><th>Rol</th><th>Acceso</th><th>Cambiar rol</th><th>Membresía Elite</th></tr></thead><tbody>${uRows||'<tr><td colspan=5 class="empty">Sin usuarios.</td></tr>'}</tbody></table></div>`;
 
     // Asignación de auditores a evaluaciones
     const auditores=(usuarios||[]).filter(u=>u.rol==='auditor'||u.rol==='superadmin');
@@ -174,6 +183,11 @@ async function borrarCodigo(codigo){
 
 async function cambiarRol(uid,rol){
   try{ const {error}=await sb.from('perfiles').update({rol}).eq('id',uid); if(error)throw error; toast('Rol actualizado'); }
+  catch(e){ toast('Error: '+e.message); }
+}
+async function cambiarTier(uid,tier){
+  try{ const {error}=await sb.from('perfiles').update({tier:tier||null}).eq('id',uid); if(error)throw error;
+    toast(tier?('Membresía '+tier+' asignada'):'Membresía retirada'); render(); }
   catch(e){ toast('Error: '+e.message); }
 }
 async function asignar(eid){

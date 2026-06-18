@@ -29,7 +29,14 @@ window.MAGIC_CONFIG = {
         const { data, error } = await sb.auth.signUp({
           email, password, options: { data: { nombre } }
         });
-        if (error) throw error;
+        if (error) {
+          // Los errores de Supabase a veces no exponen .message al convertir a texto.
+          const msg = error.message || error.error_description || error.msg
+            || (error.status ? ('Error '+error.status) : '')
+            || (typeof error==='object' ? JSON.stringify(error) : String(error))
+            || 'Error desconocido al registrar';
+          const e = new Error(msg); e.original = error; e.status = error.status; throw e;
+        }
         return data;
       },
       async entrar(email, password) {

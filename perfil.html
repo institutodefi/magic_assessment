@@ -52,6 +52,7 @@
   .go-arrow{font-size:20px;color:var(--accent)}
   .spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(26,20,7,.3);border-top-color:#1a1407;border-radius:50%;animation:r .7s linear infinite;vertical-align:-2px;margin-right:7px}
   @keyframes r{to{transform:rotate(360deg)}}
+  .hidden{display:none}
   .hint{font-size:12px;color:var(--ink-faint);margin-top:-8px;margin-bottom:12px}
 </style>
 </head>
@@ -78,6 +79,17 @@
       <div>
         <div class="t" id="accesoT">Mis evaluaciones</div>
         <div class="d" id="accesoD">Ir a tu autoevaluación MAGIC®</div>
+      </div>
+      <span class="go-arrow">→</span>
+    </a>
+  </div>
+
+  <!-- Acceso al Elite Club (solo si el usuario tiene membresía) -->
+  <div class="card hidden" id="cardClub" style="cursor:pointer" onclick="location.href='club-elite.html'">
+    <a class="go-eval" href="club-elite.html" onclick="event.preventDefault()">
+      <div>
+        <div class="t">MAGIC® Elite Club <span class="role-badge" id="clubTierBadge"></span></div>
+        <div class="d">Tu espacio privado de miembro</div>
       </div>
       <span class="go-arrow">→</span>
     </a>
@@ -126,8 +138,8 @@
   </div>
 </main>
 
-<script src="assets/magic-auth.js?v=30"></script>
-<script src="assets/magic-data.js?v=30"></script>
+<script src="assets/magic-auth.js?v=33"></script>
+<script src="assets/magic-data.js?v=33"></script>
 <script>
 let PERFIL=null;
 
@@ -153,6 +165,15 @@ async function init(){
   document.getElementById('inRol').value = PERFIL.rol || 'cliente';
   // Pestaña de cambio de perfil: cualquier superadmin
   if(PERFIL && PERFIL.rol==='superadmin') pintarSelectorRol();
+  // Acceso al Elite Club si tiene membresía (o es superadmin)
+  const tier=(PERFIL.tier||'').toLowerCase();
+  if(['basic','pro','ultra'].includes(tier) || PERFIL.rol==='superadmin'){
+    const card=document.getElementById('cardClub');
+    if(card){ card.classList.remove('hidden');
+      const b=document.getElementById('clubTierBadge');
+      if(b && ['basic','pro','ultra'].includes(tier)) b.textContent=tier;
+    }
+  }
   // Acceso rápido según rol
   if(esAud){
     document.getElementById('accesoT').textContent = 'Evaluaciones y auditorías';
